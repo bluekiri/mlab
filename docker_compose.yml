@@ -1,0 +1,18 @@
+version: '1'
+services:
+  mongo:
+    image: mongo:3.2.11
+    volumes:
+      - /data/book_hotel_prob/db/mongo
+    ports:
+      - "27017:27017"
+
+  hbp_dashboard:
+    build: dashboard_server_dockerfile
+    ports:
+      - "5000:5000"
+
+  hbp_api:
+    build: api_server_dockerfile
+    ports:
+      - "9090:9090"le

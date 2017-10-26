@@ -1,0 +1,48 @@
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+{% include "security/_messages.html" %}
+<head>
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content={{google_client_id}}>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="{{url_for('static', filename='jquery.js') }}">\x3C/script>')
+
+
+
+    </script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/login.css') }}">
+
+</head>
+<body>
+<div class="login-page form">
+    <img src={{url_for('static', filename='images/login_image.gif' ) }} width="100%" alt="lab_icon"/>
+    <form action="{{ url_for_security('login') }}" method="POST" name="login_form">
+        {{ login_user_form.hidden_tag() }}
+        {{ render_field_with_errors(login_user_form.email) }}
+        {{ render_field_with_errors(login_user_form.password) }}
+        {{ render_field_with_errors(login_user_form.remember) }}
+        {{ render_field(login_user_form.next) }}
+        {{ render_field(login_user_form.submit) }}
+        <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+    </form>
+    <script type=text/javascript>
+      function onSignIn(googleUser) {
+        var id_token = googleUser.getAuthResponse().id_token;
+        $.ajax({
+          type: "GET",
+          url: "/hbp_dashboard/login/g_auth",
+          data: {
+            token: id_token,
+            },
+          success: function(response) {
+            console.log(response);
+            window.location.href = '../';
+          },
+          error: function(err) {
+            console.log(err);
+          }
+        });
+      };
+    </script>
+</div>
+</body>

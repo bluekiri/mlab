@@ -1,0 +1,157 @@
+---
+swagger: "2.0"
+info:
+  description: "Book prob swagger"
+  version: "1.0.0"
+  title: "BookProb"
+  termsOfService: "No terms"
+  contact:
+    email: "oscar.garcia@logitravelgroup.com"
+basePath: "/v1"
+tags:
+- name: "book"
+  description: "Book probability"
+schemes:
+- "http"
+paths:
+  /book:
+    post:
+      tags:
+      - "book"
+      summary: "Request hotel booking probability"
+      description: ""
+      operationId: "prob_hotel_request"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Object that needs to get probability"
+        required: true
+        schema:
+          $ref: "#/definitions/body"
+      responses:
+        200:
+          description: "Book response"
+          schema:
+            $ref: "#/definitions/inline_response_200"
+        405:
+          description: "Invalid input"
+      x-swagger-router-controller: "api_server.controllers.book_controller"
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  bookRequest:
+    type: "object"
+    required:
+    - "advance"
+    - "hotels"
+    - "nights"
+    - "numAdults"
+    - "numChildren"
+    properties:
+      advance:
+        type: "integer"
+        format: "int64"
+        example: 2
+      nights:
+        type: "integer"
+        format: "int64"
+        example: 2
+      numAdults:
+        type: "integer"
+        format: "int64"
+        example: 2
+      numChildren:
+        type: "integer"
+        format: "int64"
+        example: 1
+      hotels:
+        type: "array"
+        description: "Array of hotels"
+        items:
+          type: "integer"
+          format: "int64"
+          example: 122
+    xml:
+      name: "bookrequest"
+  bookProbResponse:
+    type: "object"
+    properties:
+      probabilities:
+        type: "array"
+        items:
+          $ref: "#/definitions/inline_response_200_probabilities"
+  probabilityResponseItem:
+    type: "object"
+    properties:
+      probability:
+        type: "number"
+        format: "float"
+      hotels:
+        type: "array"
+        items:
+          type: "integer"
+          format: "int64"
+  body:
+    type: "object"
+    required:
+    - "advance"
+    - "hotels"
+    - "nights"
+    - "numAdults"
+    - "numChildren"
+    properties:
+      advance:
+        type: "integer"
+        format: "int64"
+        example: 2
+      nights:
+        type: "integer"
+        format: "int64"
+        example: 2
+      numAdults:
+        type: "integer"
+        format: "int64"
+        example: 2
+      numChildren:
+        type: "integer"
+        format: "int64"
+        example: 1
+      hotels:
+        type: "array"
+        description: "Array of hotels"
+        items:
+          type: "integer"
+          format: "int64"
+          example: ""
+    xml:
+      name: "bookrequest"
+  inline_response_200_probabilities:
+    properties:
+      probability:
+        type: "number"
+        format: "float"
+      hotels:
+        type: "array"
+        items:
+          type: "integer"
+          format: "int64"
+  inline_response_200:
+    properties:
+      model:
+        type: "string"
+      probabilities:
+        type: "array"
+        items:
+          $ref: "#/definitions/inline_response_200_probabilities"
+      unknown_hotels:
+        type: "array"
+        items:
+          type: "integer"
+          format: "int64"
