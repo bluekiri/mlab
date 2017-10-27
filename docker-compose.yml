@@ -1,0 +1,21 @@
+version: '3'
+
+
+services:
+  mlab_mongo:
+    image: mongo
+    container_name: mlab_server
+    volumes:
+      - /data/mlab/db/mongo
+    ports:
+      - "27017:27017"
+
+  mlab_api_server:
+    build: api_servers
+    container_name: mlab_api_server
+    environment:
+      - MLAB_MONGO_URI=mlab_mongo
+    ports:
+      - "9090:9090"
+    depends_on:
+      - mlab_mongo

@@ -1,19 +1,18 @@
 # -*- coding: utf-8 -*-
 
-import falcon
-import os
 import logging.config
+import os
+from wsgiref import simple_server
 
+import falcon
 import yaml
 
 from api_servers.application.register_routes import register_routes
 from api_servers.application.util import CURRENT_APPLICATION_PATH, ASSETS_APPLICATION_PATH
 
 
-def setup_logging(
-        default_path=CURRENT_APPLICATION_PATH,
-        default_level=logging.INFO,
-        env_key='API-SERVER'):
+def setup_logging(default_path=CURRENT_APPLICATION_PATH, default_level=logging.INFO,
+                  env_key='API-SERVER'):
     """Setup logging configuration
 
     """
@@ -37,3 +36,7 @@ logger.info("Starting loading server configuration...")
 api = falcon.API()
 register_routes(api)
 logger.info("Server loaded")
+
+if __name__ == "__main__":
+    httpd = simple_server.make_server('0.0.0.0', 9090, api)
+    httpd.serve_forever()
