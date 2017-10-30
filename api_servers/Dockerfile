@@ -8,4 +8,4 @@ COPY . .
 RUN pip3 install --no-cache-dir -r requirements.txt
 EXPOSE 9090
 
-ENTRYPOINT  ["gunicorn", "--config", "application/conf/gunicorn.conf",  "-b", "0.0.0.0:9090", "application.app:api"]
+ENTRYPOINT  ["gunicorn", "--config", "application/conf/gunicorn.conf.py",  "-b", "0.0.0.0:9090", "application.app:api"]

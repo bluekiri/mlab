@@ -14,7 +14,7 @@ def _remove_worker_pid(pid):
 
 def worker_abort(worker):
     _remove_worker_pid(str(worker.ppid))
-
+                    
 
 def worker_exit(server, worker):
     _remove_worker_pid(str(worker.ppid))

@@ -2,10 +2,10 @@ import datetime
 
 from mongoengine import *
 
-from api_server.conf.config import mongo_connection_uri
-from api_server.entities.domain.model_mo import Model
+from api_servers.application.conf.config import MONGO_CONNECTION_URI
+from api_servers.domain.entities.model_mo import Model
 
-connect(host=mongo_connection_uri, connect=False)
+connect(host=MONGO_CONNECTION_URI, connect=False)
 
 
 class Worker(Document):

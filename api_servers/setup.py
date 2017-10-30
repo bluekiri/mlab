@@ -24,7 +24,7 @@ setup(
     long_description=get_readme(),
     keywords='v5 mlab',
     url='',
-    packages=find_packages(exclude=['tests', 'install']),
+    packages=find_packages(exclude=['tests', 'script']),
     install_requires=[
         'falcon==1.3.0',
         'tox==2.8.2',

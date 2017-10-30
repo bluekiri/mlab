@@ -4,12 +4,23 @@ version: '3'
 services:
   mlab_mongo:
     image: mongo
-    container_name: mlab_server
+    container_name: mlab_mongo
     volumes:
       - /data/mlab/db/mongo
     ports:
       - "27017:27017"
-
+  mlab_init_mongo:
+    image: mongo
+    container_name: mlab_init_mongo
+    working_dir: /var/tmp
+    environment:
+      DATABASE_MAME: "mlab"
+      MLAB_MONGO_HOST: mlab_mongo
+    volumes:
+      - ./script/:/var/tmp
+    command: [./wait-for-mongo.sh]
+    depends_on:
+      - mlab_mongo
   mlab_api_server:
     build: api_servers
     container_name: mlab_api_server
@@ -18,4 +29,4 @@ services:
     ports:
       - "9090:9090"
     depends_on:
-      - mlab_mongo
+      - mlab_init_mongo
