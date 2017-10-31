@@ -29,6 +29,6 @@ setup(
         'falcon==1.3.0',
         'tox==2.8.2',
         'virtualenv==15.1.0',
-        'json-logging-py==0.2'
+        'json-logging-py==0.2', 'flask', 'yaml'
     ]
 )

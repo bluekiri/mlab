@@ -52,6 +52,8 @@ services:
     networks:
       - nginx-proxy
 
+  mlab_dashboard:
+    build: dashboard_server
 
 networks:
   nginx-proxy:

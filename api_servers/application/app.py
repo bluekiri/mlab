@@ -18,7 +18,7 @@ from application.repositories.worker_repository_imp import WorkerRepositoryImp
 
 def setup_logging(default_path=CURRENT_APPLICATION_PATH, default_level=logging.INFO,
                   env_key='API-SERVER'):
-    path = default_path + '/conf/loggin.yaml'
+    path = default_path + '/conf/logging.yaml'
     value = os.getenv(env_key, None)
     if value:
         path = value

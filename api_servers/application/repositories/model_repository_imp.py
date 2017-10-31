@@ -30,7 +30,7 @@ class ModelRepositoryImp(ModelRepository):
                 self.logger.info(
                     "Model not found... Loading first model (%s)" % singleton_current_model.name)
             except Exception as e:
-                self.logger.warning("No models found: %s" % e)
+                self.logger.warning("No entities found: %s" % e)
             finally:
                 self.loading_model = False
         else:
