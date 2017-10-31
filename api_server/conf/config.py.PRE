@@ -1,6 +1,0 @@
-# PRE config
-# --------------------------------------------------------------------------------
-# Mongo
-mongo_database = "hotelBookingProb"
-mongo_connection_uri = "mongodb://lgmadhbpswsg01v.corp.logitravelgroup.com:27017/" + mongo_database + "?readPreference=primary"
-# --------------------------------------------------------------------------------

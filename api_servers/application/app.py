@@ -11,6 +11,8 @@ import yaml
 
 from api_servers.application.register_routes import register_routes
 from api_servers.application.util import CURRENT_APPLICATION_PATH, ASSETS_APPLICATION_PATH
+from application.interactors.register_worker_imp import RegisterWorkerImp
+from application.repositories.model_repository_imp import ModelRepositoryImp
 from application.repositories.worker_repository_imp import WorkerRepositoryImp
 
 
@@ -31,13 +33,15 @@ def setup_logging(default_path=CURRENT_APPLICATION_PATH, default_level=logging.I
 
 logger = setup_logging()
 worker_repository = WorkerRepositoryImp()
+model_repository = ModelRepositoryImp()
+register_worker = RegisterWorkerImp(worker_repository, model_repository)
 
 
 def signal_handler(signal, frame):
     worker_repository.remove_worker_from_host(os.getpid(), socket.gethostname())
 
 
-def initialize_worker():
+def sign_listeners():
     logger.info("Loading signals handlers...")
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
@@ -53,7 +57,9 @@ api = falcon.API()
 
 register_routes(api)
 
-initialize_worker()
+sign_listeners()
+
+register_worker.run()
 
 logger.info("Server loaded")
 

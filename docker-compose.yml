@@ -25,7 +25,7 @@ services:
     build: api_servers
     container_name: mlab_api_server
     environment:
-      - MLAB_MONGO_URI=mlab_mongo
+      MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/mlab?readPreference=primary"
     ports:
       - "9090:9090"
     depends_on:

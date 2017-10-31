@@ -1,6 +1,0 @@
-# LIVE config
-# --------------------------------------------------------------------------------
-# Mongo
-mongo_database = "hotelBookingProb"
-mongo_connection_uri =  "mongodb://lgmadhbppmgd01v.corp.logitravelgroup.com:27017,lgmadhbppmgd02v.corp.logitravelgroup.com:27017,lgmadhbppmgd03v.corp.logitravelgroup.com:27017/"+mongo_database+"?readPreference=primary"
-# --------------------------------------------------------------------------------
