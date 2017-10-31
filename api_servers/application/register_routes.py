@@ -5,4 +5,4 @@ from api_servers.application.controllers.monitor_controller import MonitorContro
 
 
 def register_routes(falcon_api: API):
-    falcon_api.add_route('/hc', MonitorController())
+    falcon_api.add_route('/api/hc', MonitorController())

@@ -7,8 +7,11 @@ services:
     container_name: mlab_mongo
     volumes:
       - /data/mlab/db/mongo
+    networks:
+      - nginx-proxy
     ports:
       - "27017:27017"
+
   mlab_init_mongo:
     image: mongo
     container_name: mlab_init_mongo
@@ -19,8 +22,11 @@ services:
     volumes:
       - ./script/:/var/tmp
     command: [./wait-for-mongo.sh]
+    networks:
+      - nginx-proxy
     depends_on:
       - mlab_mongo
+
   mlab_api_server:
     build: api_servers
     container_name: mlab_api_server
@@ -30,3 +36,23 @@ services:
       - "9090:9090"
     depends_on:
       - mlab_init_mongo
+    networks:
+      - nginx-proxy
+
+  mlab_nginx:
+    image: nginx:latest
+    container_name: mlab_nginx
+    depends_on:
+      - mlab_api_server
+    ports:
+      - "80:80"
+    volumes:
+      - ./api_servers/nginx:/etc/nginx/conf.d
+      - ./api_servers/swagger:/usr/share/nginx/html
+    networks:
+      - nginx-proxy
+
+
+networks:
+  nginx-proxy:
+    driver: bridge
