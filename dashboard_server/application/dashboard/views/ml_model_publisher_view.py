@@ -27,7 +27,7 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
         clusters = list(self.orchestation_interactor.get_clusters())
         return self.render('ml_model_publisher.html', clusters=clusters)
 
-    @expose('/entities', methods=('GET',))
+    @expose('/models', methods=('GET',))
     def models(self):
         return json.dumps([(str(model.pk), model.name) for model in MlModel.objects()])
 

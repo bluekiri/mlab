@@ -1,8 +1,5 @@
 import socket
 
-from application.conf.config import MONGO_CONNECTION_URI
-
-print(MONGO_CONNECTION_URI)
 from api_servers.domain.entities.worker_mo import Worker
 
 timeout = 90

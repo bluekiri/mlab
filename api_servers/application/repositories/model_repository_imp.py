@@ -25,10 +25,10 @@ class ModelRepositoryImp(ModelRepository):
         if model is None:
             self.loading_model = True
             try:
-                singleton_current_model = Model.objects().first()
-                singleton_current_model.get_model_instance()
+                self.singleton_current_model = Model.objects().first()
+                self.singleton_current_model.get_model_instance()
                 self.logger.info(
-                    "Model not found... Loading first model (%s)" % singleton_current_model.name)
+                    "Model not found... Loading first model (%s)" % self.singleton_current_model.name)
             except Exception as e:
                 self.logger.warning("No entities found: %s" % e)
             finally:
@@ -40,7 +40,7 @@ class ModelRepositoryImp(ModelRepository):
         model = self._get_model_for_this_host()
         if model is None:
             return False
-        if model.pk != self.singleton_current_model.pk and not self.loading_model:
+        if (self.singleton_current_model is None or model.pk != self.singleton_current_model.pk) and not self.loading_model:
             self.logger.info("New model found (%s)" % model.name)
             model_found = Model.objects(pk=model.pk).first()
             self.loading_model = True

@@ -11,6 +11,7 @@ import yaml
 
 from api_servers.application.register_routes import register_routes
 from api_servers.application.util import CURRENT_APPLICATION_PATH, ASSETS_APPLICATION_PATH
+from application.interactors.model_pooling_imp import ModelPoolingImp
 from application.interactors.register_worker_imp import RegisterWorkerImp
 from application.repositories.model_repository_imp import ModelRepositoryImp
 from application.repositories.worker_repository_imp import WorkerRepositoryImp
@@ -35,6 +36,7 @@ logger = setup_logging()
 worker_repository = WorkerRepositoryImp()
 model_repository = ModelRepositoryImp()
 register_worker = RegisterWorkerImp(worker_repository, model_repository)
+model_pooling = ModelPoolingImp(model_repository)
 
 
 def signal_handler(signal, frame):
@@ -55,7 +57,9 @@ logger.info("Starting loading server configuration...")
 
 api = falcon.API()
 
-register_routes(api,model_repository)
+register_routes(api, model_repository)
+
+model_pooling.run()
 
 sign_listeners()
 

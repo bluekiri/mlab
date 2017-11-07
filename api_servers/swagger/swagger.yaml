@@ -6,7 +6,6 @@ info:
   termsOfService: No terms
   contact:
     email: oscar.garcia@bluekiri.com
-host: localhost
 basePath: /api
 tags:
   - name: Monitor

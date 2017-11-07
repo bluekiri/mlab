@@ -6,8 +6,7 @@ services:
     image: mongo
     container_name: mlab_mongo
     volumes:
-#      - /data/mlab/db/mongo
-      - ./asserts/database:/data/db
+      - /data/mlab/db/mongo
     networks:
       - nginx-proxy
     ports:
@@ -22,6 +21,7 @@ services:
       MLAB_MONGO_HOST: mlab_mongo
     volumes:
       - ./script/:/var/tmp
+      - ./asserts/mlab/:/var/tmp/mlab
     command: [./wait-for-mongo.sh]
     networks:
       - nginx-proxy
@@ -45,6 +45,8 @@ services:
     container_name: mlab_nginx
     depends_on:
       - mlab_api_server
+    expose:
+      - "80"
     ports:
       - "80:80"
     volumes:

@@ -18,7 +18,7 @@ class OrchestationInteractorImp(OrchestationInteractor):
             model_name = list(group)[0].model.name if list(group)[
                                                           0].model is not None else "No Model loaded"
             clusters.append(
-                {"name": key, "swagger_uri": "http://" + str(list(group)[0].host) + ":9090/v1/ui",
+                {"name": key, "swagger_uri": "http://" + str(list(group)[0].host),
                  "worker": len(list(group)),
                  "ts": timeago.format(max([item.ts for item in group]), datetime.datetime.utcnow()),
                  "model_name": model_name})

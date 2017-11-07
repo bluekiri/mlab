@@ -17,9 +17,16 @@ class WorkerRepositoryImp(WorkerRepository):
             worker.delete()
 
     def save_worker(self, name: str, host_name: str, host: str, model: Model):
-        Worker.objects(name=name, host_name=host_name, host=host).update(set__name=name,
-                                                                         set__host_name=host_name,
-                                                                         set__host=host,
-                                                                         set__model=model,
-                                                                         set__ts=datetime.utcnow(),
-                                                                         upsert=True)
+        if model is not None:
+            Worker.objects(name=name, host_name=host_name, host=host).update(set__name=name,
+                                                                             set__host_name=host_name,
+                                                                             set__host=host,
+                                                                             set__model=model.pk,
+                                                                             set__ts=datetime.utcnow(),
+                                                                             upsert=True)
+        else:
+            Worker.objects(name=name, host_name=host_name, host=host).update(set__name=name,
+                                                                             set__host_name=host_name,
+                                                                             set__host=host,
+                                                                             set__ts=datetime.utcnow(),
+                                                                             upsert=True)

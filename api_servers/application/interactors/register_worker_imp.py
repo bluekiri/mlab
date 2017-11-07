@@ -15,6 +15,7 @@ class RegisterWorkerImp(RegisterWorker):
         self.logger = logging.getLogger(__name__)
 
     def run(self):
+        self.logger.info("Registering workers... ")
         model = self.model_repository.get_current_model()
         self.worker_repository.save_worker(str(os.getpid()), socket.gethostname(),
                                            socket.gethostbyname(socket.gethostname()), model)
