@@ -1,10 +1,11 @@
 import logging
 
-from flask_security import LoginForm
+from flask_security import LoginForm, utils
 from flask_security.utils import get_message
 from wtforms import fields, validators
 
-from dashboard_server.application.interactor.login.login_verification import get_user_from_username, is_success_pwd
+from dashboard_server.application.interactor.login.login_verification import get_user_from_username, \
+    is_success_pwd
 
 
 class CustomLoginForm(LoginForm):
@@ -22,6 +23,9 @@ class CustomLoginForm(LoginForm):
         if self.user is None:
             self.add_error_to_wtf_field(self.email, get_message('USER_DOES_NOT_EXIST')[0])
             return False
+        elif self.user.password is not None and utils.verify_password(self.password.data,
+                                                                      self.user.password):
+            return True
         if not self.password.data:
             self.add_error_to_wtf_field(self.password, get_message('PASSWORD_NOT_SET')[0])
             return False

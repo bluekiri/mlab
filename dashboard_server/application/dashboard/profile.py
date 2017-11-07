@@ -3,6 +3,7 @@ from flask import Blueprint, request
 from flask_security import logout_user
 from werkzeug.utils import redirect
 
+from application.interactor.orchestation.orquestation_interactor import OrchestationInteractorImp
 from dashboard_server.application.dashboard.views.api_token_view import ApiTokenView
 from dashboard_server.application.dashboard.views.home_view import HomeView
 from dashboard_server.application.dashboard.views.ml_model_publisher_view import \
@@ -23,6 +24,8 @@ def logout_view():
 
 
 def init_admin(app):
+    orchestation_interactor = OrchestationInteractorImp()
+
     admin = flask_admin.Admin(app,
                               name='Hotel booking probability',
                               template_mode='bootstrap3',
@@ -39,7 +42,8 @@ def init_admin(app):
 
     # Add view
     admin.add_view(MlModelView(MlModel, name='Models'))
-    admin.add_view(UserAdmin(User))
-    admin.add_view(RoleAdmin(Role))
+    admin.add_view(UserAdmin(User, name='User'))
+    admin.add_view(RoleAdmin(Role, name='Roles'))
     admin.add_view(ApiTokenView(Token, name='Api Token'))
-    admin.add_view(MLModelPublisherView(name='Model publisher'))
+    admin.add_view(MLModelPublisherView(name='Model publisher',
+                                        orchestation_interactor=orchestation_interactor))

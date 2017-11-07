@@ -3,9 +3,8 @@ from uuid import uuid4
 from flask_admin.contrib.mongoengine import ModelView
 from flask_security.core import current_user
 
-# from web_service.dashboard.views.util.view_roles_management import ViewSecurityListeners
-# from web_service.models.auth.api_token_model import Token
 from application.dashboard.views.util.view_roles_management import ViewSecurityListeners
+from dashboard_server.domain.entities.auth.api_token_model import Token
 
 
 class ApiTokenView(ModelView, metaclass=ViewSecurityListeners):

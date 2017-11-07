@@ -1,5 +1,7 @@
 from flask_mongoengine import MongoEngine
 
+from dashboard_server.application.conf.config import mongo_connection_uri
+
 _mongo_connection = None
 
 

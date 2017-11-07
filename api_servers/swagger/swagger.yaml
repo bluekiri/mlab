@@ -11,7 +11,7 @@ basePath: /api
 tags:
   - name: Monitor
     description: 'Check the api health and information about the current api status'
-  - name: controller
+  - name: Model
     description: 'Mlab model example'
 schemes:
   - http
@@ -26,7 +26,15 @@ paths:
       responses:
         200:
           description: OK
-
+  '/model':
+    get:
+      operationId: model
+      summary: model example
+      tags:
+        - Model
+      responses:
+        200:
+          description: OK
 securityDefinitions:
   api_key:
     type: apiKey

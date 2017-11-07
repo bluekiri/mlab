@@ -9,18 +9,22 @@ from flask_security.decorators import roles_required
 
 from dashboard_server.application.dashboard.views.util.view_roles_management import \
     ViewSecurityListeners
-from dashboard_server.application.interactor.orchestation.orquestation_interactor import \
-    get_clusters, load_model_on_host
 from dashboard_server.domain.entities.ml_model import MlModel
+from dashboard_server.domain.interactor.orchestation.orchestation_interator import \
+    OrchestationInteractor
 
 
 class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
     can_edit = True
 
+    def __init__(self, orchestation_interactor: OrchestationInteractor, name):
+        super().__init__(name=name)
+        self.orchestation_interactor = orchestation_interactor
+
     @login_required
     @expose()
     def index(self):
-        clusters = list(get_clusters())
+        clusters = list(self.orchestation_interactor.get_clusters())
         return self.render('ml_model_publisher.html', clusters=clusters)
 
     @expose('/entities', methods=('GET',))
@@ -34,6 +38,6 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
         host_name = request.form.get("host_name")
         model_id = request.form.get("model_id")
 
-        load_model_on_host(host_name, model_id)
+        self.orchestation_interactor.load_model_on_host(host_name, model_id)
         return json.dumps({"go": url_for("mlmodelpublisherview.index")}), 200, {
             'ContentType': 'application/json'}

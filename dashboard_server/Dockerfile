@@ -1,11 +1,11 @@
 FROM python:3.5-alpine
-ENV application_path /opt/api_servers
+ENV application_path /opt/dashboard_server
 ENV PYTHONPATH ${application_path}:/opt
 WORKDIR ${application_path}
 
 COPY . .
 
 RUN pip3 install --no-cache-dir -r requirements.txt
-EXPOSE 9090
+EXPOSE 5000
 
-ENTRYPOINT  ["gunicorn", "--config", "application/conf/gunicorn.conf.py", "-w", "2", "-b", "0.0.0.0:9090", "application.app:api"]
+ENTRYPOINT  ["gunicorn", "-w", "1", "-b", "0.0.0.0:5000", "application.app:app"]

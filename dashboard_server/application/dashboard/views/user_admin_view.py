@@ -26,7 +26,7 @@ class UserAdmin(ModelView):
 
     def on_model_change(self, form, model, is_created):
         if len(model.password2):
-            model.password = utils.encrypt_password(model.password2)
+            model.password = utils.hash_password(model.password2)
 
 
 class RoleAdmin(ModelView):

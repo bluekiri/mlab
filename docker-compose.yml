@@ -6,7 +6,8 @@ services:
     image: mongo
     container_name: mlab_mongo
     volumes:
-      - /data/mlab/db/mongo
+#      - /data/mlab/db/mongo
+      - ./asserts/database:/data/db
     networks:
       - nginx-proxy
     ports:
@@ -54,7 +55,16 @@ services:
 
   mlab_dashboard:
     build: dashboard_server
-
+    container_name: mlab_dashboard
+    ports:
+      - "5000:5000"
+    networks:
+      - nginx-proxy
+    environment:
+      - DATABASE_NAME=mlab
+      - MLAB_MONGO_URI=mlab_mongo
+    depends_on:
+      - mlab_api_server
 networks:
   nginx-proxy:
     driver: bridge

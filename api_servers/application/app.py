@@ -55,7 +55,7 @@ logger.info("Starting loading server configuration...")
 
 api = falcon.API()
 
-register_routes(api)
+register_routes(api,model_repository)
 
 sign_listeners()
 

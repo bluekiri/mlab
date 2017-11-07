@@ -1,6 +1,7 @@
 FROM python:3.5-alpine
 ENV application_path /opt/api_servers
 ENV PYTHONPATH ${application_path}:/opt
+
 WORKDIR ${application_path}
 
 COPY . .
