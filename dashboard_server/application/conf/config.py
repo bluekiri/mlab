@@ -1,12 +1,12 @@
 import os
 
 # LDAP
-ldap_server = "***REMOVED***"
+# ldap_server = "***REMOVED***"
 ldap_base = "***REMOVED***"
 ldap_dn = "***REMOVED***"
 ldap_pwd = "***REMOVED***"
 ldap_edit_groups = ['***REMOVED***']
-ldap_groups = ['g20 - Desarrollo Hotel', 'g15 - Contenidos', '***REMOVED***']
+ldap_groups = ['***REMOVED***']
 # --------------------------------------------------------------------------------
 
 # Mongo
@@ -27,7 +27,7 @@ SECURITY_PASSWORD_HASH = "***REMOVED***"
 SECURITY_PASSWORD_SALT = "***REMOVED***"
 
 # Flask-Security URLs, overridden because they don't put a / at the end
-SECURITY_LOGIN_URL = "/login/"
+SECURITY_LOGIN_URL = "/users/"
 
 SECURITY_POST_LOGIN_VIEW = flask_uri_prefix + "/"
 SECURITY_POST_LOGOUT_VIEW = flask_uri_prefix + "/"

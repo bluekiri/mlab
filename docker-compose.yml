@@ -40,6 +40,16 @@ services:
     networks:
       - nginx-proxy
 
+  mlab_api_server_2:
+    build: api_servers
+    container_name: mlab_api_server_2
+    environment:
+      MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/mlab?readPreference=primary"
+    depends_on:
+      - mlab_init_mongo
+    networks:
+      - nginx-proxy
+
   mlab_nginx:
     image: nginx:latest
     container_name: mlab_nginx

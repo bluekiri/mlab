@@ -10,6 +10,10 @@ from dashboard_server.domain.interactor.orchestation.orchestation_interator impo
 
 
 class OrchestationInteractorImp(OrchestationInteractor):
+    def load_model_by_group(self, group: str, model_id: str):
+        model_to_load = MlModel.objects(pk=model_id).first()
+        Worker.objects(group=group).update(set__model=model_to_load, upsert=True)
+
     def set_group_to_cluster(self, host_cluster: str, group_name: str):
         Worker.objects(host_name=host_cluster).update(set__group=group_name, upsert=True)
 
@@ -26,19 +30,21 @@ class OrchestationInteractorImp(OrchestationInteractor):
                  "ts": timeago.format(max([item.ts for item in host_group]),
                                       datetime.datetime.utcnow()),
                  "model_name": model_name,
-                 "group": str(list(host_group)[0].group)})
+                 "group": list(host_group)[0].group})
         return clusters
 
     def get_clusters(self):
         groups = {}
-
+        without_group = []
         clusters = self._get_workers_grouped()
         for cluster in clusters:
-            if cluster["group"] in groups.keys():
+            if cluster["group"] is None:
+                without_group.append(cluster)
+            elif cluster["group"] in groups.keys():
                 groups[cluster["group"]].append(cluster)
             else:
                 groups[cluster["group"]] = [cluster]
-        return groups
+        return groups, without_group
 
     def load_model_on_host(self, host, model_id):
         model_to_load = MlModel.objects(pk=model_id).first()

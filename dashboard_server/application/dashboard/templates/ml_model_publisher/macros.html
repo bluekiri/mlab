@@ -1,0 +1,27 @@
+{% macro draw_panel_info(cluster_name,num_workers, time, model_name,swagger_uri) -%}
+<div class="ml_panel panel panel-primary">
+    <div class="panel-heading">
+        <a target="_blank" style="color:white;" href={{swagger_uri}}>{{cluster_name}}</a>
+    </div>
+
+    <div class=" panel-body">
+        <p>Workers: {{num_workers}}</p>
+        <p>Time: {{time}}</p>
+        <div>
+            <p>Model loaded: {{model_name}}</p>
+            <div style="display:flex;">
+                <button type="button" class="change btn btn-info " data-id={{cluster_name}}
+                        data-toggle="modal"
+                        data-target="#changeModelModal" style="margin:auto;display:block;">Model
+                </button>
+                <button type="button" class="group btn btn-info" data-id={{cluster_name}}
+                        data-toggle="modal"
+                        data-target="#groupModal" style="margin:auto;display:block;">Group
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{%- endmacro %}
+
+

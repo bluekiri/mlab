@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask import Blueprint, request, make_response
 
-from application.interactor.login.token_verification import is_valid_token
+from application.interactor.users.token_verification import is_valid_token
 from dashboard_server.domain.entities.ml_model import MlModel
 
 api = Blueprint('api', __name__, url_prefix='/api')
