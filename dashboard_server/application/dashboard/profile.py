@@ -31,12 +31,11 @@ def init_admin(app):
 
     admin = flask_admin.Admin(app,
                               name='MLAB',
-                              template_mode='bootstrap3',
                               base_template='base.html',
                               index_view=HomeView(name="Dashboard", url=dashboard.url_prefix,
-                                                  menu_icon_type='glyph',
+                                                  menu_icon_type='fa',
                                                   template='home.html',
-                                                  menu_icon_value='glyphicon-home'),
+                                                  menu_icon_value='fa-dashboard'),
                               category_icon_classes={
                                   'Access': 'glyphicon glyphicon-user',
                                   'PreProcess': 'glyphicon glyphicon-equalizer',
@@ -44,10 +43,14 @@ def init_admin(app):
                               })
 
     # Add view
-    admin.add_view(MlModelView(MlModel, name='Models'))
-    admin.add_view(UserAdmin(User, name='User'))
-    admin.add_view(RoleAdmin(Role, name='Roles'))
-    admin.add_view(ApiTokenView(Token, name='Api Token'))
+    admin.add_view(
+        MlModelView(MlModel, name='Models', menu_icon_type='fa', menu_icon_value='fa-flask'))
+    admin.add_view(UserAdmin(User, name='User', menu_icon_type='fa', menu_icon_value='fa-users'))
+    admin.add_view(
+        RoleAdmin(Role, name='Roles', menu_icon_type='fa', menu_icon_value='fa-address-book'))
+    admin.add_view(
+        ApiTokenView(Token, name='Api Token', menu_icon_type='fa', menu_icon_value='fa-key'))
     admin.add_view(MLModelPublisherView(name='Model publisher',
                                         users_privilages=users_privilages,
-                                        orchestation_interactor=orchestation_interactor))
+                                        orchestation_interactor=orchestation_interactor,
+                                        menu_icon_type='fa', menu_icon_value='fa-desktop'))

@@ -20,8 +20,9 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
     can_edit = True
 
     def __init__(self, users_privilages: UsersPrivilages,
-                 orchestation_interactor: OrchestationInteractor, name):
-        super().__init__(name=name)
+                 orchestation_interactor: OrchestationInteractor, name, menu_icon_type,
+                 menu_icon_value):
+        super().__init__(name=name, menu_icon_type=menu_icon_type, menu_icon_value=menu_icon_value)
         self.users_privilages = users_privilages
         self.orchestation_interactor = orchestation_interactor
 
