@@ -5,10 +5,10 @@ import os
 
 import yaml
 from flask import Flask
-from flask_security import MongoEngineUserDatastore, utils
+from flask_security import MongoEngineUserDatastore
 from flask_security import Security
 
-from dashboard_server.application.api.profile import api
+from dashboard_server.application.api.api_model import api
 from dashboard_server.application.dashboard.profile import dashboard
 from dashboard_server.application.dashboard.profile import init_admin
 from dashboard_server.application.dashboard.views.forms.login_form import CustomLoginForm

@@ -3,6 +3,7 @@
     <div class="panel-heading">
         <a target="_blank" style="color:white;" href={{swagger_uri}}>{{cluster_name}}</a>
     </div>
+
     <div class=" panel-body">
         <p>Workers: {{num_workers}}</p>
         <p>Time: {{time}}</p>
@@ -11,6 +12,10 @@
             <button type="button" class="change btn btn-info " data-id={{cluster_name}}
                     data-toggle="modal"
                     data-target="#myModal" style="margin:auto;display:block;">Change
+            </button>
+            <button type="button" class="group btn btn-info" data-id={{cluster_name}}
+                    data-toggle="modal"
+                    data-target="#groupModal" style="margin:auto;display:block;">Group
             </button>
         </div>
     </div>
@@ -24,17 +29,59 @@
   url_for('static', filename='jquery.js') }}">\x3C/script>')
 
 
+
+
+
 </script>
+<script type=text/javascript src="{{ url_for('static',filename='js/publisherview.js') }}"></script>
 {% endblock %}
 {% block body %}
 <h2>Clustering</h2>
-<div id="panels" style="display:-webkit-box;">
-    {% for cluster in clusters %}
-    {{draw_panel_info(cluster.name,cluster.worker,cluster.ts,cluster.model_name,cluster.swagger_uri)}}
-    {% endfor %}
+{% for key,value in group_of_clusters.items()%}
+<div id={{key}} style="border:1px;border-style:double;boder-color:grey">
+    <div style="display: -webkit-box;">
+        <h4 style="margin-left: 15px;">{{key}}</h4>
+        <button type="button" class="changeModelGroup btn btn-primary">Change model</button>
+    </div>
+    <div id="panels" style="display:-webkit-box;">
+        {% for cluster in value%}
+        {{draw_panel_info(cluster.name,cluster.worker,cluster.ts,cluster.model_name,cluster.swagger_uri)}}
+        {% endfor %}
+    </div>
 </div>
+{% endfor %}
 
-<!-- Modal -->
+<!-- Groups -->
+<div class="modal fade" id="groupModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Groups</h4>
+            </div>
+            <div class="modal-body">
+                <p type="text" name="clusterName" id="clusterGroupName" value=""></p>
+
+                <select id="groupPicker" class="selectpicker" style="margin-bottom: 10px;">
+                </select>
+                <div>
+                    <input type="text" id="groupNameInput" placeholder="Group Name">
+                    <button type="button" class="createGroup btn btn-default" data-dismiss="modal">
+                        Create
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="setGroups btn btn-default">Load</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Model Modal -->
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-sm">
 
@@ -58,63 +105,5 @@
 
     </div>
 </div>
-<script type=text/javascript>
-$(document).on("click", ".change", function () {
-     var id = $(this).data('id');
-      $.ajax({
-          type: "GET",
-          url: window.location.pathname+window.location.search+"models",
 
-          success: function(response) {
-            list_of_models = JSON.parse(response);
-            $(".modal-body #clusterName")[0].innerHTML= id ;
-            $('#selectpicker').empty();
-            $.each(list_of_models, function(i, p) {
-                var pickerElement = $('<option></option>').val(p[1]).html(p[1])
-                pickerElement[0].dataset.id=p[0]
-                $('#selectpicker').append(pickerElement);
-            });
-          },
-
-          error: function(err) {
-            console.log(err);
-          }
-        });
-});
-$(document).on("click", ".sendChangeButton", function () {
-    var selector = $('#selectpicker')[0];
-    var model_id = selector.options[selector.selectedIndex].dataset["id"];
-    var host_name= $(".modal-body #clusterName")[0].innerHTML
-    $.ajax({
-          type: "POST",
-          url: window.location.pathname+window.location.search+"change_model",
-          dataType: "json",
-          data:{
-            "model_id":model_id,
-            "host_name":host_name
-          },
-          success: function(data) {
-            console.log("Model changed!")
-            window.location.href = data["go"];
-          },
-          error: function(err) {
-            console.log(err);
-          }
-        });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</script>
 {% endblock %}

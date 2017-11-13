@@ -3,7 +3,7 @@ from flask import Blueprint, request
 from flask_security import logout_user
 from werkzeug.utils import redirect
 
-from application.interactor.orchestation.orquestation_interactor import OrchestationInteractorImp
+from application.interactor.orchestation.orchestation_interactor_imp import OrchestationInteractorImp
 from dashboard_server.application.dashboard.views.api_token_view import ApiTokenView
 from dashboard_server.application.dashboard.views.home_view import HomeView
 from dashboard_server.application.dashboard.views.ml_model_publisher_view import \

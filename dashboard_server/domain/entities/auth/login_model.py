@@ -10,6 +10,9 @@ class Role(db.Document, RoleMixin):
     name = db.StringField(max_length=80, unique=True)
     description = db.StringField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class User(db.Document, UserMixin):
     email = db.StringField(max_length=255)
@@ -19,3 +22,6 @@ class User(db.Document, UserMixin):
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
+
+    def __str__(self):
+        return self.name

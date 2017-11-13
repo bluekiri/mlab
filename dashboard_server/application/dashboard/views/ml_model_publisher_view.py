@@ -24,8 +24,8 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
     @login_required
     @expose()
     def index(self):
-        clusters = list(self.orchestation_interactor.get_clusters())
-        return self.render('ml_model_publisher.html', clusters=clusters)
+        group_of_clusters = self.orchestation_interactor.get_clusters()
+        return self.render('ml_model_publisher.html', group_of_clusters=group_of_clusters)
 
     @expose('/models', methods=('GET',))
     def models(self):
@@ -39,5 +39,21 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
         model_id = request.form.get("model_id")
 
         self.orchestation_interactor.load_model_on_host(host_name, model_id)
+        return json.dumps({"go": url_for("mlmodelpublisherview.index")}), 200, {
+            'ContentType': 'application/json'}
+
+    @login_required
+    @expose('/groups', methods=('GET',))
+    def get_groups(self):
+        return json.dumps(self.orchestation_interactor.get_groups())
+
+    @login_required
+    @roles_required('admin', )
+    @expose('/set_group', methods=('POST',))
+    def set_group(self):
+        host_name = request.form.get("host_name")
+        group = request.form.get("group")
+
+        self.orchestation_interactor.set_group_to_cluster(host_name, group)
         return json.dumps({"go": url_for("mlmodelpublisherview.index")}), 200, {
             'ContentType': 'application/json'}
