@@ -7057,7 +7057,7 @@ button.list-group-item-danger.active:focus {
     padding: 9px;
     border-radius: 0
 }
-
+/*
 .close {
     float: right;
     font-size: 22.5px;
@@ -7230,7 +7230,7 @@ button.close {
         width: 900px
     }
 }
-
+*/
 .tooltip {
     position: absolute;
     z-index: 1070;
@@ -7790,9 +7790,7 @@ button.close {
 .pager:before,
 .pager:after,
 .panel-body:before,
-.panel-body:after,
-.modal-footer:before,
-.modal-footer:after {
+.panel-body:after {
     content: " ";
     display: table
 }
@@ -7810,8 +7808,7 @@ button.close {
 .navbar-header:after,
 .navbar-collapse:after,*/
 .pager:after,
-.panel-body:after,
-.modal-footer:after {
+.panel-body:after:after {
     clear: both
 }
 
@@ -8305,11 +8302,11 @@ a.list-group-item-danger.active:hover,
 a.list-group-item-danger.active:focus {
     background-color: #e60033
 }
-
+/*
 .modal .close {
     color: #333333
 }
-
+*/
 .popover {
     color: #333333
 }

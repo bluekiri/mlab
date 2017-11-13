@@ -3,7 +3,7 @@ from uuid import uuid4
 from flask_admin.contrib.mongoengine import ModelView
 from flask_security.core import current_user
 
-from application.dashboard.views.util.view_roles_management import ViewSecurityListeners
+from dashboard_server.application.dashboard.views.util.view_roles_management import ViewSecurityListeners
 from dashboard_server.domain.entities.auth.api_token_model import Token
 
 
