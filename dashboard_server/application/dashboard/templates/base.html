@@ -14,8 +14,6 @@
     <meta name="author" content="">
     {% endblock %}
     {% block head_css %}
-    <!--<link href="{{ admin_static.url(filename='bootstrap/bootstrap3/swatch/flatly/bootstrap.min.css'.format(swatch=config.get('FLASK_ADMIN_SWATCH', 'default')), v='3.3.5') }}"-->
-    <!--rel="stylesheet">-->
 
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static',filename='css/main/new_flatly_bootstrap.css') }}">
@@ -46,8 +44,9 @@
     <a class="navbar-brand" href="{{ admin_view.admin.url }}">{{ admin_view.admin.name
         }}</a>
     {% endblock %}
+
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-            data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+            data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="true"
             aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>

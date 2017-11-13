@@ -32,6 +32,11 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="{{
   url_for('static', filename='jquery.js') }}">\x3C/script>')
+
+
+
+
+
 </script>
 <script type=text/javascript src="{{ url_for('static',filename='js/publisherview.js') }}"></script>
 {% endblock %}
@@ -45,7 +50,7 @@
 
 {% for key,value in group_of_clusters.items()%}
 <div id="{{key}}" class="groupContainer"
-     style="border:1px;border-style:double; display: inline-block">
+     style="border:1px;border-style:double; ">
     <div>
         <h4 style="margin-left: 15px;">Group: {{key}}</h4>
         <button type="button" class="changeModelGroup btn btn-primary"
@@ -54,7 +59,7 @@
             Change model
         </button>
     </div>
-    <div id="panels" style="display:-webkit-box;">
+    <div id="panels">
         {% for cluster in value%}
         {{draw_panel_info(cluster.name,cluster.worker,cluster.ts,cluster.model_name,cluster.swagger_uri)}}
         {% endfor %}
@@ -119,8 +124,9 @@
 </div>
 
 <!-- Model Modal for groups-->
-<div class="modal fade" id="changeModelGroupModal" role="dialog">
-    <div class="modal-dialog modal-sm">
+<div class="modal fade" id="changeModelGroupModal" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">

@@ -4,7 +4,6 @@ from flask import request
 from flask import url_for
 from flask_admin import BaseView
 from flask_admin import expose
-from flask_login import current_user
 from flask_login import login_required
 from flask_security.decorators import roles_required
 
@@ -30,9 +29,9 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
     @expose()
     def index(self):
         group_of_clusters, clusters_without_group = self.orchestation_interactor.get_clusters()
-        return self.render('ml_model_publisher.html', group_of_clusters=group_of_clusters,
-                           clusters_without_group=clusters_without_group,
-                           can_edit=self.users_privilages.can_change_models(current_user))
+        return self.render('ml_model_publisher/ml_model_publisher.html',
+                           group_of_clusters=group_of_clusters,
+                           clusters_without_group=clusters_without_group)
 
     @expose('/models', methods=('GET',))
     def models(self):

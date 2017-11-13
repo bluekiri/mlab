@@ -293,9 +293,9 @@ th {
     h3 {
         page-break-after: avoid
     }
-    .navbar {
+    /*.navbar {
         display: none
-    }
+    }*/
     .btn>.caret,
     .dropup>.btn>.caret {
         border-top-color: #000 !important
@@ -4439,7 +4439,7 @@ tbody.collapse.in {
     right: 0;
     left: auto
 }
-
+/*
 .dropup .caret,
 .navbar-fixed-bottom .dropdown .caret {
     border-top: 0;
@@ -4465,7 +4465,7 @@ tbody.collapse.in {
         right: auto
     }
 }
-
+*/
 .btn-group,
 .btn-group-vertical {
     position: relative;
@@ -5084,7 +5084,7 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
     border-top-right-radius: 0;
     border-top-left-radius: 0
 }
-
+/*
 .navbar {
     position: relative;
     min-height: 50px;
@@ -5208,7 +5208,7 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
     margin-bottom: 0;
     border-width: 1px 0 0
 }
-
+/*
 .navbar-brand {
     float: left;
     padding: 14.5px 15px;
@@ -5216,7 +5216,7 @@ select[multiple].input-group-sm>.input-group-btn>.btn {
     line-height: 21px;
     height: 50px
 }
-
+*/
 .navbar-brand:hover,
 .navbar-brand:focus {
     text-decoration: none
@@ -5690,7 +5690,7 @@ fieldset[disabled] .navbar-inverse .btn-link:hover,
 fieldset[disabled] .navbar-inverse .btn-link:focus {
     color: #ffffff
 }
-
+*/
 .breadcrumb {
     padding: 8px 15px;
     margin-bottom: 21px;
@@ -7806,9 +7806,9 @@ button.close {
 .btn-toolbar:after,
 .btn-group-vertical>.btn-group:after,
 .nav:after,
-.navbar:after,
+/*.navbar:after,
 .navbar-header:after,
-.navbar-collapse:after,
+.navbar-collapse:after,*/
 .pager:after,
 .panel-body:after,
 .modal-footer:after {
@@ -8098,11 +8098,11 @@ button.close {
         display: none !important
     }
 }
-
+/*
 .navbar-inverse .badge {
     background-color: #fff;
     color: #2780e3
-}
+}*/
 
 body {
     -webkit-font-smoothing: antialiased
