@@ -9,8 +9,8 @@ from flask_security import MongoEngineUserDatastore
 from flask_security import Security
 
 from dashboard_server.application.api.api_model import api
-from dashboard_server.application.dashboard.profile import dashboard
-from dashboard_server.application.dashboard.profile import init_admin
+from dashboard_server.application.dashboard.dashboard_initialize import dashboard
+from dashboard_server.application.dashboard.dashboard_initialize import init_admin
 from dashboard_server.application.dashboard.views.forms.login_form import CustomLoginForm
 from dashboard_server.application.repositories.mongo_repository import get_mongo_connection
 from dashboard_server.application.util import CONF_APPLICATION_PATH, CURRENT_APPLICATION_PATH
@@ -45,6 +45,8 @@ logging.info("Initialize security")
 user_datastore = MongoEngineUserDatastore(db, User, Role)
 Security(app, user_datastore, login_form=CustomLoginForm)
 init_admin(app)
+
+
 app.register_blueprint(dashboard)
 app.register_blueprint(api)
 

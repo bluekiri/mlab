@@ -3,6 +3,7 @@ from flask import Blueprint, request
 from flask_security import logout_user
 from werkzeug.utils import redirect
 
+from application.interactor.users.current_user_imp import CurrentUserImp
 from dashboard_server.application.dashboard.views.api_token_view import ApiTokenView
 from dashboard_server.application.dashboard.views.home_view import HomeView
 from dashboard_server.application.dashboard.views.ml_model_publisher_view import \
@@ -11,7 +12,8 @@ from dashboard_server.application.dashboard.views.ml_model_view import MlModelVi
 from dashboard_server.application.dashboard.views.user_admin_view import UserAdmin, RoleAdmin
 from dashboard_server.application.interactor.orchestation.orchestation_interactor_imp import \
     OrchestationInteractorImp
-from dashboard_server.application.interactor.users.users_privilages_imp import UsersPrivilagesImp
+from dashboard_server.application.interactor.users.user_messaging_imp import UserMessagingImp
+from dashboard_server.application.interactor.users.users_privileges_imp import UsersPrivilegesImp
 from dashboard_server.domain.entities.auth.api_token_model import Token
 from dashboard_server.domain.entities.auth.login_model import User, Role
 from dashboard_server.domain.entities.ml_model import MlModel
@@ -27,7 +29,10 @@ def logout_view():
 
 def init_admin(app):
     orchestation_interactor = OrchestationInteractorImp()
-    users_privilages = UsersPrivilagesImp()
+    users_privileges_interactor = UsersPrivilegesImp()
+    current_user_interactor = CurrentUserImp()
+    user_messaging = UserMessagingImp(current_user=current_user_interactor)
+    app.jinja_env.globals.update(pending_messages=user_messaging.get_pending_messages)
 
     admin = flask_admin.Admin(app,
                               name='MLAB',
@@ -51,6 +56,6 @@ def init_admin(app):
     admin.add_view(
         ApiTokenView(Token, name='Api Token', menu_icon_type='fa', menu_icon_value='fa-key'))
     admin.add_view(MLModelPublisherView(name='Model publisher',
-                                        users_privilages=users_privilages,
+                                        users_privilages=users_privileges_interactor,
                                         orchestation_interactor=orchestation_interactor,
                                         menu_icon_type='fa', menu_icon_value='fa-desktop'))

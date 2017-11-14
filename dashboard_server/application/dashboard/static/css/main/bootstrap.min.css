@@ -5223,10 +5223,10 @@ button.list-group-item-dark.active {
 }
 
 button.close {
-    padding: 0;
-    background: 0 0;
-    border: 0;
-    -webkit-appearance: none
+  padding: 0;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
 }
 
 .modal-open {

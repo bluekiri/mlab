@@ -7057,7 +7057,7 @@ button.list-group-item-danger.active:focus {
     padding: 9px;
     border-radius: 0
 }
-/*
+
 .close {
     float: right;
     font-size: 22.5px;
@@ -7230,7 +7230,32 @@ button.close {
         width: 900px
     }
 }
-*/
+
+///////////////////////////////////
+
+.modal {
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  left: 50%;
+  transform: translateX(-50%);
+  vertical-align: middle;
+}
+
+/////////////////////////////////
+
 .tooltip {
     position: absolute;
     z-index: 1070;
@@ -7380,7 +7405,6 @@ button.close {
     text-decoration: none;
     text-shadow: none;
     text-transform: none;
-    white-space: normal;
     word-break: normal;
     word-spacing: normal;
     word-wrap: normal;
@@ -8230,7 +8254,7 @@ table .info a,
 .dropdown-menu>li>a:focus {
     background-image: none
 }
-
+/*
 .close {
     text-decoration: none;
     text-shadow: none;
@@ -8241,7 +8265,7 @@ table .info a,
 .close:focus {
     opacity: 1
 }
-
+*/
 .alert {
     border: none
 }

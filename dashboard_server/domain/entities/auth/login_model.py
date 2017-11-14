@@ -22,6 +22,7 @@ class User(db.Document, UserMixin):
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
+    topics = db.ListField(db.StringField(), default=[])
 
     def __str__(self):
         return self.name

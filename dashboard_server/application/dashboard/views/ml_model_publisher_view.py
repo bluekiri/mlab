@@ -12,13 +12,13 @@ from dashboard_server.application.dashboard.views.util.view_roles_management imp
 from dashboard_server.domain.entities.ml_model import MlModel
 from dashboard_server.domain.interactor.orchestation.orchestation_interator import \
     OrchestationInteractor
-from dashboard_server.domain.interactor.users.users_privilages import UsersPrivilages
+from dashboard_server.domain.interactor.users.users_privileges import UsersPrivileges
 
 
 class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
     can_edit = True
 
-    def __init__(self, users_privilages: UsersPrivilages,
+    def __init__(self, users_privilages: UsersPrivileges,
                  orchestation_interactor: OrchestationInteractor, name, menu_icon_type,
                  menu_icon_value):
         super().__init__(name=name, menu_icon_type=menu_icon_type, menu_icon_value=menu_icon_value)

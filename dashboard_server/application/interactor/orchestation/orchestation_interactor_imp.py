@@ -12,7 +12,8 @@ from dashboard_server.domain.interactor.orchestation.orchestation_interator impo
 class OrchestationInteractorImp(OrchestationInteractor):
     def load_model_by_group(self, group: str, model_id: str):
         model_to_load = MlModel.objects(pk=model_id).first()
-        Worker.objects(group=group).update(set__model=model_to_load, upsert=True)
+        Worker.objects(group=group).update(set__model=model_to_load,
+                                           set__ts=datetime.datetime.utcnow(), upsert=True)
 
     def set_group_to_cluster(self, host_cluster: str, group_name: str):
         Worker.objects(host_name=host_cluster).update(set__group=group_name, upsert=True)
@@ -48,7 +49,8 @@ class OrchestationInteractorImp(OrchestationInteractor):
 
     def load_model_on_host(self, host, model_id):
         model_to_load = MlModel.objects(pk=model_id).first()
-        Worker.objects(host_name=host).update(set__model=model_to_load, upsert=True)
+        Worker.objects(host_name=host).update(set__model=model_to_load,
+                                              set__ts=datetime.datetime.utcnow(), upsert=True)
 
     def get_groups(self):
         workers = Worker.objects()

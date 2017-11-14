@@ -56,15 +56,53 @@
 <li class="nav-item active{% if class_name %} {{class_name}}{% endif %}" data-toggle="tooltip"
     data-placement="right" title="{{ item.name }}">
     {%- else %}
-<li{% if class_name %} class="nav-item {{class_name}}"{% endif %}>
-{%- endif %}
-<a class="nav-link" href="{{ item.get_url() }}" {% if item.target %} target="{{ item.target }}" {%
-   endif %}>
-    {{menu_icon(item) }}
-    <span class="nav-link-text">{{ item.name }}</span>
-</a>
-
+<li {% if class_name %} class="nav-item {{class_name}}" {% endif %}>
+    {%- endif %}
+    <a class="nav-link" href="{{ item.get_url() }}" {% if item.target %} target="{{ item.target }}"
+       {%
+       endif %}>
+        {{menu_icon(item) }}
+        <span class="nav-link-text">{{ item.name }}</span>
+    </a>
+</li>
 {%- endif -%}
 {% endif -%}
 {% endfor %}
+{% endmacro %}
+
+
+{% macro messages() -%}
+<div class="dropdown-menu" style="left:-260px; width:300px;" aria-labelledby="alertsDropdown">
+    {% if pending_messages()|length > 0 %}
+    <h6 class="dropdown-header">New Alerts:</h6>
+
+
+    {% for message in pending_messages()[:5] %}
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item" href="#">
+
+    <span class="text-success">
+    <strong>
+    <i class="fa fa-long-arrow-up fa-fw"></i>{{message.subject}}</strong>
+    </span>
+        <span class="small float-right text-muted">{{message.get_format_ts()}}</span>
+        <div class="dropdown-message small">{{message.text}}
+        </div>
+    </a>
+    {% endfor %}
+
+    {% if pending_messages()|length > 5 %}
+    <div class="dropdown-divider"></div>
+    <a class="dropdown-item small" href="#">View all alerts</a>
+    {% endif %}
+
+    {% else %}
+    <a class="dropdown-item" href="#">
+    <span class="text-success">
+    <strong>
+        <i class="fa fa-inbox fa-fw"></i>No alerts...</strong>
+    </span>
+    </a>
+    {% endif %}
+</div>
 {% endmacro %}

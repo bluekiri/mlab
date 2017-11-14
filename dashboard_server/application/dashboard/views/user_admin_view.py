@@ -3,6 +3,7 @@ from flask_security import utils
 from flask_security.core import current_user
 from wtforms import PasswordField
 
+from dashboard_server.application.dashboard.views.util.tag_list_field import TagListField
 from dashboard_server.application.repositories.mongo_repository import get_mongo_connection
 
 db = get_mongo_connection()
@@ -14,14 +15,16 @@ class UserAdmin(ModelView):
     form_excluded_columns = ('password',)
 
     column_auto_select_related = True
+    edit_template = 'security/user.html'
 
     def is_accessible(self):
         return current_user.has_role('admin')
 
     def scaffold_form(self):
         form_class = super(UserAdmin, self).scaffold_form()
-
+        form_class.topics = TagListField('Topics')
         form_class.password2 = PasswordField('New Password')
+
         return form_class
 
     def on_model_change(self, form, model, is_created):
