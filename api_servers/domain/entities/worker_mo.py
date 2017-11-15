@@ -15,3 +15,4 @@ class Worker(Document):
     host_name = StringField(required=True)
     host = StringField(required=True)
     model = ReferenceField(Model, default=None)
+    group = StringField()

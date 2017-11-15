@@ -8649,6 +8649,16 @@ a.text-dark:hover {
 .invisible {
     visibility: hidden!important
 }
+*,
+::after,
+::before {
+    box-sizing: border-box
+}
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
 
-
-/*# sourceMappingURL=bootstrap.min.css.map */
