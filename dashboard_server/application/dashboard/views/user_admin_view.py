@@ -17,12 +17,18 @@ class UserAdmin(ModelView):
     column_auto_select_related = True
     edit_template = 'security/user.html'
 
+    form_widget_args = {
+        'topics': {
+            'readonly': True
+        },
+    }
+
     def is_accessible(self):
         return current_user.has_role('admin')
 
     def scaffold_form(self):
         form_class = super(UserAdmin, self).scaffold_form()
-        form_class.topics = TagListField('Topics')
+        # form_class.topics = TagListField('Topics')
         form_class.password2 = PasswordField('New Password')
 
         return form_class
