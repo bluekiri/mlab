@@ -9,7 +9,7 @@ class MessageRepository:
     def get_all_messages(self):
         raise NotImplementedError()
 
-    def get_messages_by_topic(self, topic: List[str]) -> List[Message]:
+    def get_messages_by_topics(self, topic: List[str]) -> List[Message]:
         raise NotImplementedError()
 
     def set_message_as_read(self, message_id: str, current_user: User):

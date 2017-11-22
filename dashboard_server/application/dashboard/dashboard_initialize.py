@@ -71,4 +71,5 @@ def init_admin(app):
                                         menu_icon_type='fa', menu_icon_value='fa-desktop'))
     admin.add_view(
         MessageView(name="Messages", menu_icon_type='fa', menu_icon_value='fa-inbox',
-                    endpoint="message", message_repository=message_repository))
+                    endpoint="message", message_repository=message_repository,
+                    user_messaging=user_messaging, current_user=current_user_interactor))

@@ -10,3 +10,6 @@ class UserMessaging:
 
     def set_message_as_read(self, message_id: str):
         raise NotImplementedError()
+
+    def get_all_messages(self):
+        raise NotImplementedError()

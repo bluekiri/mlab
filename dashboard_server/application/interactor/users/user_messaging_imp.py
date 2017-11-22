@@ -15,8 +15,18 @@ class UserMessagingImp(UserMessaging):
     def get_pending_messages(self) -> List[Message]:
         user = self.current_user.get_current_user()
         direct_messages = self.message_repository.get_direct_message(user)
-        return direct_messages + self.message_repository.get_messages_by_topic(user.topics)
+        messages = direct_messages + self.message_repository.get_messages_by_topics(user.topics)
+        return [message for message in messages if user not in message.read_by]
 
     def set_message_as_read(self, message_id: str):
         self.message_repository.set_message_as_read(message_id,
                                                     self.current_user.get_current_user())
+
+    def get_all_messages(self):
+        current_user = self.current_user.get_current_user()
+        topics = current_user.topics
+        direct_messages = self.message_repository.get_direct_message(current_user)
+        topics_messages = self.message_repository.get_messages_by_topics(topics)
+        all_messages = direct_messages + topics_messages
+        all_messages.sort(key=lambda item: item.ts)
+        return all_messages

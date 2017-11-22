@@ -28,6 +28,7 @@ class Message(db.Document):
     subject = db.StringField()
     text = db.StringField()
     topic = db.StringField()
+    read_by = db.ListField(db.ReferenceField(User))
     icon = ""
 
     def get_format_ts(self):

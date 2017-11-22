@@ -79,7 +79,7 @@
 
     {% for message in pending_messages()[:5] %}
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" href="#">
+    <a class="dropdown-item" href="/dashboard/message/{{message.pk}}">
 
     <span class="text-success">
     <strong>

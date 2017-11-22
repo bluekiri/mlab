@@ -1,4 +1,12 @@
 {% extends admin_base_template %}
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static',filename='message_inbox.css') }}">
 {% block body %}
-hello
+<h2>Messages</h2>
+<ul id="messages" style="margin-left: 20px; margin-top: 30px;" class="list-group">
+    {% for message in messages %}
+    <li id="{{message.pk}}" class="list-group-item"><a href="./{{message.pk}}"
+                                                       class="message">{{message.subject}}</a></li>
+    {% endfor %}
+</ul>
 {% endblock %}
