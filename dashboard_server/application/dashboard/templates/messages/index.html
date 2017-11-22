@@ -3,10 +3,17 @@
       href="{{ url_for('static',filename='message_inbox.css') }}">
 {% block body %}
 <h2>Messages</h2>
-<ul id="messages" style="margin-left: 20px; margin-top: 30px;" class="list-group">
+<div id="messages" style="margin-left: 20px; margin-top: 30px;" class="list-group">
     {% for message in messages %}
-    <li id="{{message.pk}}" class="list-group-item"><a href="./{{message.pk}}"
-                                                       class="message">{{message.subject}}</a></li>
+    <a class="list-group-item"
+       href="./{{message.pk}}">
+        <strong style="margin-right:15px;">
+            {% if message.is_read %}
+            <i class="fa fa-envelope-open-o fa-lg"></i>
+            {% else %}
+            <i class="fa fa-envelope-o fa-lg" style="color:#ffc107"></i>
+            {% endif %}
+        </strong>{{message.subject}}</a>
     {% endfor %}
-</ul>
+</div>
 {% endblock %}

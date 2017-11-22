@@ -22,7 +22,10 @@ class MessageView(BaseView):
     @login_required
     @expose('/')
     def index(self):
+        user = self.current_user.get_current_user()
         messages = self.user_messaging.get_all_messages()
+        for message in messages:
+            message.is_read = user in message.read_by
         return self.render('messages/index.html', messages=messages)
 
     @login_required
