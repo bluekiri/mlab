@@ -18,7 +18,7 @@ class Topic(Enum):
 class SubjectData(Enum):
     welcome = {"icon": "fa-hand-spock-o", "text": "Hi %s, welcome to mlab."}
     direct_message = {"icon": "fa-envelope-open", "text": ""}
-    new_model = {"icon": "fa-arrow-circle-o-up", "text": "Hey! a new mlmodel has been created."}
+    new_model = {"icon": "fa-arrow-circle-o-up", "text": "Hey! New mlmodel created."}
 
 
 class Message(db.Document):
@@ -29,6 +29,7 @@ class Message(db.Document):
     text = db.StringField()
     topic = db.StringField()
     read_by = db.ListField(db.ReferenceField(User))
+
     # icon = ""
 
     def get_format_ts(self):

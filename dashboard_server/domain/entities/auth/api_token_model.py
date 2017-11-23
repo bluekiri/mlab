@@ -10,3 +10,4 @@ db = get_mongo_connection()
 class Token(db.Document):
     token = db.UUIDField(binary=True)
     user = db.ReferenceField(User)
+    description = db.StringField()

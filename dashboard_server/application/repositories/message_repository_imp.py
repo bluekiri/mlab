@@ -6,6 +6,9 @@ from dashboard_server.domain.repositories.messages_repository import MessageRepo
 
 
 class MessageRepositoryImp(MessageRepository):
+    def save_message(self, message: Message):
+        message.save()
+
     def get_message_by_id(self, message_id: str):
         messages = Message.objects(pk=message_id)
         if messages is not None:

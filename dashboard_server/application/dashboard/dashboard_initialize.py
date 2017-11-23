@@ -20,11 +20,11 @@ from dashboard_server.domain.interactor.logs.get_time_line_events import GetTime
 from dashboard_server.domain.interactor.orchestation.orchestation_interator import \
     OrchestationInteractor
 from dashboard_server.domain.interactor.users.current_user import CurrentUser
-from dashboard_server.domain.interactor.users.user_messaging import UserMessaging
 from dashboard_server.domain.interactor.users.users_privileges import UsersPrivileges
 from dashboard_server.domain.repositories.logs_repository import LogsRepository
 from dashboard_server.domain.repositories.messages_repository import MessageRepository
 from domain.interactor.logs.save_model_log_event import SaveModelLogEvent
+from domain.interactor.messages.user_messaging import UserMessaging
 from domain.repositories.model_repository import ModelRepository
 
 
@@ -101,7 +101,7 @@ class Dashboard:
                                             menu_icon_type='fa', menu_icon_value='fa-desktop'))
         admin.add_view(
             MessageView(name="Messages", menu_icon_type='fa', menu_icon_value='fa-inbox',
-                        endpoint="message", message_repository=self.message_repository,
+                        endpoint="messages", message_repository=self.message_repository,
                         user_messaging=self.user_messaging, current_user=self.current_user))
 
         admin.add_view(

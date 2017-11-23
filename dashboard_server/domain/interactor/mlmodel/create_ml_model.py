@@ -2,5 +2,5 @@
 
 
 class CreateMlModel:
-    def create(self, name: str, score: float, description: str, pickle, images):
+    def create(self, name: str, score: float, description: str, pickle, creator_id: str, images):
         raise NotImplementedError()

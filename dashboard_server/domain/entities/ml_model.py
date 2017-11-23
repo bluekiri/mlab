@@ -16,6 +16,7 @@ class MlModel(db.Document):
     extra_info = db.ListField(FileField())
     pickle = db.FileField(required=True)
     score = db.DecimalField(required=True)
+    classification_eval_file = db.FileField()
 
     def set_pk(self):
         self.pk = ObjectId()

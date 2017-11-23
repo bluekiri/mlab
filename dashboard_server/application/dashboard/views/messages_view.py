@@ -5,8 +5,8 @@ from flask_admin import expose
 from flask_login import login_required
 
 from dashboard_server.domain.interactor.users.current_user import CurrentUser
-from dashboard_server.domain.interactor.users.user_messaging import UserMessaging
 from dashboard_server.domain.repositories.messages_repository import MessageRepository
+from domain.interactor.messages.user_messaging import UserMessaging
 
 
 class MessageView(BaseView):

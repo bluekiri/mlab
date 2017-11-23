@@ -8,15 +8,17 @@ from flask import Flask
 from flask_security import MongoEngineUserDatastore
 from flask_security import Security
 
-from application.interactor.logs.save_model_log_event_imp import SaveModelModelLogEventImp
-from application.interactor.orchestation.orchestation_interactor_imp import \
-    OrchestationInteractorImp
 from dashboard_server.application.api.api_dashboard import ApiDashboard
 from dashboard_server.application.dashboard.dashboard_initialize import Dashboard
 from dashboard_server.application.dashboard.views.forms.login_form import CustomLoginForm
 from dashboard_server.application.interactor.logs.get_time_line_events_imp import \
     GetTimeLineEventsImp
+from dashboard_server.application.interactor.logs.save_model_log_event_imp import \
+    SaveModelModelLogEventImp
+from dashboard_server.application.interactor.messages.send_message_imp import SendMessageImp
 from dashboard_server.application.interactor.mlmodel.create_ml_model_imp import CreateMlModelImp
+from dashboard_server.application.interactor.orchestation.orchestation_interactor_imp import \
+    OrchestationInteractorImp
 from dashboard_server.application.interactor.users.current_user_imp import CurrentUserImp
 from dashboard_server.application.interactor.users.token_verification import TokenVerificationImp
 from dashboard_server.application.interactor.users.user_messaging_imp import UserMessagingImp
@@ -62,7 +64,6 @@ message_repository = MessageRepositoryImp()
 logs_repository = LogsRepositoryImp()
 model_repository = ModelRepositoryImp()
 
-create_ml_model = CreateMlModelImp(model_repository)
 token_verification = TokenVerificationImp()
 orchestation_interactor = OrchestationInteractorImp()
 users_privileges = UsersPrivilegesImp()
@@ -72,6 +73,10 @@ user_messaging = UserMessagingImp(current_user=current_user,
 get_time_line_events = GetTimeLineEventsImp(logs_repository)
 save_model_log_event = SaveModelModelLogEventImp(current_user=current_user,
                                                  log_repository=logs_repository)
+send_message = SendMessageImp(message_repository)
+create_ml_model = CreateMlModelImp(send_message=send_message,
+                                   save_model_log_event=save_model_log_event,
+                                   model_repository=model_repository)
 
 # Blueprints
 dashboard = Dashboard(app=app, model_repository=model_repository,

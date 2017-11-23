@@ -20,12 +20,13 @@ def register_model_methods(api, token_verification: TokenVerification,
         pickle = request.files['file']
 
         data = request.form
-        name = data['name']
+
         description = data['description'] if 'description' in data else ''
 
-        create_ml_model.create(name=name, description=description, pickle=pickle)
+        create_ml_model.create(description=description, pickle=pickle, score=data['score'],
+                               creator_id=token, name=data['name'])
 
-        return make_response('Saved', 200)
+        return make_response('Ok', 200)
 
     def _is_valid_request_model():
         return 'token' in request.args and 'file' in request.files and 'name' in request.form
