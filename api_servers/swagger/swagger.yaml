@@ -11,7 +11,7 @@ tags:
   - name: Monitor
     description: 'Check the api health and information about the current api status'
   - name: Model
-    description: 'Mlab model example'
+    description: 'Mlab mlmodel example'
 schemes:
   - http
 paths:
@@ -27,8 +27,8 @@ paths:
           description: OK
   '/model':
     get:
-      operationId: model
-      summary: model example
+      operationId: mlmodel
+      summary: mlmodel example
       tags:
         - Model
       responses:

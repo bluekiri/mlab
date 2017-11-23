@@ -1,4 +1,29 @@
 {% extends admin_base_template %}
+{% block head %}
+<script type=text/javascript
+        src="{{ url_for('static',filename='js/vis.min.js') }}"></script>
+<script type=text/javascript
+        src="{{ url_for('static',filename='js/home.js') }}"></script>
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static',filename='css/vis.min.css') }}">
+{% endblock %}
+
 {% block body %}
-<h2>Logs</h2>
+<h2>Model TimeLine</h2>
+<div id="visualization"></div>
+<script type="text/javascript">
+  // DOM element where the Timeline will be attached
+  var container = document.getElementById('visualization');
+
+  // Create a DataSet (allows two way data-binding)
+  var items = new vis.DataSet(parseTimeLineDatasetFromLogs({{logs}}));
+
+  // Configuration for the Timeline
+  var options = {};
+
+  // Create a Timeline
+  var timeline = new vis.Timeline(container, items, options);
+
+
+</script>
 {% endblock %}

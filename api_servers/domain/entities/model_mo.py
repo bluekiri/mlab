@@ -10,7 +10,7 @@ logger = logging.getLogger()
 
 
 class Model(Document):
-    meta = {"collection": "model"}
+    meta = {"collection": "mlmodel"}
     name = StringField(required=True)
 
     deserialized_model_instance = None

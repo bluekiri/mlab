@@ -3,11 +3,6 @@ from flask_security import utils
 from flask_security.core import current_user
 from wtforms import PasswordField
 
-from dashboard_server.application.dashboard.views.util.tag_list_field import TagListField
-from dashboard_server.application.repositories.mongo_repository import get_mongo_connection
-
-db = get_mongo_connection()
-
 
 class UserAdmin(ModelView):
     column_exclude_list = ('password',)

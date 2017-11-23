@@ -15,5 +15,5 @@ class DummyModel:
 
 if __name__ == "__main__":
     model = DummyModel(3)
-    pkl.dump(model, open("./model.p", "wb"), protocol=3)
+    pkl.dump(model, open("./mlmodel.p", "wb"), protocol=3)
     print("Model exported")

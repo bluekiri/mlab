@@ -1,22 +1,20 @@
-from flask_security.utils import get_hmac
 from mongoengine import Q
 
-from dashboard_server.application.conf.config import ldap_edit_groups
 from dashboard_server.application.repositories.ldap_repository import get_user_by_username_info, \
     is_correct_pwd
 from dashboard_server.domain.entities.auth.login_model import User
 
 
-def is_valid_username(username):
-    user_entry = get_user_by_username_info(username=username)
-    return user_entry is not None
-
-
-def has_edit_permission(username):
-    user_entry = get_user_by_username_info(username=username)
-    if user_entry is not None:
-        return any(edit_group in user_group for user_group in user_entry.memberOf for edit_group in
-                   ldap_edit_groups)
+# def is_valid_username(username):
+#     user_entry = get_user_by_username_info(username=username)
+#     return user_entry is not None
+#
+#
+# def has_edit_permission(username):
+#     user_entry = get_user_by_username_info(username=username)
+#     if user_entry is not None:
+#         return any(edit_group in user_group for user_group in user_entry.memberOf for edit_group in
+#                    ldap_edit_groups)
 
 
 def is_success_pwd(username, pwd):

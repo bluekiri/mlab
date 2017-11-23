@@ -1,7 +1,7 @@
 import os
 
 # LDAP
-# ldap_server = "***REMOVED***"
+ldap_server = "***REMOVED***"
 ldap_base = "***REMOVED***"
 ldap_dn = "***REMOVED***"
 ldap_pwd = "***REMOVED***"

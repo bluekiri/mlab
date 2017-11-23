@@ -6,6 +6,7 @@ from wtforms import fields, validators
 
 from dashboard_server.application.interactor.users.login_verification import get_user_from_username, \
     is_success_pwd
+from dashboard_server.domain.entities.message import Message, SubjectData, Topic
 
 
 class CustomLoginForm(LoginForm):
@@ -36,8 +37,16 @@ class CustomLoginForm(LoginForm):
             self.add_error_to_wtf_field(self.email, get_message('DISABLED_ACCOUNT')[0])
             return False
         logging.debug("Saving or updating user %s" % user.email)
+        # TODO this method have to much responsability... the validation name means validate form...
         user.save()
+        self._send_welcome_message()
         return True
+
+    def _send_welcome_message(self):
+        # TODO this need be abstracted in a interactor but the flask security plugin throw a error...
+        Message(user=self.get_user(), subject_data=SubjectData.welcome.name, text="",
+                topic=Topic.direct_message.name,
+                subject=SubjectData.welcome.value['text'] % self.get_user().name).save()
 
     def get_user(self):
         return self.user

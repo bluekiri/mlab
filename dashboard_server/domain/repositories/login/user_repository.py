@@ -1,5 +1,5 @@
 # coding: utf-8
-from domain.entities.auth.login_model import User
+from dashboard_server.domain.entities.auth.login_model import User
 
 
 class UserRepository:

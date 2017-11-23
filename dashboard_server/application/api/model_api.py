@@ -1,0 +1,31 @@
+# coding:utf-8
+from flask import make_response
+from flask import request
+
+from dashboard_server.domain.interactor.mlmodel.create_ml_model import CreateMlModel
+from dashboard_server.domain.interactor.users.token_verification import TokenVerification
+
+
+def register_model_methods(api, token_verification: TokenVerification,
+                           create_ml_model: CreateMlModel):
+    @api.route('/mlmodel', methods=('POST',))
+    def model():
+        if not _is_valid_request_model():
+            return make_response('Bad request', 400)
+        token = request.args['token']
+
+        if not token_verification.is_valid_token(token):
+            return "Invalid token", 401
+
+        pickle = request.files['file']
+
+        data = request.form
+        name = data['name']
+        description = data['description'] if 'description' in data else ''
+
+        create_ml_model.create(name=name, description=description, pickle=pickle)
+
+        return make_response('Saved', 200)
+
+    def _is_valid_request_model():
+        return 'token' in request.args and 'file' in request.files and 'name' in request.form

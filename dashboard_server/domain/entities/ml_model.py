@@ -8,12 +8,13 @@ db = get_mongo_connection()
 
 
 class MlModel(db.Document):
-    meta = {"collection": "model"}
+    meta = {"collection": "mlmodel"}
     name = db.StringField(required=True)
     ts = db.DateTimeField(default=datetime.datetime.utcnow)
     description = db.StringField()
     extra_info = db.ListField(FileField())
     pickle = db.FileField(required=True)
+    score = db.DecimalField(required=True)
 
     def __unicode__(self):
         return self.name

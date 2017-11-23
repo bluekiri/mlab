@@ -19,7 +19,9 @@ class MessageRepositoryImp(MessageRepository):
         return messages
 
     def set_message_as_read(self, message_id: str, current_user: User):
-        Message.objects(pk=message_id).update(push__read_by=current_user.pk, upsert=True)
+        messages = Message.objects(pk=message_id, read_by__nin=[current_user.pk])
+        if messages:
+            messages.update(push__read_by=current_user.pk, upsert=True)
 
     def get_messages_by_topics(self, topic_list) -> List[Message]:
         return list(Message.objects(topic__in=topic_list))

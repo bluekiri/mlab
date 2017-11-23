@@ -34,8 +34,12 @@
     {% block head %}
     {% endblock %}
     {% block head_tail %}
-    <script type=text/javascript
-            src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ admin_static.url(filename='vendor/jquery.min.js', v='2.1.4') }}"
+            type="text/javascript"></script>
+    <!--<script type=text/javascript-->
+    <!--src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>-->
+    <script src="{{ admin_static.url(filename='bootstrap/bootstrap3/js/bootstrap.min.js', v='3.3.5') }}"
+            type="text/javascript"></script>
     {% endblock %}
 </head>
 
@@ -74,7 +78,7 @@
             <li class="nav-item">
                 <a class="nav-link text-left" id="welcomeUser">
                     Hi {% if current_user.email-%}
-                    {{ current_user.email }}
+                    {{ current_user.name }}
                     {%- endif %}
                 </a>
             </li>
@@ -118,10 +122,8 @@
 </div>
 {% endblock %}
 {% block tail_js %}
-<script src="{{ admin_static.url(filename='vendor/jquery.min.js', v='2.1.4') }}"
-        type="text/javascript"></script>
-<script src="{{ admin_static.url(filename='bootstrap/bootstrap3/js/bootstrap.min.js', v='3.3.5') }}"
-        type="text/javascript"></script>
+<!--<script src="{{ admin_static.url(filename='bootstrap/bootstrap3/js/bootstrap.min.js', v='3.3.5') }}"-->
+<!--type="text/javascript"></script>-->
 <script src="{{ admin_static.url(filename='vendor/moment.min.js', v='2.9.0') }}"
         type="text/javascript"></script>
 <script src="{{ admin_static.url(filename='vendor/select2/select2.min.js', v='3.5.2') }}"
