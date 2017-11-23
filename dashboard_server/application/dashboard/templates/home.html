@@ -16,13 +16,15 @@
   var container = document.getElementById('visualization');
 
   // Create a DataSet (allows two way data-binding)
-  var items = new vis.DataSet(parseTimeLineDatasetFromLogs({{logs}}));
+  var items = parseTimeLineDatasetFromLogs({{logs|tojson}});
 
   // Configuration for the Timeline
   var options = {};
 
   // Create a Timeline
   var timeline = new vis.Timeline(container, items, options);
+
+
 
 
 </script>

@@ -8,6 +8,7 @@ from flask import Flask
 from flask_security import MongoEngineUserDatastore
 from flask_security import Security
 
+from application.interactor.logs.save_model_log_event_imp import SaveModelModelLogEventImp
 from application.interactor.orchestation.orchestation_interactor_imp import \
     OrchestationInteractorImp
 from dashboard_server.application.api.api_dashboard import ApiDashboard
@@ -69,9 +70,13 @@ current_user = CurrentUserImp()
 user_messaging = UserMessagingImp(current_user=current_user,
                                   message_repository=message_repository)
 get_time_line_events = GetTimeLineEventsImp(logs_repository)
+save_model_log_event = SaveModelModelLogEventImp(current_user=current_user,
+                                                 log_repository=logs_repository)
 
 # Blueprints
-dashboard = Dashboard(app=app, message_repository=message_repository,
+dashboard = Dashboard(app=app, model_repository=model_repository,
+                      save_model_log_event=save_model_log_event,
+                      message_repository=message_repository,
                       logs_repository=logs_repository, current_user=current_user,
                       orchestation_interactor=orchestation_interactor,
                       get_time_line_events=get_time_line_events, user_messaging=user_messaging,

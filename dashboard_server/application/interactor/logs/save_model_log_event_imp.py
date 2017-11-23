@@ -27,7 +27,7 @@ class SaveModelModelLogEventImp(SaveModelLogEvent):
             return log
 
         log.source_id = str(
-            self.current_user.get_current_user().pk) if source_id is None else source_id
+            self.current_user.get_current_user().pk) if source_id is None else str(source_id)
 
         return log
 

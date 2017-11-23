@@ -1,5 +1,6 @@
 import datetime
 
+from bson import ObjectId
 from mongoengine import *
 
 from dashboard_server.application.repositories.mongo_repository import get_mongo_connection
@@ -15,6 +16,10 @@ class MlModel(db.Document):
     extra_info = db.ListField(FileField())
     pickle = db.FileField(required=True)
     score = db.DecimalField(required=True)
+
+    def set_pk(self):
+        self.pk = ObjectId()
+        self._id = self.pk
 
     def __unicode__(self):
         return self.name

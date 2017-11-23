@@ -17,19 +17,26 @@ from dashboard_server.domain.entities.auth.login_model import User, Role
 from dashboard_server.domain.entities.logs import Logs
 from dashboard_server.domain.entities.ml_model import MlModel
 from dashboard_server.domain.interactor.logs.get_time_line_events import GetTimeLineEvents
-from dashboard_server.domain.interactor.orchestation.orchestation_interator import OrchestationInteractor
+from dashboard_server.domain.interactor.orchestation.orchestation_interator import \
+    OrchestationInteractor
 from dashboard_server.domain.interactor.users.current_user import CurrentUser
 from dashboard_server.domain.interactor.users.user_messaging import UserMessaging
 from dashboard_server.domain.interactor.users.users_privileges import UsersPrivileges
 from dashboard_server.domain.repositories.logs_repository import LogsRepository
 from dashboard_server.domain.repositories.messages_repository import MessageRepository
+from domain.interactor.logs.save_model_log_event import SaveModelLogEvent
+from domain.repositories.model_repository import ModelRepository
 
 
 class Dashboard:
-    def __init__(self, app, message_repository: MessageRepository, logs_repository: LogsRepository,
+    def __init__(self, app, model_repository: ModelRepository,
+                 save_model_log_event: SaveModelLogEvent,
+                 message_repository: MessageRepository, logs_repository: LogsRepository,
                  orchestation_interactor: OrchestationInteractor,
                  users_privileges: UsersPrivileges, current_user: CurrentUser,
                  user_messaging: UserMessaging, get_time_line_events: GetTimeLineEvents):
+        self.model_repository = model_repository
+        self.save_model_log_event = save_model_log_event
         self.get_time_line_events = get_time_line_events
         self.message_repository = message_repository
         self.current_user = current_user
@@ -78,7 +85,10 @@ class Dashboard:
 
         # Add view
         admin.add_view(
-            MlModelView(MlModel, name='Models', menu_icon_type='fa', menu_icon_value='fa-flask'))
+            MlModelView(MlModel, model_repository=self.model_repository,
+                        current_user=self.current_user,
+                        save_model_log_event=self.save_model_log_event, name='Models',
+                        menu_icon_type='fa', menu_icon_value='fa-flask'))
         admin.add_view(
             UserAdmin(User, name='User', menu_icon_type='fa', menu_icon_value='fa-users'))
         admin.add_view(
