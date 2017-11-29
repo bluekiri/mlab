@@ -37,4 +37,4 @@ class MessageView(BaseView):
             abort(404)
         # TODO check permission
         self.message_repository.set_message_as_read(message_id, current_user)
-        return self.render('messages/view.html', message=message)
+        return self.render('messages/details.html', message=message)

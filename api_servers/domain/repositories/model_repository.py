@@ -9,5 +9,5 @@ class ModelRepository:
     def load_default_model(self):
         raise NotImplementedError()
 
-    def try_load_new_model_instance(self):
+    def try_load_new_model_instance(self, model_id: str):
         raise NotImplementedError()

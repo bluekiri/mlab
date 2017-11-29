@@ -1,10 +1,7 @@
 # coding: utf-8
 import logging
-import os
-import socket
 
 from domain.entities.model_mo import Model
-from domain.entities.worker_mo import Worker
 from domain.repositories.model_repository import ModelRepository
 
 
@@ -21,28 +18,30 @@ class ModelRepositoryImp(ModelRepository):
         return self.singleton_current_model
 
     def load_default_model(self):
-        model = self._get_model_for_this_host()
-        if model is None:
-            self.loading_model = True
-            try:
-                self.singleton_current_model = Model.objects().first()
-                self.singleton_current_model.get_model_instance()
-                self.logger.info(
-                    "Model not found... Loading first mlmodel (%s)" % self.singleton_current_model.name)
-            except Exception as e:
-                self.logger.warning("No entities found: %s" % e)
-            finally:
-                self.loading_model = False
-        else:
-            self.try_load_new_model_instance()
+        # model = self._get_model_for_this_host()
+        # if model is None:
+        self.loading_model = True
+        try:
+            self.singleton_current_model = Model.objects().first()
+            self.singleton_current_model.get_model_instance()
+            self.logger.info(
+                "Model not found... Loading first mlmodel (%s)" % self.singleton_current_model.name)
+        except Exception as e:
+            self.logger.warning("No models found: %s" % e)
+        finally:
+            self.loading_model = False
+            # else:
+            #     self.try_load_new_model_instance()
 
-    def try_load_new_model_instance(self):
-        model = self._get_model_for_this_host()
+    def try_load_new_model_instance(self, model_id: str):
+        # model = self._get_model_for_this_host()
+        model = Model.objects(pk=model_id).first()
         if model is None:
             return False
-        if (self.singleton_current_model is None or model.pk != self.singleton_current_model.pk) and not self.loading_model:
+        if (
+                        self.singleton_current_model is None or model.pk != self.singleton_current_model.pk) and not self.loading_model:
             self.logger.info("New mlmodel found (%s)" % model.name)
-            model_found = Model.objects(pk=model.pk).first()
+            model_found = Model.objects(pk=model.pk).last()
             self.loading_model = True
             try:
                 model_found.get_model_instance()
@@ -53,9 +52,9 @@ class ModelRepositoryImp(ModelRepository):
             return True
         return False
 
-    def _get_model_for_this_host(self):
-        pid_name = os.getpid()
-        worker = Worker.objects(name=str(pid_name), host_name=socket.gethostname(),
-                                host=socket.gethostbyname(socket.gethostname())).first()
-        if worker is not None and worker.model is not None:
-            return worker.model
+        # def _get_model_for_this_host(self):
+        #     pid_name = os.getpid()
+        # worker = Worker.objects(name=str(pid_name), host_name=socket.gethostname(),
+        #                         host=socket.gethostbyname(socket.gethostname())).first()
+        # if worker is not None and worker.model is not None:
+        #     return worker.model

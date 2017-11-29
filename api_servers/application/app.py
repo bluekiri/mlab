@@ -2,8 +2,6 @@
 
 import logging.config
 import os
-import signal
-import socket
 from wsgiref import simple_server
 
 import falcon
@@ -11,7 +9,8 @@ import yaml
 
 from api_servers.application.register_routes import register_routes
 from api_servers.application.util import CURRENT_APPLICATION_PATH, ASSETS_APPLICATION_PATH
-from application.interactors.model_pooling_imp import ModelPoolingImp
+from application.datasource.zk_datasource_imp import ZKDatasourceImp
+from application.interactors.model_change_listener_imp import ModelChangeListenerImp
 from application.interactors.register_worker_imp import RegisterWorkerImp
 from application.repositories.model_repository_imp import ModelRepositoryImp
 from application.repositories.worker_repository_imp import WorkerRepositoryImp
@@ -19,7 +18,8 @@ from application.repositories.worker_repository_imp import WorkerRepositoryImp
 
 def setup_logging(default_path=CURRENT_APPLICATION_PATH, default_level=logging.INFO,
                   env_key='API-SERVER'):
-    path = default_path + '/conf/logging.yaml'
+    # path = default_path + '/conf/logging.yaml'
+    path = "NONE"
     value = os.getenv(env_key, None)
     if value:
         path = value
@@ -33,37 +33,22 @@ def setup_logging(default_path=CURRENT_APPLICATION_PATH, default_level=logging.I
 
 
 logger = setup_logging()
-worker_repository = WorkerRepositoryImp()
+zk_datasource = ZKDatasourceImp()
+worker_repository = WorkerRepositoryImp(zk_datasource)
 model_repository = ModelRepositoryImp()
+
 register_worker = RegisterWorkerImp(worker_repository, model_repository)
-model_pooling = ModelPoolingImp(model_repository)
-
-
-def signal_handler(signal, frame):
-    worker_repository.remove_worker_from_host(os.getpid(), socket.gethostname())
-
-
-def sign_listeners():
-    logger.info("Loading signals handlers...")
-    signal.signal(signal.SIGINT, signal_handler)
-    signal.signal(signal.SIGTERM, signal_handler)
-    signal.signal(signal.SIGQUIT, signal_handler)
-    signal.signal(signal.SIGHUP, signal_handler)
-    signal.signal(signal.SIGSEGV, signal_handler)
-
+model_change_listener = ModelChangeListenerImp(model_repository, worker_repository)
 
 logger.info(open(ASSETS_APPLICATION_PATH + '/title.txt', 'r').read())
 logger.info("Starting loading server configuration...")
 
 api = falcon.API()
 
+worker_repository.initialize_event_listener()
+model_change_listener.run()
+
 register_routes(api, model_repository)
-
-model_pooling.run()
-
-sign_listeners()
-
-register_worker.run()
 
 logger.info("Server loaded")
 

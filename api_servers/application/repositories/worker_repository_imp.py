@@ -1,32 +1,45 @@
 # coding: utf-8
+import json
 import logging
+import socket
 from datetime import datetime
 
-from domain.entities.model_mo import Model
-from domain.entities.worker_mo import Worker
-from domain.repositories.worker_repository import WorkerRepository
+from api_servers.domain.repositories.worker_repository import WorkerRepository
 
 
 class WorkerRepositoryImp(WorkerRepository):
-    def __init__(self):
+    def __init__(self, zk_datasource):
+        self.zk_datasource = zk_datasource
         self.logger = logging.getLogger(__name__)
+        self.host_name = socket.gethostbyname(socket.gethostname())
+        self.worker_path = "/workers/" + self.host_name
+        self.model_change_callbacks = []
+
+    def initialize_event_listener(self):
+        @self.zk_datasource.zk.DataWatch(self.worker_path + "/model")
+        def watch_node(data, stat):
+            for callback in self.model_change_callbacks:
+                callback(data)
+
+    def subscribe_on_worker_model_change(self, callback_function):
+        self.model_change_callbacks.append(callback_function)
 
     def remove_worker_from_host(self, worker_name: str, host_name: str):
-        for worker in Worker.objects(name=str(worker_name), host_name=str(host_name)):
-            self.logger.info("Removing %s from database..." % str(worker_name))
-            worker.delete()
+        pass
 
-    def save_worker(self, name: str, host_name: str, host: str, model: Model):
-        if model is not None:
-            Worker.objects(name=name, host_name=host_name, host=host).update(set__name=name,
-                                                                             set__host_name=host_name,
-                                                                             set__host=host,
-                                                                             set__model=model.pk,
-                                                                             set__ts=datetime.utcnow(),
-                                                                             upsert=True)
+    def save_worker(self, number_of_instances: int):
+        data = json.dumps(
+            {"host": socket.gethostname(), "instances": number_of_instances})
+
+        if self.zk_datasource.zk.exists(self.worker_path) is not None:
+            pass
         else:
-            Worker.objects(name=name, host_name=host_name, host=host).update(set__name=name,
-                                                                             set__host_name=host_name,
-                                                                             set__host=host,
-                                                                             set__ts=datetime.utcnow(),
-                                                                             upsert=True)
+            self.zk_datasource.zk.ensure_path(self.worker_path)
+            self.zk_datasource.zk.create(self.worker_path, data.encode('utf-8'))
+
+        try:
+            self.zk_datasource.zk.create(self.worker_path + "/up",
+                                         str(datetime.utcnow().timestamp()).encode('utf-8'),
+                                         ephemeral=True)
+        except:
+            self.logger.info("Worker reload")

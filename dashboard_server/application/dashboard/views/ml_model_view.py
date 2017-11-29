@@ -10,8 +10,10 @@ from dashboard_server.domain.repositories.model_repository import ModelRepositor
 
 class MlModelView(ModelView, metaclass=ViewSecurityListeners):
     can_edit = False
+    can_view_details = True
     can_view = True
     can_create = False
+    details_template = 'mlmodel/details.html'
 
     def __init__(self, model, model_repository: ModelRepository,
                  save_model_log_event: SaveModelLogEvent, current_user: CurrentUser,
@@ -34,7 +36,7 @@ class MlModelView(ModelView, metaclass=ViewSecurityListeners):
         self.can_create = True
 
     def on_model_change(self, form, model, is_created):
-        # super().on_model_change(form, model, is_created)
+        # super().on_model_change(form, mlmodel, is_created)
         model.set_pk()
         self.save_model_log_event.save_new_model_event(model.name, str(model.pk), False,
                                                        self.current_user.get_current_user().pk)
