@@ -1,8 +1,8 @@
-function findAncestor (el, cls) {
-    while ((el = el.parentElement) && !el.classList.contains(cls));
-    return el;
-}
 
+
+$(function(){
+
+//Groups
 $(document).on("click", ".group", function () {
      var id = $(this).data('id');
       $.ajax({
@@ -11,7 +11,7 @@ $(document).on("click", ".group", function () {
 
           success: function(response) {
             groups = JSON.parse(response);
-            $(".modal-body #clusterGroupName")[0].innerHTML= id;
+            $(".modal-body #workerId")[0].innerHTML= id;
             $('#groupPicker').empty();
             $.each(groups, function(i, p) {
                 var pickerElement = $('<option></option>').val(p).html(p)
@@ -26,10 +26,12 @@ $(document).on("click", ".group", function () {
         });
 });
 
-$(document).on("click", ".sendChangeButton", function () {
+
+//Worker
+$(document).on("click", ".sendChangeModelOnWorker", function () {
     var selector = $('#selectpicker')[0];
     var model_id = selector.options[selector.selectedIndex].dataset["id"];
-    var host_name= $(".modal-body #clusterName")[0].innerHTML
+    var host_name= $(".modal-body #hostName")[0].innerHTML
     $.ajax({
           type: "POST",
           url: window.location.pathname+window.location.search+"change_model",
@@ -39,7 +41,6 @@ $(document).on("click", ".sendChangeButton", function () {
             "host_name":host_name
           },
           success: function(data) {
-            console.log("Model changed!")
             window.location.href = data["go"];
           },
           error: function(err) {
@@ -56,7 +57,7 @@ $(document).on("click", ".change", function () {
 
           success: function(response) {
             list_of_models = JSON.parse(response);
-            $(".modal-body #clusterName")[0].innerHTML= id ;
+            $(".modal-body #hostName")[0].innerHTML= id ;
             $('#selectpicker').empty();
             $.each(list_of_models, function(i, p) {
                 var pickerElement = $('<option></option>').val(p[1]).html(p[1])
@@ -89,17 +90,16 @@ function changeGroupOnHost(host, group) {
         });
 }
 
-
 $(document).on("click", ".createGroup", function () {
     var groupName= $('#groupNameInput')["0"].value;
-    var hostName= $(".modal-body #clusterGroupName")[0].innerHTML
+    var hostName= $(".modal-body #workerId")[0].innerHTML
     changeGroupOnHost(hostName,groupName)
 });
 
 $(document).on("click", ".sendChangeGroup", function () {
     var selector = $('#groupPicker')[0];
     var groupName= selector.options[selector.selectedIndex].value;
-    var hostName= $(".modal-body #clusterGroupName")[0].innerHTML
+    var hostName= $(".modal-body #workerId")[0].innerHTML
     changeGroupOnHost(hostName,groupName)
 });
 
@@ -146,4 +146,11 @@ $(document).on("click", ".changeModelGroup", function () {
             console.log(err);
           }
         });
+});
+
+function findAncestor (el, cls) {
+    while ((el = el.parentElement) && !el.classList.contains(cls));
+    return el;
+}
+
 });

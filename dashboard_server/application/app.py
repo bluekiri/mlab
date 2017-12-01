@@ -8,9 +8,11 @@ from flask import Flask
 from flask_security import MongoEngineUserDatastore
 from flask_security import Security
 
+from application.interactor.workers_obersable_imp import WorkersListenerEventImp
 from dashboard_server.application.api.api_dashboard import ApiDashboard
 from dashboard_server.application.dashboard.dashboard_initialize import Dashboard
 from dashboard_server.application.dashboard.views.forms.login_form import CustomLoginForm
+from dashboard_server.application.datasource.zk_datasource_imp import ZKDatasourceImp
 from dashboard_server.application.interactor.logs.get_time_line_events_imp import \
     GetTimeLineEventsImp
 from dashboard_server.application.interactor.logs.save_model_log_event_imp import \
@@ -27,6 +29,7 @@ from dashboard_server.application.repositories.logs_repository_imp import LogsRe
 from dashboard_server.application.repositories.message_repository_imp import MessageRepositoryImp
 from dashboard_server.application.repositories.model_repository_imp import ModelRepositoryImp
 from dashboard_server.application.repositories.mongo_repository import get_mongo_connection
+from dashboard_server.application.repositories.worker_repository_imp import WorkerRepositoryImp
 from dashboard_server.application.util import CONF_APPLICATION_PATH, CURRENT_APPLICATION_PATH
 from dashboard_server.domain.entities.auth.login_model import User, Role
 
@@ -60,12 +63,16 @@ user_datastore = MongoEngineUserDatastore(db, User, Role)
 Security(app, user_datastore, login_form=CustomLoginForm)
 
 # Dependencies
+zk_datasource = ZKDatasourceImp()
+
 message_repository = MessageRepositoryImp()
 logs_repository = LogsRepositoryImp()
 model_repository = ModelRepositoryImp()
+worker_repository = WorkerRepositoryImp(zk_datasource, model_repository)
+worker_listener_event = WorkersListenerEventImp(worker_repository)
 
 token_verification = TokenVerificationImp()
-orchestation_interactor = OrchestationInteractorImp()
+orchestation_interactor = OrchestationInteractorImp(worker_repository=worker_repository)
 users_privileges = UsersPrivilegesImp()
 current_user = CurrentUserImp()
 user_messaging = UserMessagingImp(current_user=current_user,
@@ -79,7 +86,8 @@ create_ml_model = CreateMlModelImp(send_message=send_message,
                                    model_repository=model_repository)
 
 # Blueprints
-dashboard = Dashboard(app=app, model_repository=model_repository,
+dashboard = Dashboard(app=app, worker_repository=worker_repository,
+                      model_repository=model_repository,
                       save_model_log_event=save_model_log_event,
                       message_repository=message_repository,
                       logs_repository=logs_repository, current_user=current_user,

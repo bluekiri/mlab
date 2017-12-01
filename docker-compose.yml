@@ -2,38 +2,44 @@ version: '3'
 
 
 services:
-  zoo1:
+  mlab_zoo1:
       image: zookeeper
       container_name: mlab_zoo1
       restart: always
-      hostname: zoo1
+      hostname: mlab_zoo1
+      networks:
+        - nginx-proxy
       ports:
-          - 2181:2181
+        - 2181:2181
       environment:
           ZOO_MY_ID: 1
-          ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
+          ZOO_SERVERS: server.1=mlab_zoo1:2888:3888 server.2=mlab_zoo2:2888:3888 server.3=mlab_zoo3:2888:3888
 
-  zoo2:
+  mlab_zoo2:
       image: zookeeper
       container_name: mlab_zoo2
       restart: always
-      hostname: zoo2
+      hostname: mlab_zoo2
+      networks:
+        - nginx-proxy
       ports:
           - 2182:2181
       environment:
           ZOO_MY_ID: 2
-          ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
+          ZOO_SERVERS: server.1=mlab_zoo1:2888:3888 server.2=mlab_zoo2:2888:3888 server.3=mlab_zoo3:2888:3888
 
-  zoo3:
+  mlab_zoo3:
       image: zookeeper
       container_name: mlab_zoo3
       restart: always
-      hostname: zoo3
+      hostname: mlab_zoo3
+      networks:
+        - nginx-proxy
       ports:
-          - 2183:2181
+        - 2183:2181
       environment:
-          ZOO_MY_ID: 3
-          ZOO_SERVERS: server.1=zoo1:2888:3888 server.2=zoo2:2888:3888 server.3=zoo3:2888:3888
+        ZOO_MY_ID: 3
+        ZOO_SERVERS: server.1=mlab_zoo1:2888:3888 server.2=mlab_zoo2:2888:3888 server.3=mlab_zoo3:2888:3888
 
   mlab_mongo:
     image: mongo
@@ -44,72 +50,83 @@ services:
       - nginx-proxy
     ports:
       - "27017:27017"
+    depends_on:
+      - mlab_zoo1
+      - mlab_zoo2
+      - mlab_zoo3
 
-#  mlab_init_mongo:
-#    image: mongo
-#    container_name: mlab_init_mongo
-#    working_dir: /var/tmp
-#    environment:
-#      DATABASE_MAME: "mlab"
-#      MLAB_MONGO_HOST: mlab_mongo
-#    volumes:
-#      - ./script/:/var/tmp
-#      - ./asserts/mlab/:/var/tmp/mlab
-#    command: [./wait-for-mongo.sh]
-#    networks:
-#      - nginx-proxy
-#    depends_on:
-#      - mlab_mongo
-#
-#  mlab_api_server:
-#    build: api_servers
-#    container_name: mlab_api_server
-#    environment:
-#      MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/mlab?readPreference=primary"
-#    ports:
-#      - "9090:9090"
-#    depends_on:
-#      - mlab_init_mongo
-#    networks:
-#      - nginx-proxy
-#
-#  mlab_api_server_2:
-#    build: api_servers
-#    container_name: mlab_api_server_2
-#    environment:
-#      MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/mlab?readPreference=primary"
-#    depends_on:
-#      - mlab_init_mongo
-#    networks:
-#      - nginx-proxy
-#
-#  mlab_nginx:
-#    image: nginx:latest
-#    container_name: mlab_nginx
-#    depends_on:
-#      - mlab_api_server
-#    expose:
-#      - "80"
-#    ports:
-#      - "80:80"
-#    volumes:
-#      - ./api_servers/nginx:/etc/nginx/conf.d
-#      - ./api_servers/swagger:/usr/share/nginx/html
-#    networks:
-#      - nginx-proxy
-#
-#  mlab_dashboard:
-#    build: dashboard_server
-#    container_name: mlab_dashboard
-#    ports:
-#      - "5000:5000"
-#    networks:
-#      - nginx-proxy
-#    environment:
-#      - DATABASE_NAME=mlab
-#      - MLAB_MONGO_URI=mlab_mongo
-#    depends_on:
-#      - mlab_api_server
+  mlab_init_mongo:
+    image: mongo
+    container_name: mlab_init_mongo
+    working_dir: /var/tmp
+    environment:
+      DATABASE_MAME: "mlab"
+      MLAB_MONGO_HOST: mlab_mongo
+    volumes:
+      - ./script/:/var/tmp
+      - ./asserts/mlab/:/var/tmp/mlab
+    command: [./wait-for-mongo.sh]
+    networks:
+      - nginx-proxy
+    depends_on:
+      - mlab_mongo
+
+  mlab_api_server:
+    build: api_servers
+    container_name: mlab_api_server
+    environment:
+      MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/mlab?readPreference=primary"
+      MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
+      WORKER_INSTANCES: 2
+    ports:
+      - "9090:9090"
+    depends_on:
+      - mlab_init_mongo
+    networks:
+      - nginx-proxy
+
+  mlab_api_server_2:
+    build: api_servers
+    container_name: mlab_api_server_2
+    environment:
+      MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/mlab?readPreference=primary"
+      MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
+      WORKER_INSTANCES: 2
+    depends_on:
+      - mlab_init_mongo
+    networks:
+      - nginx-proxy
+
+  mlab_nginx:
+    image: nginx:latest
+    container_name: mlab_nginx
+    depends_on:
+      - mlab_api_server
+    expose:
+      - "80"
+    ports:
+      - "80:80"
+    volumes:
+      - ./api_servers/nginx:/etc/nginx/conf.d
+      - ./api_servers/swagger:/usr/share/nginx/html
+    networks:
+      - nginx-proxy
+
+  mlab_dashboard:
+    build: dashboard_server
+    container_name: mlab_dashboard
+    ports:
+      - "5000:5000"
+    networks:
+      - nginx-proxy
+    environment:
+      DATABASE_NAME: "mlab"
+      MLAB_MONGO_URI: "mlab_mongo"
+      MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
+      LDAP_URI: "***REMOVED***"
+#      DASHBOARD_WORKERS: ${VAR:=1} This parameter is defined on .env file by default...
+    depends_on:
+      - mlab_api_server
 
 networks:
   nginx-proxy:

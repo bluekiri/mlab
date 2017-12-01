@@ -1,7 +1,11 @@
 import os
+# This variable is very important, this enroute the zookeeper path
+PROJECT_SUFFIX="-mlab"
+
+PROJECT = "Demo"+PROJECT_SUFFIX
 
 # LDAP
-ldap_server = "***REMOVED***"
+ldap_server = os.environ["LDAP_URI"]
 ldap_base = "***REMOVED***"
 ldap_dn = "***REMOVED***"
 ldap_pwd = "***REMOVED***"
@@ -12,6 +16,10 @@ ldap_groups = ['***REMOVED***']
 # Mongo
 mongo_database = os.environ['DATABASE_NAME']
 mongo_connection_uri = os.environ['MLAB_MONGO_URI']
+# --------------------------------------------------------------------------------
+
+# Zookeeper
+zookeeper = os.environ['MLAB_ZOOKEEPER_URI']
 # --------------------------------------------------------------------------------
 
 # Flask

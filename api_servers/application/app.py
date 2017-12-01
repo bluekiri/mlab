@@ -7,13 +7,12 @@ from wsgiref import simple_server
 import falcon
 import yaml
 
+from api_servers.application.datasource.zk_datasource_imp import ZKDatasourceImp
+from api_servers.application.interactors.model_change_listener_imp import ModelChangeListenerImp
 from api_servers.application.register_routes import register_routes
+from api_servers.application.repositories.model_repository_imp import ModelRepositoryImp
+from api_servers.application.repositories.worker_repository_imp import WorkerRepositoryImp
 from api_servers.application.util import CURRENT_APPLICATION_PATH, ASSETS_APPLICATION_PATH
-from application.datasource.zk_datasource_imp import ZKDatasourceImp
-from application.interactors.model_change_listener_imp import ModelChangeListenerImp
-from application.interactors.register_worker_imp import RegisterWorkerImp
-from application.repositories.model_repository_imp import ModelRepositoryImp
-from application.repositories.worker_repository_imp import WorkerRepositoryImp
 
 
 def setup_logging(default_path=CURRENT_APPLICATION_PATH, default_level=logging.INFO,
@@ -35,9 +34,8 @@ def setup_logging(default_path=CURRENT_APPLICATION_PATH, default_level=logging.I
 logger = setup_logging()
 zk_datasource = ZKDatasourceImp()
 worker_repository = WorkerRepositoryImp(zk_datasource)
-model_repository = ModelRepositoryImp()
+model_repository = ModelRepositoryImp(worker_repository)
 
-register_worker = RegisterWorkerImp(worker_repository, model_repository)
 model_change_listener = ModelChangeListenerImp(model_repository, worker_repository)
 
 logger.info(open(ASSETS_APPLICATION_PATH + '/title.txt', 'r').read())

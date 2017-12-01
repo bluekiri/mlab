@@ -1,40 +1,42 @@
 import datetime
-from itertools import groupby
+from typing import Dict
 
 import timeago
 
-from dashboard_server.domain.entities.ml_model import MlModel
 from dashboard_server.domain.entities.worker_mo import Worker
 from dashboard_server.domain.interactor.orchestation.orchestation_interator import \
     OrchestationInteractor
+from dashboard_server.domain.repositories.worker_repository import WorkerRepository
 
 
 class OrchestationInteractorImp(OrchestationInteractor):
-    def load_model_by_group(self, group: str, model_id: str):
-        model_to_load = MlModel.objects(pk=model_id).first()
-        Worker.objects(group=group).update(set__model=model_to_load,
-                                           set__ts=datetime.datetime.utcnow(), upsert=True)
+    def __init__(self, worker_repository: WorkerRepository):
+        self.worker_repository = worker_repository
 
-    def set_group_to_cluster(self, host_cluster: str, group_name: str):
-        Worker.objects(host_name=host_cluster).update(set__group=group_name, upsert=True)
+    def load_model_on_group(self, group: str, model_id: str):
+        workers_host = self.worker_repository.get_workers_host_by_group(group)
+        for worker_host in workers_host:
+            self.worker_repository.set_model_in_worker(worker_host, model_id)
+
+    def set_group_to_worker(self, host_id: str, group_name: str):
+        self.worker_repository.set_group_in_worker(host_id, group_name)
 
     def _get_workers_grouped(self):
-        workers = Worker.objects().order_by('host_name')
-        clusters = []
-        for key, host_group in groupby(workers, lambda worker: worker.host_name):
-            host_group = [item for item in host_group]
-            model_name = list(host_group)[0].model.name if list(host_group)[
-                                                               0].model is not None else "No Model loaded"
-            clusters.append(
-                {"name": key, "swagger_uri": "http://" + str(list(host_group)[0].host),
-                 "worker": len(list(host_group)),
-                 "ts": timeago.format(max([item.ts for item in host_group]),
-                                      datetime.datetime.utcnow()),
-                 "model_name": model_name,
-                 "group": list(host_group)[0].group})
-        return clusters
+        def _map_worker_to_dict(worker: Worker) -> Dict:
+            return {
+                "name": worker.host_name, "swagger_uri": "http://%s" % worker.host,
+                "worker": worker.number_of_instances,
+                "ts": timeago.format(worker.ts, datetime.datetime.utcnow()),
+                "model_name": "Model not loaded" if worker.model is None else worker.model.name,
+                "group": worker.group,
+                "running": worker.up
+            }
 
-    def get_clusters(self):
+        workers = self.worker_repository.get_available_workers()
+
+        return [_map_worker_to_dict(worker) for worker in workers]
+
+    def get_group_workers(self):
         groups = {}
         without_group = []
         clusters = self._get_workers_grouped()
@@ -48,10 +50,7 @@ class OrchestationInteractorImp(OrchestationInteractor):
         return groups, without_group
 
     def load_model_on_host(self, host, model_id):
-        model_to_load = MlModel.objects(pk=model_id).first()
-        Worker.objects(host_name=host).update(set__model=model_to_load,
-                                              set__ts=datetime.datetime.utcnow(), upsert=True)
+        self.worker_repository.set_model_in_worker(worker_host=host, model_id=model_id)
 
     def get_groups(self):
-        workers = Worker.objects()
-        return list(set([worker.group for worker in workers if worker.group is not None]))
+        return self.worker_repository.get_groups()

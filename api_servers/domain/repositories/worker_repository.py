@@ -13,3 +13,6 @@ class WorkerRepository:
 
     def save_worker(self, number_of_instances: int):
         raise NotImplementedError()
+
+    def get_self_worker_model_id(self) -> str:
+        raise NotImplementedError()

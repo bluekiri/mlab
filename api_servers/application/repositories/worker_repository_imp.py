@@ -5,21 +5,28 @@ import socket
 from datetime import datetime
 
 from api_servers.domain.repositories.worker_repository import WorkerRepository
+from api_servers.application.conf.config import PROJECT
 
 
 class WorkerRepositoryImp(WorkerRepository):
     def __init__(self, zk_datasource):
         self.zk_datasource = zk_datasource
         self.logger = logging.getLogger(__name__)
-        self.host_name = socket.gethostbyname(socket.gethostname())
-        self.worker_path = "/workers/" + self.host_name
+        self.host_name = socket.gethostname()
+        self.host = socket.gethostbyname(socket.gethostname())
+        self.workers_path = "/%s/workers" % PROJECT
+        self.worker_path = "%s/%s" % (self.workers_path, self.host_name)
         self.model_change_callbacks = []
+
+    def get_self_worker_model_id(self) -> str:
+        if self.zk_datasource.zk.exists(self.worker_path + "/model"):
+            return self.zk_datasource.zk.get(self.worker_path + "/model")[0].decode("utf-8")
 
     def initialize_event_listener(self):
         @self.zk_datasource.zk.DataWatch(self.worker_path + "/model")
         def watch_node(data, stat):
             for callback in self.model_change_callbacks:
-                callback(data)
+                callback(data.decode('utf-8'))
 
     def subscribe_on_worker_model_change(self, callback_function):
         self.model_change_callbacks.append(callback_function)
@@ -29,12 +36,12 @@ class WorkerRepositoryImp(WorkerRepository):
 
     def save_worker(self, number_of_instances: int):
         data = json.dumps(
-            {"host": socket.gethostname(), "instances": number_of_instances})
+            {"host": self.host, "instances": number_of_instances})
 
         if self.zk_datasource.zk.exists(self.worker_path) is not None:
-            pass
+            self.zk_datasource.zk.set(self.worker_path, data.encode('utf-8'))
         else:
-            self.zk_datasource.zk.ensure_path(self.worker_path)
+            self.zk_datasource.zk.ensure_path(self.workers_path)
             self.zk_datasource.zk.create(self.worker_path, data.encode('utf-8'))
 
         try:

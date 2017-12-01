@@ -28,10 +28,10 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
     @login_required
     @expose()
     def index(self):
-        group_of_clusters, clusters_without_group = self.orchestation_interactor.get_clusters()
+        group_of_workers, workers_without_group = self.orchestation_interactor.get_group_workers()
         return self.render('ml_model_publisher/ml_model_publisher.html',
-                           group_of_clusters=group_of_clusters,
-                           clusters_without_group=clusters_without_group)
+                           group_of_workers=group_of_workers,
+                           workers_without_group=workers_without_group)
 
     @expose('/models', methods=('GET',))
     def models(self):
@@ -51,11 +51,11 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
     @login_required
     @roles_required('admin', )
     @expose('/change_group_model', methods=('POST',))
-    def change_model(self):
+    def change_group_model(self):
         group_name = request.form.get("group_name")
         model_id = request.form.get("model_id")
 
-        self.orchestation_interactor.load_model_by_group(group_name, model_id)
+        self.orchestation_interactor.load_model_on_group(group_name, model_id)
         return json.dumps({"go": url_for("mlmodelpublisherview.index")}), 200, {
             'ContentType': 'application/json'}
 
@@ -71,6 +71,6 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
         host_name = request.form.get("host_name")
         group = request.form.get("group")
 
-        self.orchestation_interactor.set_group_to_cluster(host_name, group)
+        self.orchestation_interactor.set_group_to_worker(host_name, group)
         return json.dumps({"go": url_for("mlmodelpublisherview.index")}), 200, {
             'ContentType': 'application/json'}
