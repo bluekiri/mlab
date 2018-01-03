@@ -39,7 +39,7 @@ class SaveModelModelLogEventImp(SaveModelLogEvent):
 
     def save_activate_model_by_group_event(self, model_name: str, model_id: str, host: List[str],
                                            group_name: str, is_system_event: bool, source_id: str):
-        log = self._get_empty_log_event(LogsTopics.new_model, model_name, model_id, is_system_event,
+        log = self._get_empty_log_event(LogsTopics.activate_model, model_name, model_id, is_system_event,
                                         source_id)
         log.data["host"] = host
         log.data["group"] = group_name
@@ -47,7 +47,7 @@ class SaveModelModelLogEventImp(SaveModelLogEvent):
 
     def save_activate_model_event(self, model_name: str, model_id: str, host: List[str],
                                   is_system_event: bool, source_id: str):
-        log = self._get_empty_log_event(LogsTopics.new_model, model_name, model_id, is_system_event,
+        log = self._get_empty_log_event(LogsTopics.activate_model, model_name, model_id, is_system_event,
                                         source_id)
         log.data["host"] = host
 

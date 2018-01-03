@@ -124,7 +124,7 @@ services:
       MLAB_MONGO_URI: "mlab_mongo"
       MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
       LDAP_URI: "***REMOVED***"
-#      DASHBOARD_WORKERS: ${VAR:=1} This parameter is defined on .env file by default...
+      DASHBOARD_WORKERS: 1
     depends_on:
       - mlab_api_server
 
