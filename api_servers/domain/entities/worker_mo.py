@@ -5,7 +5,7 @@ from mongoengine import *
 from api_servers.application.conf.config import MONGO_CONNECTION_URI
 from api_servers.domain.entities.model_mo import Model
 
-connect(host=MONGO_CONNECTION_URI, connect=False)
+connect(db=MONGO_DATABASE, host=MONGO_CONNECTION_URI, connect=False)
 
 
 class Worker(Document):

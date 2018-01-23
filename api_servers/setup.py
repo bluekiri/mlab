@@ -4,6 +4,10 @@ from setuptools import find_packages, setup
 from api_servers.application.conf.config import APP_NAME
 
 
+def get_requirements():
+    with open('requirements.txt') as fp:
+        return fp.readlines()
+
 def get_readme():
     readme = ''
     try:
@@ -25,10 +29,6 @@ setup(
     keywords='v5 mlab',
     url='',
     packages=find_packages(exclude=['tests', 'script']),
-    install_requires=[
-        'falcon==1.3.0',
-        'tox==2.8.2',
-        'virtualenv==15.1.0',
-        'json-logging-py==0.2', 'flask', 'yaml'
-    ]
+    install_requires= get_requirements()
+
 )

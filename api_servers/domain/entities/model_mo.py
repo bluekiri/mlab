@@ -3,9 +3,9 @@ import logging
 import dill as pkl
 from mongoengine import *
 
-from api_servers.application.conf.config import MONGO_CONNECTION_URI
+from api_servers.application.conf.config import MONGO_CONNECTION_URI, MONGO_DATABASE
 
-connect(host=MONGO_CONNECTION_URI, connect=False)
+connect(db=MONGO_DATABASE, host=MONGO_CONNECTION_URI, connect=False)
 logger = logging.getLogger()
 
 
