@@ -10,9 +10,8 @@ from dashboard_server.domain.interactor.messages.user_messaging import UserMessa
 
 
 class MessageView(BaseView):
-    def __init__(self, name, menu_icon_type, menu_icon_value, endpoint,
-                 message_repository: MessageRepository, user_messaging: UserMessaging,
-                 current_user: CurrentUser):
+    def __init__(self, name, menu_icon_type, menu_icon_value, endpoint, message_repository: MessageRepository,
+                 user_messaging: UserMessaging, current_user: CurrentUser):
         super().__init__(name=name, menu_icon_type=menu_icon_type,
                          menu_icon_value=menu_icon_value, endpoint=endpoint)
         self.current_user = current_user
