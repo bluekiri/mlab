@@ -24,7 +24,7 @@ setup(
     version='0.1.0',
     author='Oscar García Peinado',
     author_email='oscar.garcia@bluekiri.com',
-    description=('ML server skeleton'),
+    description=('ML server'),
     long_description=get_readme(),
     keywords='v5 mlab',
     url='',
