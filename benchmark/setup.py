@@ -20,7 +20,7 @@ setup(
     version='0.1.0',
     author='Oscar García Peinado',
     author_email='oscar.garcia@bluekiri.com',
-    description=('ML server skeleton'),
+    description=('Mlab benchmark server'),
     long_description=get_readme(),
     keywords='v5 mlab',
     url='',
@@ -29,6 +29,9 @@ setup(
         'falcon==1.3.0',
         'tox==2.8.2',
         'virtualenv==15.1.0',
-        'json-logging-py==0.2', 'flask', 'yaml'
+        'json-logging-py==0.2',
+        'yaml',
+        'pymongo==3.5.1',
+        'kazoo==2.4.0'
     ]
 )

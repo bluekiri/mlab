@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from benchmark.application.controllers.dummy_model_controller import DummyModelController
 from benchmark.application.controllers.monitor_controller import MonitorController
 from benchmark.domain.repositories.model_repository import ModelRepository
 from falcon import API
