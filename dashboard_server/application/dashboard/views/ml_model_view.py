@@ -1,11 +1,11 @@
 from flask_admin.contrib.mongoengine import ModelView
 from flask_security.core import current_user
 
-from dashboard_server.application.dashboard.views.util.view_roles_management import \
+from application.dashboard.views.util.view_roles_management import \
     ViewSecurityListeners
-from dashboard_server.domain.interactor.logs.save_model_log_event import SaveModelLogEvent
-from dashboard_server.domain.interactor.users.current_user import CurrentUser
-from dashboard_server.domain.repositories.model_repository import ModelRepository
+from domain.interactor.logs.save_model_log_event import SaveModelLogEvent
+from domain.interactor.users.current_user import CurrentUser
+from domain.repositories.model_repository import ModelRepository
 
 
 class MlModelView(ModelView, metaclass=ViewSecurityListeners):

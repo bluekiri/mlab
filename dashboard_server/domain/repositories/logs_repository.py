@@ -1,7 +1,7 @@
 # coding: utf-8
 from typing import List
 
-from dashboard_server.domain.entities.logs import Logs
+from domain.entities.logs import Logs
 
 
 class LogsRepository:

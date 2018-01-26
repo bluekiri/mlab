@@ -1,10 +1,10 @@
 # coding: utf-8
 from typing import List
 
-from dashboard_server.domain.entities.message import Message
-from dashboard_server.domain.interactor.messages.user_messaging import UserMessaging
-from dashboard_server.domain.interactor.users.current_user import CurrentUser
-from dashboard_server.domain.repositories.messages_repository import MessageRepository
+from domain.entities.message import Message
+from domain.interactor.messages.user_messaging import UserMessaging
+from domain.interactor.users.current_user import CurrentUser
+from domain.repositories.messages_repository import MessageRepository
 
 
 class UserMessagingImp(UserMessaging):

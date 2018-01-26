@@ -1,8 +1,8 @@
 # from web_service.models.auth.login_model import User
 #
 # from web_service.repositories.mongo_repository import get_mongo_connection
-from dashboard_server.application.repositories.mongo_repository import get_mongo_connection
-from dashboard_server.domain.entities.auth.login_model import User
+from application.repositories.mongo_repository import get_mongo_connection
+from domain.entities.auth.login_model import User
 
 db = get_mongo_connection()
 

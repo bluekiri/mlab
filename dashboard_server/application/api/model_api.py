@@ -2,8 +2,8 @@
 from flask import make_response
 from flask import request
 
-from dashboard_server.domain.interactor.mlmodel.create_ml_model import CreateMlModel
-from dashboard_server.domain.interactor.users.token_verification import TokenVerification
+from domain.interactor.mlmodel.create_ml_model import CreateMlModel
+from domain.interactor.users.token_verification import TokenVerification
 
 
 def register_model_methods(api, token_verification: TokenVerification,

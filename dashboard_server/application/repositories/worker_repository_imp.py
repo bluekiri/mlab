@@ -3,11 +3,11 @@ import datetime
 import json
 from typing import List
 
-from dashboard_server.application.conf.config import PROJECT
-from dashboard_server.application.datasource.zk_datasource_imp import ZKDatasourceImp
-from dashboard_server.domain.entities.worker_mo import Worker
-from dashboard_server.domain.repositories.model_repository import ModelRepository
-from dashboard_server.domain.repositories.worker_repository import WorkerRepository
+from application.conf.config import PROJECT
+from application.datasource.zk_datasource_imp import ZKDatasourceImp
+from domain.entities.worker_mo import Worker
+from domain.repositories.model_repository import ModelRepository
+from domain.repositories.worker_repository import WorkerRepository
 
 
 class WorkerRepositoryImp(WorkerRepository):

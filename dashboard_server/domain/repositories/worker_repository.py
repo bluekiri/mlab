@@ -1,7 +1,7 @@
 # coding: utf-8
 from typing import List
 
-from dashboard_server.domain.entities.worker_mo import Worker
+from domain.entities.worker_mo import Worker
 
 
 class WorkerRepository:

@@ -3,10 +3,10 @@ from typing import Dict
 
 import timeago
 
-from dashboard_server.domain.entities.worker_mo import Worker
-from dashboard_server.domain.interactor.orchestation.orchestation_interator import \
+from domain.entities.worker_mo import Worker
+from domain.interactor.orchestation.orchestation_interator import \
     OrchestationInteractor
-from dashboard_server.domain.repositories.worker_repository import WorkerRepository
+from domain.repositories.worker_repository import WorkerRepository
 
 
 class OrchestationInteractorImp(OrchestationInteractor):

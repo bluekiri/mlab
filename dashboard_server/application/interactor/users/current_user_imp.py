@@ -1,7 +1,7 @@
 # coding: utf-8
 from flask_login import current_user
 
-from dashboard_server.domain.interactor.users.current_user import CurrentUser
+from domain.interactor.users.current_user import CurrentUser
 
 
 class CurrentUserImp(CurrentUser):

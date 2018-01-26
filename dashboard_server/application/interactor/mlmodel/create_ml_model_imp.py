@@ -1,11 +1,11 @@
 # coding:utf-8
 from datetime import datetime
 
-from dashboard_server.domain.entities.ml_model import MlModel
-from dashboard_server.domain.interactor.logs.save_model_log_event import SaveModelLogEvent
-from dashboard_server.domain.interactor.messages.send_message import SendMessage
-from dashboard_server.domain.interactor.mlmodel.create_ml_model import CreateMlModel
-from dashboard_server.domain.repositories.model_repository import ModelRepository
+from domain.entities.ml_model import MlModel
+from domain.interactor.logs.save_model_log_event import SaveModelLogEvent
+from domain.interactor.messages.send_message import SendMessage
+from domain.interactor.mlmodel.create_ml_model import CreateMlModel
+from domain.repositories.model_repository import ModelRepository
 
 
 class CreateMlModelImp(CreateMlModel):

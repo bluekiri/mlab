@@ -1,6 +1,6 @@
 from ldap3 import Server, Connection, ALL_ATTRIBUTES, SIMPLE
 
-from dashboard_server.application.conf.config import *
+from application.conf.config import *
 
 
 def get_user_by_username_info(username):

@@ -1,7 +1,7 @@
 # coding:utf-8
 from typing import List
 
-from dashboard_server.domain.entities.message import Message
+from domain.entities.message import Message
 
 
 class UserMessaging:

@@ -1,7 +1,7 @@
 # coding: utf-8
 from flask_admin.contrib.mongoengine import ModelView
 
-from dashboard_server.domain.interactor.users.current_user import CurrentUser
+from domain.interactor.users.current_user import CurrentUser
 
 
 class LogsView(ModelView):

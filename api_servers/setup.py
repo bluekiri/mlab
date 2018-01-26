@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import find_packages, setup
 
-from api_servers.application.conf.config import APP_NAME
+from application.conf.config import APP_NAME
 
 
 def get_readme():

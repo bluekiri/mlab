@@ -1,5 +1,5 @@
 # coding: utf-8
-from dashboard_server.domain.entities.ml_model import MlModel
+from domain.entities.ml_model import MlModel
 
 
 class SendMessage:

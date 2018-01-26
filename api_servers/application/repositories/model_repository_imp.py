@@ -1,9 +1,9 @@
 # coding: utf-8
 import logging
 
-from api_servers.domain.entities.model_mo import Model
-from api_servers.domain.repositories.model_repository import ModelRepository
-from api_servers.domain.repositories.worker_repository import WorkerRepository
+from domain.entities.model_mo import Model
+from domain.repositories.model_repository import ModelRepository
+from domain.repositories.worker_repository import WorkerRepository
 
 
 class ModelRepositoryImp(ModelRepository):

@@ -2,7 +2,7 @@ from flask_admin import BaseView
 from flask_admin import expose
 from flask_login import login_required
 
-from dashboard_server.domain.interactor.logs.get_time_line_events import GetTimeLineEvents
+from domain.interactor.logs.get_time_line_events import GetTimeLineEvents
 
 
 class HomeView(BaseView):

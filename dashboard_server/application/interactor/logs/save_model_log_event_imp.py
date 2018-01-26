@@ -2,10 +2,10 @@
 import datetime
 from typing import List
 
-from dashboard_server.domain.entities.logs import Logs, LogsTopics
-from dashboard_server.domain.interactor.logs.save_model_log_event import SaveModelLogEvent
-from dashboard_server.domain.interactor.users.current_user import CurrentUser
-from dashboard_server.domain.repositories.logs_repository import LogsRepository
+from domain.entities.logs import Logs, LogsTopics
+from domain.interactor.logs.save_model_log_event import SaveModelLogEvent
+from domain.interactor.users.current_user import CurrentUser
+from domain.repositories.logs_repository import LogsRepository
 
 
 class SaveModelModelLogEventImp(SaveModelLogEvent):

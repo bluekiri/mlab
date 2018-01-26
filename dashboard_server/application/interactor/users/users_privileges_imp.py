@@ -1,5 +1,5 @@
 # coding: utf-8
-from dashboard_server.domain.interactor.users.users_privileges import UsersPrivileges
+from domain.interactor.users.users_privileges import UsersPrivileges
 
 
 class UsersPrivilegesImp(UsersPrivileges):

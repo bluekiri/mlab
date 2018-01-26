@@ -4,8 +4,8 @@ from enum import Enum
 
 from dateutil import tz
 
-from dashboard_server.application.repositories.mongo_repository import get_mongo_connection
-from dashboard_server.domain.entities.auth.login_model import User
+from application.repositories.mongo_repository import get_mongo_connection
+from domain.entities.auth.login_model import User
 
 db = get_mongo_connection()
 

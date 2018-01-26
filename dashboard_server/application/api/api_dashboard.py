@@ -1,8 +1,8 @@
 from flask import Blueprint
 
-from dashboard_server.application.api.model_api import register_model_methods
-from dashboard_server.domain.interactor.mlmodel.create_ml_model import CreateMlModel
-from dashboard_server.domain.interactor.users.token_verification import TokenVerification
+from application.api.model_api import register_model_methods
+from domain.interactor.mlmodel.create_ml_model import CreateMlModel
+from domain.interactor.users.token_verification import TokenVerification
 
 
 class ApiDashboard:

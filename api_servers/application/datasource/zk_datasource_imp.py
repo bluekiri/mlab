@@ -1,7 +1,7 @@
 # coding: utf-8
 from kazoo.client import KazooClient
 
-from api_servers.application.conf.config import ZOOKEEPER
+from application.conf.config import ZOOKEEPER
 
 
 class ZKDatasourceImp:

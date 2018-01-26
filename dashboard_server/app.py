@@ -9,29 +9,29 @@ from flask_security import MongoEngineUserDatastore
 from flask_security import Security
 
 from application.interactor.workers_obersable_imp import WorkersListenerEventImp
-from dashboard_server.application.api.api_dashboard import ApiDashboard
-from dashboard_server.application.dashboard.dashboard_initialize import Dashboard
-from dashboard_server.application.dashboard.views.forms.login_form import CustomLoginForm
-from dashboard_server.application.datasource.zk_datasource_imp import ZKDatasourceImp
-from dashboard_server.application.interactor.logs.get_time_line_events_imp import \
+from application.api.api_dashboard import ApiDashboard
+from application.dashboard.dashboard_initialize import Dashboard
+from application.dashboard.views.forms.login_form import CustomLoginForm
+from application.datasource.zk_datasource_imp import ZKDatasourceImp
+from application.interactor.logs.get_time_line_events_imp import \
     GetTimeLineEventsImp
-from dashboard_server.application.interactor.logs.save_model_log_event_imp import \
+from application.interactor.logs.save_model_log_event_imp import \
     SaveModelModelLogEventImp
-from dashboard_server.application.interactor.messages.send_message_imp import SendMessageImp
-from dashboard_server.application.interactor.mlmodel.create_ml_model_imp import CreateMlModelImp
-from dashboard_server.application.interactor.orchestation.orchestation_interactor_imp import \
+from application.interactor.messages.send_message_imp import SendMessageImp
+from application.interactor.mlmodel.create_ml_model_imp import CreateMlModelImp
+from application.interactor.orchestation.orchestation_interactor_imp import \
     OrchestationInteractorImp
-from dashboard_server.application.interactor.users.current_user_imp import CurrentUserImp
-from dashboard_server.application.interactor.users.token_verification import TokenVerificationImp
-from dashboard_server.application.interactor.users.user_messaging_imp import UserMessagingImp
-from dashboard_server.application.interactor.users.users_privileges_imp import UsersPrivilegesImp
-from dashboard_server.application.repositories.logs_repository_imp import LogsRepositoryImp
-from dashboard_server.application.repositories.message_repository_imp import MessageRepositoryImp
-from dashboard_server.application.repositories.model_repository_imp import ModelRepositoryImp
-from dashboard_server.application.repositories.mongo_repository import get_mongo_connection
-from dashboard_server.application.repositories.worker_repository_imp import WorkerRepositoryImp
-from dashboard_server.application.util import CONF_APPLICATION_PATH, CURRENT_APPLICATION_PATH
-from dashboard_server.domain.entities.auth.login_model import User, Role
+from application.interactor.users.current_user_imp import CurrentUserImp
+from application.interactor.users.token_verification import TokenVerificationImp
+from application.interactor.users.user_messaging_imp import UserMessagingImp
+from application.interactor.users.users_privileges_imp import UsersPrivilegesImp
+from application.repositories.logs_repository_imp import LogsRepositoryImp
+from application.repositories.message_repository_imp import MessageRepositoryImp
+from application.repositories.model_repository_imp import ModelRepositoryImp
+from application.repositories.mongo_repository import get_mongo_connection
+from application.repositories.worker_repository_imp import WorkerRepositoryImp
+from application.util import CONF_APPLICATION_PATH, CURRENT_APPLICATION_PATH
+from domain.entities.auth.login_model import User, Role
 
 
 def setup_logging(default_path=CONF_APPLICATION_PATH, default_level=logging.INFO,

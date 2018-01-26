@@ -1,6 +1,6 @@
 # coding: utf-8
-from dashboard_server.domain.entities.auth.api_token_model import Token
-from dashboard_server.domain.interactor.users.token_verification import TokenVerification
+from domain.entities.auth.api_token_model import Token
+from domain.interactor.users.token_verification import TokenVerification
 
 
 class TokenVerificationImp(TokenVerification):

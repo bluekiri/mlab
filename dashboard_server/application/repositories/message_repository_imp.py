@@ -1,8 +1,8 @@
 # coding: utf-8
 from typing import List
 
-from dashboard_server.domain.entities.message import *
-from dashboard_server.domain.repositories.messages_repository import MessageRepository
+from domain.entities.message import *
+from domain.repositories.messages_repository import MessageRepository
 
 
 class MessageRepositoryImp(MessageRepository):

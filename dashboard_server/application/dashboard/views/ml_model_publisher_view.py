@@ -7,12 +7,12 @@ from flask_admin import expose
 from flask_login import login_required
 from flask_security.decorators import roles_required
 
-from dashboard_server.application.dashboard.views.util.view_roles_management import \
+from application.dashboard.views.util.view_roles_management import \
     ViewSecurityListeners
-from dashboard_server.domain.entities.ml_model import MlModel
-from dashboard_server.domain.interactor.orchestation.orchestation_interator import \
+from domain.entities.ml_model import MlModel
+from domain.interactor.orchestation.orchestation_interator import \
     OrchestationInteractor
-from dashboard_server.domain.interactor.users.users_privileges import UsersPrivileges
+from domain.interactor.users.users_privileges import UsersPrivileges
 
 
 class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):

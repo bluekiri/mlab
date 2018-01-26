@@ -4,29 +4,29 @@ from flask import render_template
 from flask_security import logout_user
 from werkzeug.utils import redirect
 
-from dashboard_server.application.dashboard.views.api_token_view import ApiTokenView
-from dashboard_server.application.dashboard.views.home_view import HomeView
-from dashboard_server.application.dashboard.views.logs_view import LogsView
-from dashboard_server.application.dashboard.views.messages_view import MessageView
-from dashboard_server.application.dashboard.views.ml_model_publisher_view import \
+from application.dashboard.views.api_token_view import ApiTokenView
+from application.dashboard.views.home_view import HomeView
+from application.dashboard.views.logs_view import LogsView
+from application.dashboard.views.messages_view import MessageView
+from application.dashboard.views.ml_model_publisher_view import \
     MLModelPublisherView
-from dashboard_server.application.dashboard.views.ml_model_view import MlModelView
-from dashboard_server.application.dashboard.views.user_admin_view import UserAdmin, RoleAdmin
-from dashboard_server.domain.entities.auth.api_token_model import Token
-from dashboard_server.domain.entities.auth.login_model import User, Role
-from dashboard_server.domain.entities.logs import Logs
-from dashboard_server.domain.entities.ml_model import MlModel
-from dashboard_server.domain.interactor.logs.get_time_line_events import GetTimeLineEvents
-from dashboard_server.domain.interactor.logs.save_model_log_event import SaveModelLogEvent
-from dashboard_server.domain.interactor.messages.user_messaging import UserMessaging
-from dashboard_server.domain.interactor.orchestation.orchestation_interator import \
+from application.dashboard.views.ml_model_view import MlModelView
+from application.dashboard.views.user_admin_view import UserAdmin, RoleAdmin
+from domain.entities.auth.api_token_model import Token
+from domain.entities.auth.login_model import User, Role
+from domain.entities.logs import Logs
+from domain.entities.ml_model import MlModel
+from domain.interactor.logs.get_time_line_events import GetTimeLineEvents
+from domain.interactor.logs.save_model_log_event import SaveModelLogEvent
+from domain.interactor.messages.user_messaging import UserMessaging
+from domain.interactor.orchestation.orchestation_interator import \
     OrchestationInteractor
-from dashboard_server.domain.interactor.users.current_user import CurrentUser
-from dashboard_server.domain.interactor.users.users_privileges import UsersPrivileges
-from dashboard_server.domain.repositories.logs_repository import LogsRepository
-from dashboard_server.domain.repositories.messages_repository import MessageRepository
-from dashboard_server.domain.repositories.model_repository import ModelRepository
-from dashboard_server.domain.repositories.worker_repository import WorkerRepository
+from domain.interactor.users.current_user import CurrentUser
+from domain.interactor.users.users_privileges import UsersPrivileges
+from domain.repositories.logs_repository import LogsRepository
+from domain.repositories.messages_repository import MessageRepository
+from domain.repositories.model_repository import ModelRepository
+from domain.repositories.worker_repository import WorkerRepository
 
 
 class Dashboard:

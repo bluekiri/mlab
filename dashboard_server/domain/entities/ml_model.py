@@ -3,7 +3,7 @@ import datetime
 from bson import ObjectId
 from mongoengine import *
 
-from dashboard_server.application.repositories.mongo_repository import get_mongo_connection
+from application.repositories.mongo_repository import get_mongo_connection
 
 db = get_mongo_connection()
 

@@ -2,8 +2,8 @@
 import datetime
 from typing import List
 
-from dashboard_server.domain.entities.logs import Logs
-from dashboard_server.domain.repositories.logs_repository import LogsRepository
+from domain.entities.logs import Logs
+from domain.repositories.logs_repository import LogsRepository
 
 
 class LogsRepositoryImp(LogsRepository):

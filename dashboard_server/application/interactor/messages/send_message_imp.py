@@ -1,8 +1,8 @@
 # coding:utf-8
-from dashboard_server.domain.entities.message import Message, Topic, SubjectData
-from dashboard_server.domain.entities.ml_model import MlModel
-from dashboard_server.domain.interactor.messages.send_message import SendMessage
-from dashboard_server.domain.repositories.messages_repository import MessageRepository
+from domain.entities.message import Message, Topic, SubjectData
+from domain.entities.ml_model import MlModel
+from domain.interactor.messages.send_message import SendMessage
+from domain.repositories.messages_repository import MessageRepository
 
 
 class SendMessageImp(SendMessage):

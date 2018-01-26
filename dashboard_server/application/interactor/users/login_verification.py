@@ -1,8 +1,8 @@
 from mongoengine import Q
 
-from dashboard_server.application.repositories.ldap_repository import get_user_by_username_info, \
+from application.repositories.ldap_repository import get_user_by_username_info, \
     is_correct_pwd
-from dashboard_server.domain.entities.auth.login_model import User
+from domain.entities.auth.login_model import User
 
 
 # def is_valid_username(username):

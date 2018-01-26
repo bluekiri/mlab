@@ -3,7 +3,7 @@ import logging
 from flask_admin.base import AdminViewMeta
 from flask_security.core import current_user
 
-from dashboard_server.application.exceptions.role_listener_not_found_exception import \
+from application.exceptions.role_listener_not_found_exception import \
     RoleListenerNotFoundException
 
 

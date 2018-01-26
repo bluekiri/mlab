@@ -72,26 +72,17 @@ services:
       - mlab_mongo
 
   mlab_api_server:
-    build: api_servers
+    build:
+      context: api_servers
+      dockerfile: Dockerfile
     container_name: mlab_api_server
     environment:
-      MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/mlab?readPreference=primary"
+      DATABASE_NAME: "mlab"
+      MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/?readPreference=primary"
       MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
       WORKER_INSTANCES: 2
     ports:
       - "9090:9090"
-    depends_on:
-      - mlab_init_mongo
-    networks:
-      - nginx-proxy
-
-  mlab_api_server_2:
-    build: api_servers
-    container_name: mlab_api_server_2
-    environment:
-      MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/mlab?readPreference=primary"
-      MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
-      WORKER_INSTANCES: 2
     depends_on:
       - mlab_init_mongo
     networks:
@@ -113,7 +104,9 @@ services:
       - nginx-proxy
 
   mlab_dashboard:
-    build: dashboard_server
+    build:
+      context: dashboard_server
+      dockerfile: Dockerfile
     container_name: mlab_dashboard
     ports:
       - "5000:5000"
@@ -121,7 +114,7 @@ services:
       - nginx-proxy
     environment:
       DATABASE_NAME: "mlab"
-      MLAB_MONGO_URI: "mlab_mongo"
+      MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/?readPreference=primary"
       MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
       LDAP_URI: "***REMOVED***"
       DASHBOARD_WORKERS: 1

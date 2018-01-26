@@ -1,5 +1,5 @@
 # coding: utf-8
-from api_servers.application.controllers.base_model_controller import BaseModelController
+from application.controllers.base_model_controller import BaseModelController
 
 
 class DummyModelController(BaseModelController):

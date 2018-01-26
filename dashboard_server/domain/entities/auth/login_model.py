@@ -1,7 +1,7 @@
 from flask_security import RoleMixin
 from flask_security import UserMixin
 
-from dashboard_server.application.repositories.mongo_repository import get_mongo_connection
+from application.repositories.mongo_repository import get_mongo_connection
 
 db = get_mongo_connection()
 

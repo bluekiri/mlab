@@ -1,7 +1,7 @@
 # coding: utf-8
-from dashboard_server.domain.entities.logs import LogsTopics
-from dashboard_server.domain.repositories.logs_repository import LogsRepository
-from dashboard_server.domain.interactor.logs.get_time_line_events import GetTimeLineEvents
+from domain.entities.logs import LogsTopics
+from domain.repositories.logs_repository import LogsRepository
+from domain.interactor.logs.get_time_line_events import GetTimeLineEvents
 
 
 class GetTimeLineEventsImp(GetTimeLineEvents):

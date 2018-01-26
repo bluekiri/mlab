@@ -1,7 +1,7 @@
 # coding: utf-8
 from kazoo.client import KazooClient
 
-from dashboard_server.application.conf.config import zookeeper
+from application.conf.config import zookeeper
 
 
 class ZKDatasourceImp:

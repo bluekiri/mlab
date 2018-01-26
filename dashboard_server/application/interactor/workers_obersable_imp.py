@@ -1,8 +1,8 @@
 # coding: utf-8
 from typing import List
 
-from dashboard_server.domain.interactor.workers_listener_event import WorkersListenerEvent
-from dashboard_server.domain.repositories.worker_repository import WorkerRepository
+from domain.interactor.workers_listener_event import WorkersListenerEvent
+from domain.repositories.worker_repository import WorkerRepository
 
 
 class WorkersListenerEventImp(WorkersListenerEvent):
