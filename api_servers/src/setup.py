@@ -26,12 +26,19 @@ setup(
     url='',
     packages=find_packages(exclude=['tests', 'script']),
     install_requires=[
+        'dill==0.2.7.1',
         'falcon==1.3.0',
-        'tox==2.8.2',
-        'virtualenv==15.1.0',
+        'gunicorn==19.7.1',
         'json-logging-py==0.2',
-        'yaml',
+        'kazoo==2.4.0',
+        'mongoengine==0.14.3',
+        'pluggy==0.5.2',
+        'py==1.4.34',
         'pymongo==3.5.1',
-        'kazoo==2.4.0'
+        'python-mimeparse==1.6.0',
+        'PyYAML==3.12',
+        'six==1.11.0',
+        'tox==2.8.2',
+        'virtualenv==15.1.0'
     ]
 )

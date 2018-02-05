@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
+j  # -*- coding: utf-8 -*-
 from setuptools import find_packages, setup
 
-from api_servers.application.conf.config import APP_NAME
+from api_servers import APP_NAME
 
 
 def get_readme():
@@ -29,6 +29,8 @@ setup(
         'Babel==2.5.1',
         'blinker==1.4',
         'click==6.7',
+        'cycler==0.10.0',
+        'falcon==1.3.0',
         'Flask==0.12.2',
         'Flask-Admin==1.5.0',
         'Flask-BabelEx==0.9.3',
@@ -38,14 +40,18 @@ setup(
         'Flask-Principal==0.4.0',
         'Flask-Security==3.0.0',
         'Flask-WTF==0.14.2',
+        'gunicorn==19.7.1',
         'itsdangerous==0.24',
         'Jinja2==2.9.6',
+        'kazoo==2.4.0',
         'ldap3==2.3',
         'MarkupSafe==1.0',
         'mongoengine==0.14.3',
         'passlib==1.7.1',
         'pyasn1==0.3.7',
         'pymongo==3.5.1',
+        'pyparsing==2.2.0',
+        'python-dateutil==2.6.1',
         'pytz==2017.3',
         'PyYAML==3.12',
         'six==1.11.0',
