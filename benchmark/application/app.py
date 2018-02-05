@@ -6,12 +6,12 @@ from wsgiref import simple_server
 
 import falcon
 import yaml
-from benchmark.application.datasource.zk_datasource_imp import ZKDatasourceImp
-from benchmark.application.interactors.model_change_listener_imp import ModelChangeListenerImp
-from benchmark.application.register_routes import register_routes
-from benchmark.application.repositories.model_repository_imp import ModelRepositoryImp
-from benchmark.application.repositories.worker_repository_imp import WorkerRepositoryImp
-from benchmark.application.util import CURRENT_APPLICATION_PATH
+from application.datasource.zk_datasource_imp import ZKDatasourceImp
+from application.interactors.model_change_listener_imp import ModelChangeListenerImp
+from application.register_routes import register_routes
+from application.repositories.model_repository_imp import ModelRepositoryImp
+from application.repositories.worker_repository_imp import WorkerRepositoryImp
+from application.util import CURRENT_APPLICATION_PATH
 
 
 def setup_logging(default_path=CURRENT_APPLICATION_PATH, default_level=logging.INFO,
