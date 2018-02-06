@@ -1,6 +1,5 @@
 version: '3'
 
-
 services:
   mlab_zoo1:
       image: zookeeper
@@ -75,12 +74,17 @@ services:
     build:
       context: api_servers
       dockerfile: Dockerfile
+      args:
+        DATABASE_NAME: "mlab"
+        MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/?readPreference=primary"
+        MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
     container_name: mlab_api_server
     environment:
       DATABASE_NAME: "mlab"
       MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/?readPreference=primary"
       MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
       WORKER_INSTANCES: 2
+      PORT: 9090
     ports:
       - "9090:9090"
     depends_on:
@@ -107,6 +111,12 @@ services:
     build:
       context: dashboard_server
       dockerfile: Dockerfile
+      args:
+        DATABASE_NAME: "mlab"
+        MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/?readPreference=primary"
+        MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
+        LDAP_URI: "***REMOVED***"
+
     container_name: mlab_dashboard
     ports:
       - "5000:5000"
@@ -117,7 +127,8 @@ services:
       MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/?readPreference=primary"
       MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
       LDAP_URI: "***REMOVED***"
-      DASHBOARD_WORKERS: 1
+      WORKER_INSTANCES: 4
+      PORT: 5000
     depends_on:
       - mlab_api_server
 
