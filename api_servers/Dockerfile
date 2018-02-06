@@ -3,10 +3,9 @@ ARG DATABASE_NAME
 ARG MLAB_MONGO_URI
 ARG MLAB_ZOOKEEPER_URI
 ARG WORKER_INSTANCES
+ARG SERVICE_PORT
 
 ENV application_path /opt/api_servers
-ENV PYTHONPATH ${application_path}:/opt
-
 WORKDIR ${application_path}
 
 COPY . .

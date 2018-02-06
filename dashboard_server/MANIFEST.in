@@ -1,0 +1,4 @@
+include src/dashboard_server/application/conf/logging.yaml
+recursive-include src/dashboard_server/application/assets *
+recursive-include src/dashboard_server/application/dashboard/static  *
+recursive-include src/dashboard_server/application/dashboard/templates  *

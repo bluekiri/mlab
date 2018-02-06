@@ -7,6 +7,7 @@ from wsgiref import simple_server
 import falcon
 import yaml
 
+from api_servers.application.conf.config import SERVICE_PORT
 from api_servers.application.datasource.zk_datasource_imp import ZKDatasourceImp
 from api_servers.application.interactors.model_change_listener_imp import ModelChangeListenerImp
 from api_servers.application.register_routes import register_routes
@@ -51,5 +52,5 @@ register_routes(app, model_repository)
 logger.info("Server loaded")
 
 if __name__ == "__main__":
-    httpd = simple_server.make_server('0.0.0.0', 9090, app)
+    httpd = simple_server.make_server('0.0.0.0', SERVICE_PORT, app)
     httpd.serve_forever()

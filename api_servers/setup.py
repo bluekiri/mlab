@@ -23,10 +23,9 @@ def read(*names, **kwargs):
 setup(
     name='ml.api.server',
     version='0.1.0',
-
     author='Oscar García Peinado',
     author_email='oscar.garcia@bluekiri.com',
-    description=('ML api server module will be used in order to response the client model request.'),
+    description=('Mlab api server module will be used in order to response the client model request.'),
     long_description='%s\n%s' % (
         re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.md')),
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
@@ -34,9 +33,6 @@ setup(
     zip_safe=False,
     url='',
     include_package_data=True,
-    package_data={
-        'api_servers': ['application/assets/*', 'application/conf/*.yaml'],
-    },
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
     package_dir={'': 'src'},
     packages=find_packages('src'),

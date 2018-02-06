@@ -1,32 +1,44 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
+from __future__ import absolute_import
+from __future__ import print_function
+
 from setuptools import find_packages, setup
+import io
+import re
+import glob
+from os.path import basename
+from os.path import dirname
+from os.path import join
+from os.path import splitext
 
-from src.application.conf.config import APP_NAME
 
-
-def get_readme():
-    readme = ''
-    try:
-        import pypandoc
-        readme = pypandoc.convert('README.md', 'rst')
-    except (ImportError, IOError):
-        with open('README.md', 'r') as file_data:
-            readme = file_data.read()
-    return readme
+def read(*names, **kwargs):
+    return io.open(
+        join(dirname(__file__), *names),
+        encoding=kwargs.get('encoding', 'utf8')
+    ).read()
 
 
 setup(
-    name=APP_NAME,
+    name='ml.dashboard.server',
     version='1.0.0',
     author='Oscar García Peinado',
     author_email='oscar.garcia@bluekiri.com',
-    description='Mlab dashboard ',
-    long_description=get_readme(),
-    keywords='v5 mlab',
-    package_dir={'dashboard_server': 'src'},
-    include_package_data=True,
+    description='Mlab dashboard',
+    long_description='%s\n%s' % (
+        re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.md')),
+        re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
+    ),
     url='',
-    packages=find_packages(exclude=['tests', 'script']),
+    zip_safe=False,
+    include_package_data=True,
+    py_modules=[splitext(basename(path))[0] for path in glob.glob('src/*.py')],
+    package_dir={'': 'src'},
+    packages=find_packages('src'),
+    classifiers=['Programming Language :: Python :: 3.5',
+                 'Operating System :: Unix',
+                 ],
     install_requires=[
         'Babel==2.5.1',
         'blinker==1.4',
