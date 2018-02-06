@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from application.controllers.monitor_controller import MonitorController
+from api_server.application.controllers.monitor_controller import MonitorController
 from domain.repositories.model_repository import ModelRepository
 from falcon import API
 

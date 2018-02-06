@@ -2,8 +2,8 @@ import datetime
 
 from mongoengine import *
 
-from application.conf.config import MONGO_CONNECTION_URI
-from domain.entities.model_mo import Model
+from api_servers.application.conf.config import MONGO_CONNECTION_URI
+from api_servers.domain.entities.model_mo import Model
 
 connect(host=MONGO_CONNECTION_URI, connect=False)
 

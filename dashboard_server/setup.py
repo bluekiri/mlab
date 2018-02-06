@@ -1,7 +1,7 @@
-j  # -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from setuptools import find_packages, setup
 
-from api_servers import APP_NAME
+from src.application.conf.config import APP_NAME
 
 
 def get_readme():
@@ -20,9 +20,11 @@ setup(
     version='1.0.0',
     author='Oscar García Peinado',
     author_email='oscar.garcia@bluekiri.com',
-    description='ML dashboard skeleton',
+    description='Mlab dashboard ',
     long_description=get_readme(),
     keywords='v5 mlab',
+    package_dir={'dashboard_server': 'src'},
+    include_package_data=True,
     url='',
     packages=find_packages(exclude=['tests', 'script']),
     install_requires=[

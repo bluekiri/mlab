@@ -1,5 +1,5 @@
 # coding: utf-8
-from domain.entities.model_mo import Model
+from api_servers.domain.entities.model_mo import Model
 
 
 class ModelRepository:

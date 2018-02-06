@@ -42,7 +42,7 @@ SECURITY_LOGIN_URL = "/users/"
 SECURITY_POST_LOGIN_VIEW = flask_uri_prefix + "/"
 SECURITY_POST_LOGOUT_VIEW = flask_uri_prefix + "/"
 
-from application.repositories.mongo_repository import get_concat_mongo_uri
+from src.application.repositories.mongo_repository import get_concat_mongo_uri
 
 mongo_uri_with_database = get_concat_mongo_uri(mongo_database, mongo_connection_uri)
 

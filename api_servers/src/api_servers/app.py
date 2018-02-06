@@ -7,12 +7,12 @@ from wsgiref import simple_server
 import falcon
 import yaml
 
-from application.datasource.zk_datasource_imp import ZKDatasourceImp
-from application.interactors.model_change_listener_imp import ModelChangeListenerImp
-from application.register_routes import register_routes
-from application.repositories.model_repository_imp import ModelRepositoryImp
-from application.repositories.worker_repository_imp import WorkerRepositoryImp
-from application.util import CURRENT_APPLICATION_PATH, ASSETS_APPLICATION_PATH
+from api_servers.application.datasource.zk_datasource_imp import ZKDatasourceImp
+from api_servers.application.interactors.model_change_listener_imp import ModelChangeListenerImp
+from api_servers.application.register_routes import register_routes
+from api_servers.application.repositories.model_repository_imp import ModelRepositoryImp
+from api_servers.application.repositories.worker_repository_imp import WorkerRepositoryImp
+from api_servers.application.util import CURRENT_APPLICATION_PATH, ASSETS_APPLICATION_PATH
 
 
 def setup_logging(default_path=CURRENT_APPLICATION_PATH, default_level=logging.INFO,
@@ -41,15 +41,15 @@ model_change_listener = ModelChangeListenerImp(model_repository, worker_reposito
 logger.info(open(ASSETS_APPLICATION_PATH + '/title.txt', 'r').read())
 logger.info("Starting loading server configuration...")
 
-api = falcon.API()
+app = falcon.API()
 
 worker_repository.initialize_event_listener()
 model_change_listener.run()
 
-register_routes(api, model_repository)
+register_routes(app, model_repository)
 
 logger.info("Server loaded")
 
 if __name__ == "__main__":
-    httpd = simple_server.make_server('0.0.0.0', 9090, api)
+    httpd = simple_server.make_server('0.0.0.0', 9090, app)
     httpd.serve_forever()

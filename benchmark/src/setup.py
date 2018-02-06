@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from setuptools import find_packages, setup
 
-from application.conf.config import APP_NAME
+from api_server.application.conf.config import APP_NAME
 
 
 def get_readme():
@@ -20,7 +20,7 @@ setup(
     version='0.1.0',
     author='Oscar García Peinado',
     author_email='oscar.garcia@bluekiri.com',
-    description=('ML server'),
+    description=('ML benchmark server'),
     long_description=get_readme(),
     keywords='v5 mlab',
     url='',
