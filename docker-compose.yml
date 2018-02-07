@@ -62,23 +62,24 @@ services:
       DATABASE_MAME: "mlab"
       MLAB_MONGO_HOST: mlab_mongo
     volumes:
-      - ./script/:/var/tmp
-      - ./asserts/mlab/:/var/tmp/mlab
+      - ./bin/:/var/tmp
+      - ./var/asserts/mlab/:/var/tmp/mlab
     command: [./wait-for-mongo.sh]
     networks:
       - nginx-proxy
     depends_on:
       - mlab_mongo
 
-  mlab_api_server:
+  mlab_worker:
     build:
-      context: api_servers
+      context: worker
       dockerfile: Dockerfile
       args:
         DATABASE_NAME: "mlab"
         MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/?readPreference=primary"
         MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
-    container_name: mlab_api_server
+        PORT: 9090
+    container_name: mlab_worker
     environment:
       DATABASE_NAME: "mlab"
       MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/?readPreference=primary"
@@ -95,27 +96,30 @@ services:
   mlab_nginx:
     image: nginx:latest
     container_name: mlab_nginx
+    environment:
+      WORKER_URI: "http://mlab_worker:9090"
     depends_on:
-      - mlab_api_server
+      - mlab_worker
     expose:
       - "80"
     ports:
       - "80:80"
     volumes:
-      - ./api_servers/nginx:/etc/nginx/conf.d
-      - ./api_servers/swagger:/usr/share/nginx/html
+      - ./worker/etc/nginx:/etc/nginx/conf.d
+      - ./worker/var/swagger:/usr/share/nginx/html
     networks:
       - nginx-proxy
 
   mlab_dashboard:
     build:
-      context: dashboard_server
+      context: dashboard
       dockerfile: Dockerfile
       args:
         DATABASE_NAME: "mlab"
         MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/?readPreference=primary"
         MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
         LDAP_URI: "***REMOVED***"
+        PORT: 5000
 
     container_name: mlab_dashboard
     ports:
@@ -130,7 +134,7 @@ services:
       WORKER_INSTANCES: 4
       PORT: 5000
     depends_on:
-      - mlab_api_server
+      - mlab_worker
 
 networks:
   nginx-proxy:

@@ -2,8 +2,6 @@
 .swagger-codegen-ignore
 README.md
 tox.ini
-api_server/test-requirements.txt
-api_server/hbp_api_setup.py
 .idea
 
 # Byte-compiled / optimized / DLL files

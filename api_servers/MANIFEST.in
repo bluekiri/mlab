@@ -1,2 +1,0 @@
-include src/api_servers/application/conf/logging.yaml
-recursive-include src/api_servers/application/assets * 

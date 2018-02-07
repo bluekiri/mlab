@@ -1,5 +1,5 @@
 # coding: utf-8
-from api_server.application.repositories.model_repository import ModelRepository
+from domain.repositories.model_repository import ModelRepository
 
 
 class BaseModelController:

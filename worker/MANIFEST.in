@@ -1,0 +1,3 @@
+include src/worker/application/conf/logging.yaml
+recursive-include src/worker/application/assets *
+prune src/worker/tests

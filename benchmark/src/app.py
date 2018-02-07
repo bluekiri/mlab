@@ -6,12 +6,14 @@ from wsgiref import simple_server
 
 import falcon
 import yaml
-from api_server.application.datasource.zk_datasource_imp import ZKDatasourceImp
-from api_server.application.interactors.model_change_listener_imp import ModelChangeListenerImp
-from api_server.application.register_routes import register_routes
-from api_server.application.repositories.model_repository_imp import ModelRepositoryImp
-from api_server.application.repositories.worker_repository_imp import WorkerRepositoryImp
-from api_server.application.util import CURRENT_APPLICATION_PATH
+from application.datasource.zk_datasource_imp import ZKDatasourceImp
+from application.interactors.model_change_listener_imp import ModelChangeListenerImp
+from application.register_routes import register_routes
+from application.repositories.model_repository_imp import ModelRepositoryImp
+from application.repositories.worker_repository_imp import WorkerRepositoryImp
+from application.util import CURRENT_APPLICATION_PATH
+
+from application.conf.config import SERVICE_PORT
 
 
 def setup_logging(default_path=CURRENT_APPLICATION_PATH, default_level=logging.INFO,
@@ -50,5 +52,5 @@ register_routes(api, model_repository)
 logger.info("Benchmark Server loaded")
 
 if __name__ == "__main__":
-    httpd = simple_server.make_server('0.0.0.0', 8080, api)
+    httpd = simple_server.make_server('0.0.0.0', SERVICE_PORT, api)
     httpd.serve_forever()
