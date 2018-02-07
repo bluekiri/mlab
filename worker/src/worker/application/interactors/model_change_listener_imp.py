@@ -1,9 +1,9 @@
 # coding: utf-8
 import logging
 
-from worker.domain.interactors.model_change_listener import ModelChangeListener
-from worker.domain.repositories.model_repository import ModelRepository
-from worker.domain.repositories.worker_repository import WorkerRepository
+from ...domain.interactors.model_change_listener import ModelChangeListener
+from ...domain.repositories.model_repository import ModelRepository
+from ...domain.repositories.worker_repository import WorkerRepository
 
 
 class ModelChangeListenerImp(ModelChangeListener):

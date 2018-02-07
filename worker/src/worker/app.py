@@ -8,13 +8,13 @@ from wsgiref import simple_server
 import falcon
 import yaml
 
-from worker.application.conf.config import SERVICE_PORT
-from worker.application.datasource.zk_datasource_imp import ZKDatasourceImp
-from worker.application.interactors.model_change_listener_imp import ModelChangeListenerImp
-from worker.application.register_routes import register_routes
-from worker.application.repositories.model_repository_imp import ModelRepositoryImp
-from worker.application.repositories.worker_repository_imp import WorkerRepositoryImp
-from worker.application.util import CURRENT_APPLICATION_PATH, ASSETS_APPLICATION_PATH
+from .application.conf.config import SERVICE_PORT
+from .application.datasource.zk_datasource_imp import ZKDatasourceImp
+from .application.interactors.model_change_listener_imp import ModelChangeListenerImp
+from .application.register_routes import register_routes
+from .application.repositories.model_repository_imp import ModelRepositoryImp
+from .application.repositories.worker_repository_imp import WorkerRepositoryImp
+from .application.util import CURRENT_APPLICATION_PATH, ASSETS_APPLICATION_PATH
 
 
 def setup_logging(default_path=CURRENT_APPLICATION_PATH, default_level=logging.INFO,

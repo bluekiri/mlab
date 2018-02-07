@@ -4,8 +4,8 @@ import logging
 import socket
 from datetime import datetime
 
-from worker.domain.repositories.worker_repository import WorkerRepository
-from worker.application.conf.config import PROJECT
+from ...domain.repositories.worker_repository import WorkerRepository
+from ...application.conf.config import PROJECT
 
 
 class WorkerRepositoryImp(WorkerRepository):

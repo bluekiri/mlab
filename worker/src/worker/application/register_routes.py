@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from falcon import API
 
-from src.application.controllers.monitor_controller import MonitorController
-from worker.application.controllers.dummy_model_controller import DummyModelController
-from worker.domain.repositories.model_repository import ModelRepository
+from ..application.controllers.monitor_controller import MonitorController
+from ..application.controllers.dummy_model_controller import DummyModelController
+from ..domain.repositories.model_repository import ModelRepository
 
 
 def register_routes(falcon_api: API, model_repository: ModelRepository):
