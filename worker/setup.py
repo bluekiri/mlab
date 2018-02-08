@@ -29,11 +29,11 @@ setup(
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
     ),
     url='',
+    zip_safe=False,
+    include_package_data=True,
     packages=find_packages('src', exclude=['tests', 'tests.*']),
     package_dir={'': 'src'},
     py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
-    include_package_data=True,
-    zip_safe=False,
     classifiers=[
         'Programming Language :: Python :: 3.5.2',
         'Operating System :: Unix',

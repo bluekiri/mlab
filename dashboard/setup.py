@@ -31,12 +31,9 @@ setup(
     url='',
     zip_safe=False,
     include_package_data=True,
-    py_modules=[splitext(basename(path))[0] for path in glob.glob('src/*.py')],
     packages=find_packages('src', exclude=("tests", "tests.*")),
-    package_dir={
-        '': 'src/'
-    },
-
+    package_dir={'': 'src'},
+    py_modules=[splitext(basename(path))[0] for path in glob.glob('src/*.py')],
     classifiers=[
         'Programming Language :: Python :: 3.5.2',
         'Operating System :: Unix',
