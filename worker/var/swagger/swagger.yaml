@@ -1,0 +1,41 @@
+swagger: '2.0'
+info:
+  description: Mlab Api
+  version: 1.0.0
+  title: Mlab api
+  termsOfService: No terms
+  contact:
+    email: oscar.garcia@bluekiri.com
+basePath: /api
+tags:
+  - name: Monitordoc
+    description: 'Check the api health and information about the current api status'
+  - name: Model
+    description: 'Mlab mlmodel example'
+schemes:
+  - http
+paths:
+  '/hc':
+    get:
+      operationId: health_check
+      summary: heatlh check
+      tags:
+        - Monitor
+      description: Monitor
+      responses:
+        200:
+          description: OK
+  '/mlmodel':
+    get:
+      operationId: mlmodel
+      summary: mlmodel example
+      tags:
+        - Model
+      responses:
+        200:
+          description: OK
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: api_key
+    in: header
