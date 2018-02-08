@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
 
 import logging.config
 import os
@@ -8,13 +7,13 @@ from wsgiref import simple_server
 import falcon
 import yaml
 
-from .application.conf.config import SERVICE_PORT
-from .application.datasource.zk_datasource_imp import ZKDatasourceImp
-from .application.interactors.model_change_listener_imp import ModelChangeListenerImp
-from .application.register_routes import register_routes
-from .application.repositories.model_repository_imp import ModelRepositoryImp
-from .application.repositories.worker_repository_imp import WorkerRepositoryImp
-from .application.util import CURRENT_APPLICATION_PATH, ASSETS_APPLICATION_PATH
+from worker.application.conf.config import SERVICE_PORT
+from worker.application.datasource.zk_datasource_imp import ZKDatasourceImp
+from worker.application.interactors.model_change_listener_imp import ModelChangeListenerImp
+from worker.application.register_routes import register_routes
+from worker.application.repositories.model_repository_imp import ModelRepositoryImp
+from worker.application.repositories.worker_repository_imp import WorkerRepositoryImp
+from worker.application.util import CURRENT_APPLICATION_PATH, ASSETS_APPLICATION_PATH
 
 
 def setup_logging(default_path=CURRENT_APPLICATION_PATH, default_level=logging.INFO,
@@ -52,6 +51,11 @@ register_routes(app, model_repository)
 
 logger.info("Server loaded")
 
-if __name__ == "__main__":
-    httpd = simple_server.make_server('0.0.0.0', SERVICE_PORT, app)
+
+def run():
+    httpd = simple_server.make_server('0.0.0.0', int(SERVICE_PORT), app)
     httpd.serve_forever()
+
+
+if __name__ == "__main__":
+    run()

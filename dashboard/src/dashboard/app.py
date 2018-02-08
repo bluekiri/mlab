@@ -111,4 +111,4 @@ app.register_blueprint(api_dashboard.get_blueprint())
 
 if __name__ == '__main__':
     # Start app
-    app.run(debug=True, host='0.0.0.0', port=SERVICE_PORT)
+    app.run(debug=True, host='0.0.0.0', port=int(SERVICE_PORT))

@@ -1,5 +1,5 @@
-from ...application.datasource.zk_datasource_imp import ZKDatasourceImp
-from ...application.repositories.worker_repository_imp import WorkerRepositoryImp
+from worker.application.datasource.zk_datasource_imp import ZKDatasourceImp
+from worker.application.repositories.worker_repository_imp import WorkerRepositoryImp
 
 timeout = 90
 graceful_timeout = 60

@@ -29,4 +29,4 @@ def register_model_methods(api, token_verification: TokenVerification,
         return make_response('Ok', 200)
 
     def _is_valid_request_model():
-        return 'token' in request.args and 'file' in request.files and 'name' in request.form
+        return 'token' in request.args and 'file' in request.files and 'name' in request.form and 'score' in request.form

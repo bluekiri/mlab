@@ -4,8 +4,11 @@
 from setuptools import setup, find_packages
 import io
 import re
+from glob import glob
+from os.path import basename
 from os.path import dirname
 from os.path import join
+from os.path import splitext
 
 
 def read(*names, **kwargs):
@@ -15,10 +18,8 @@ def read(*names, **kwargs):
     ).read()
 
 
-project_name = 'mlab'
-module_name = project_name + '_worker'
 setup(
-    name=module_name,
+    name='worker',
     version='1.0.0',
     author='Oscar García Peinado',
     author_email='oscar.garcia@bluekiri.com',
@@ -27,14 +28,12 @@ setup(
         re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.md')),
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
     ),
-    zip_safe=False,
     url='',
+    packages=find_packages('src', exclude=['tests', 'tests.*']),
+    package_dir={'': 'src'},
+    py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
     include_package_data=True,
-    packages=[project_name + '_' + x for x in find_packages('src', exclude=("tests", "tests.*"))],
-    package_dir={
-        'worker': 'src/worker',
-        module_name: 'src/worker',
-    },
+    zip_safe=False,
     classifiers=[
         'Programming Language :: Python :: 3.5.2',
         'Operating System :: Unix',

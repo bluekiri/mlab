@@ -13,4 +13,4 @@ COPY . .
 
 RUN pip install .
 EXPOSE ${PORT}
-ENTRYPOINT gunicorn -t 300 -b 0.0.0.0: ${PORT}  -w ${WORKER_INSTANCES} mlab_dashboard.app:app
+ENTRYPOINT gunicorn -t 300 -w ${WORKER_INSTANCES} -b 0.0.0.0:${PORT} dashboard.app:app

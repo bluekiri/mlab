@@ -1,5 +1,5 @@
-include src/application/conf/logging.yaml
-recursive-include src/application/assets *
-recursive-include src/application/dashboard/static  *
-recursive-include src/application/dashboard/templates  *
+include src/dashboard/application/conf/logging.yaml
+recursive-include src/dashboard/application/assets *
+recursive-include src/dashboard/application/dashboard/static  *
+recursive-include src/dashboard/application/dashboard/templates  *
 prune src/tests

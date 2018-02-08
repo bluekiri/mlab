@@ -4,8 +4,11 @@
 from setuptools import find_packages, setup
 import io
 import re
-from os.path import dirname
+import glob
 from os.path import join
+from os.path import dirname
+from os.path import splitext
+from os.path import basename
 
 
 def read(*names, **kwargs):
@@ -15,10 +18,8 @@ def read(*names, **kwargs):
     ).read()
 
 
-project_name = 'mlab'
-module_name = project_name + '_dashboard'
 setup(
-    name=module_name,
+    name='dashboard',
     version='1.0.0',
     author='Oscar García Peinado',
     author_email='oscar.garcia@bluekiri.com',
@@ -30,10 +31,12 @@ setup(
     url='',
     zip_safe=False,
     include_package_data=True,
-    packages=[project_name + '_' + x for x in find_packages('src', exclude=("tests", "tests.*"))],
+    py_modules=[splitext(basename(path))[0] for path in glob.glob('src/*.py')],
+    packages=find_packages('src', exclude=("tests", "tests.*")),
     package_dir={
-        module_name: 'src/dashboard/'
+        '': 'src/'
     },
+
     classifiers=[
         'Programming Language :: Python :: 3.5.2',
         'Operating System :: Unix',
