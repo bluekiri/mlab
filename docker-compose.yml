@@ -96,8 +96,6 @@ services:
   mlab_nginx:
     image: nginx:latest
     container_name: mlab_nginx
-    environment:
-      WORKER_URI: "http://mlab_worker:9090"
     depends_on:
       - mlab_worker
     expose:
