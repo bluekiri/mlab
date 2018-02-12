@@ -2,4 +2,6 @@ include src/dashboard/application/conf/logging.yaml
 recursive-include src/dashboard/application/assets *
 recursive-include src/dashboard/application/dashboard/static  *
 recursive-include src/dashboard/application/dashboard/templates  *
+recursive-include src/dashboard/static *
 prune src/tests
+
