@@ -26,6 +26,8 @@
             margin: 0;
             background: #fafafa;
         }
+
+
     </style>
 </head>
 
@@ -74,7 +76,7 @@
 
         // Build a system
         const ui = SwaggerUIBundle({
-            url: "/swagger.yaml",
+            url: "/static/swagger/swagger.yaml",
             dom_id: '#swagger-ui',
             deepLinking: true,
             presets: [
@@ -89,6 +91,8 @@
 
         window.ui = ui
     }
+
+
 </script>
 </body>
 

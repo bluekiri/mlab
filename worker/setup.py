@@ -40,7 +40,7 @@ setup(
     ],
     install_requires=[
         'dill==0.2.7.1',
-        'falcon==1.3.0',
+        'falcon==1.4.1',
         'gunicorn==19.7.1',
         'json-logging-py==0.2',
         'kazoo==2.4.0',

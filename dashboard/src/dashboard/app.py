@@ -31,7 +31,7 @@ from dashboard.application.repositories.message_repository_imp import MessageRep
 from dashboard.application.repositories.model_repository_imp import ModelRepositoryImp
 from dashboard.application.repositories.mongo_repository import get_mongo_connection
 from dashboard.application.repositories.worker_repository_imp import WorkerRepositoryImp
-from dashboard.application.util import CONF_APPLICATION_PATH, CURRENT_APPLICATION_PATH
+from dashboard.application.util import CONF_APPLICATION_PATH, CURRENT_APPLICATION_PATH, STATIC_APPLICATION_PATH
 from dashboard.domain.entities.auth.login_model import User, Role
 
 
@@ -53,7 +53,7 @@ def setup_logging(default_path=CONF_APPLICATION_PATH, default_level=logging.INFO
 app = Flask(__name__)
 app.config.from_pyfile(os.path.join(CONF_APPLICATION_PATH, 'config.py'))
 app.template_folder = CURRENT_APPLICATION_PATH + "/dashboard/templates"
-app.static_folder = CURRENT_APPLICATION_PATH + "/dashboard/static"
+app.static_folder = STATIC_APPLICATION_PATH
 
 # MongoDB settings
 db = get_mongo_connection()

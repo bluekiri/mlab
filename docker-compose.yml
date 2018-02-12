@@ -93,20 +93,19 @@ services:
     networks:
       - nginx-proxy
 
-  mlab_nginx:
-    image: nginx:latest
-    container_name: mlab_nginx
-    depends_on:
-      - mlab_worker
-    expose:
-      - "80"
-    ports:
-      - "80:80"
-    volumes:
-      - ./worker/etc/nginx:/etc/nginx/conf.d
-      - ./worker/var/swagger:/usr/share/nginx/html
-    networks:
-      - nginx-proxy
+#  mlab_nginx:
+#    image: nginx:latest
+#    container_name: mlab_nginx
+#    depends_on:
+#      - mlab_worker
+#    expose:
+#      - "80"
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - ./worker/etc/nginx:/etc/nginx/conf.d
+#    networks:
+#      - nginx-proxy
 
   mlab_dashboard:
     build:
