@@ -41,13 +41,15 @@ class ModelRepositoryImp(ModelRepository):
         if model is None:
             return False
         if (
-                        self.singleton_current_model is None or model.pk != self.singleton_current_model.pk) and not self.loading_model:
+                self.singleton_current_model is None or model.pk != self.singleton_current_model.pk) and not self.loading_model:
             self.logger.info("New mlmodel found (%s)" % model.name)
             model_found = Model.objects(pk=model.pk).first()
             self.loading_model = True
             try:
                 model_found.get_model_instance()
                 self.singleton_current_model = model_found
+            except Exception as e:
+                self.logger.error("Error loading (%s)" % model.name, e)
             finally:
                 self.loading_model = False
             self.logger.info("New mlmodel loaded (%s)" % model.name)

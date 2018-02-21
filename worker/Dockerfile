@@ -13,4 +13,4 @@ COPY . .
 RUN pip install .
 
 EXPOSE ${PORT}
-ENTRYPOINT gunicorn -b 0.0.0.0:${PORT} -w ${WORKER_INSTANCES} --config=python:worker.application.conf.config worker.app:app
+ENTRYPOINT gunicorn -b 0.0.0.0:${PORT} -w ${WORKER_INSTANCES} --config=python:worker.application.conf.gunicorn_conf worker.app:app
