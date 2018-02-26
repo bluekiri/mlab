@@ -9,11 +9,13 @@ import yaml
 
 from worker.application.conf.config import SERVICE_PORT
 from worker.application.datasource.zk_datasource_imp import ZKDatasourceImp
+from worker.application.interactors.send_mail_imp import SendMailImp
 from worker.application.interactors.get_current_model import GetCurrentModelImp
 from worker.application.interactors.model_change_listener_imp import ModelChangeListenerImp
 from worker.application.register_routes import register_routes
 from worker.application.repositories.logs_repository_imp import LogsRepositoryImp
 from worker.application.repositories.model_repository_imp import ModelRepositoryImp
+from worker.application.repositories.user_repository_imp import UserRepositoryImp
 from worker.application.repositories.worker_repository_imp import WorkerRepositoryImp
 from worker.application.util import CURRENT_APPLICATION_PATH, ASSETS_APPLICATION_PATH
 
@@ -40,8 +42,10 @@ zk_datasource = ZKDatasourceImp()
 logs_repository = LogsRepositoryImp()
 worker_repository = WorkerRepositoryImp(zk_datasource)
 model_repository = ModelRepositoryImp(worker_repository)
-get_current_model = GetCurrentModelImp(logs_repository, worker_repository, model_repository)
+user_repository = UserRepositoryImp()
 
+send_mail = SendMailImp(user_repository)
+get_current_model = GetCurrentModelImp(logs_repository, worker_repository, model_repository, send_mail)
 model_change_listener = ModelChangeListenerImp(model_repository, worker_repository, logs_repository)
 
 logger.info(open(ASSETS_APPLICATION_PATH + '/title.txt', 'r').read())

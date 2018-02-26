@@ -1,4 +1,5 @@
 from worker.domain.entities.logs_mo import Logs, LogsTopics
+from worker.domain.interactors.send_mail import SendMail
 from worker.domain.repositories.model_repository import ModelRepository
 from worker.domain.interactors.get_current_model import GetCurrentModel
 from worker.domain.repositories.logs_repository import LogsRepository
@@ -7,7 +8,8 @@ from worker.domain.repositories.worker_repository import WorkerRepository
 
 class GetCurrentModelImp(GetCurrentModel):
     def __init__(self, logs_repository: LogsRepository, worker_repository: WorkerRepository,
-                 model_repository: ModelRepository):
+                 model_repository: ModelRepository, send_mail: SendMail):
+        self.send_mail = send_mail
         self.model_repository = model_repository
         self.worker_repository = worker_repository
         self.logs_repository = logs_repository
@@ -20,3 +22,4 @@ class GetCurrentModelImp(GetCurrentModel):
             log.topic = LogsTopics.worker_error.name
             log.text = "Error getting current model"
             self.logs_repository.save(log)
+            self.send_mail.send_to_topic(LogsTopics.worker_error.name, str(e), "Worker error")
