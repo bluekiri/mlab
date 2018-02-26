@@ -1,5 +1,5 @@
 # coding: utf-8
-from domain.interactors.model_validator import ModelValidator
+from benchmark.domain.interactors.model_validator import ModelValidator
 
 
 class ModelValidatorImp(ModelValidator):

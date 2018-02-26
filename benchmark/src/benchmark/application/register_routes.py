@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from application.controllers.benchmark_model_controller import BenchmarkModelController
 from application.controllers.monitor_controller import MonitorController
-from domain.repositories.model_repository import ModelRepository
+from benchmark.domain import ModelRepository
 from falcon import API
 
 

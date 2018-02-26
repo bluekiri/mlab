@@ -50,6 +50,7 @@ class ModelRepositoryImp(ModelRepository):
                 self.singleton_current_model = model_found
             except Exception as e:
                 self.logger.error("Error loading (%s)" % model.name, e)
+                raise e
             finally:
                 self.loading_model = False
             self.logger.info("New mlmodel loaded (%s)" % model.name)

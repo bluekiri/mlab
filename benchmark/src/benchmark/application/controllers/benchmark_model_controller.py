@@ -1,5 +1,5 @@
 # coding: utf-8
-from application.controllers.base_model_controller import BaseModelController
+from benchmark.application.controllers.base_model_controller import BaseModelController
 
 
 class BenchmarkModelController(BaseModelController):

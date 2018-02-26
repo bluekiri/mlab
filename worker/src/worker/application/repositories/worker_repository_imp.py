@@ -9,6 +9,7 @@ from worker.application.conf.config import PROJECT
 
 
 class WorkerRepositoryImp(WorkerRepository):
+
     def __init__(self, zk_datasource):
         self.zk_datasource = zk_datasource
         self.logger = logging.getLogger(__name__)
@@ -17,6 +18,9 @@ class WorkerRepositoryImp(WorkerRepository):
         self.workers_path = "/%s/workers" % PROJECT
         self.worker_path = "%s/%s" % (self.workers_path, self.host_name)
         self.model_change_callbacks = []
+
+    def get_worker_host(self):
+        return self.host
 
     def get_self_worker_model_id(self) -> str:
         if self.zk_datasource.zk.exists(self.worker_path + "/model"):
@@ -50,3 +54,16 @@ class WorkerRepositoryImp(WorkerRepository):
                                          ephemeral=True)
         except:
             self.logger.info("Worker reload")
+
+    def success_model_load(self):
+        if self.zk_datasource.zk.exists(self.worker_path) is not None:
+            data = json.loads(self.zk_datasource.zk.get(self.worker_path)[0].decode("utf-8"))
+            if "model_error" in data:
+                del data["model_error"]
+                self.zk_datasource.zk.set(self.worker_path, json.dumps(data).encode('utf-8'))
+
+    def set_worker_model_error(self, error_log_id):
+        if self.zk_datasource.zk.exists(self.worker_path) is not None:
+            data = json.loads(self.zk_datasource.zk.get(self.worker_path)[0].decode("utf-8"))
+            data["model_error"] = error_log_id
+            self.zk_datasource.zk.set(self.worker_path, json.dumps(data).encode('utf-8'))

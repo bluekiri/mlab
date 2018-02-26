@@ -10,7 +10,7 @@ db = get_mongo_connection()
 class LogsTopics(Enum):
     new_model = "New Model"
     activate_model = "Activate Model"
-
+    worker_error = "Worker Error"
 
 class Logs(db.Document):
     ts = db.DateTimeField(default=datetime.datetime.utcnow)
