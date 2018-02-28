@@ -2,7 +2,6 @@
 
 
 class WorkerRepository:
-
     def get_worker_host(self):
         raise NotImplementedError()
 
@@ -21,8 +20,9 @@ class WorkerRepository:
     def get_self_worker_model_id(self) -> str:
         raise NotImplementedError()
 
-    def success_model_load(self):
+    def set_success_model_load(self):
         raise NotImplementedError()
 
-    def set_worker_model_error(self, error_log_id):
+    def set_error_modal_load(self):
         raise NotImplementedError()
+

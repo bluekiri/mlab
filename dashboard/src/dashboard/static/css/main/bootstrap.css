@@ -4504,11 +4504,15 @@ tbody.collapse.show {
 }
 
 .pagination {
-    display: -ms-flexbox;
     display: flex;
     padding-left: 0;
     list-style: none;
     border-radius: .25rem
+}
+
+.pagination>ul {
+    display: flex;
+    list-style: none;
 }
 
 .page-item:first-child .page-link {

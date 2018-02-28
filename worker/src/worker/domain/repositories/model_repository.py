@@ -11,3 +11,6 @@ class ModelRepository:
 
     def try_load_new_model_instance(self, model_id: str):
         raise NotImplementedError()
+
+    def get_model_name_by_id(self, model_id: str):
+        raise NotImplementedError()

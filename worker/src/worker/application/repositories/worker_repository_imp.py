@@ -9,7 +9,6 @@ from worker.application.conf.config import PROJECT
 
 
 class WorkerRepositoryImp(WorkerRepository):
-
     def __init__(self, zk_datasource):
         self.zk_datasource = zk_datasource
         self.logger = logging.getLogger(__name__)
@@ -55,15 +54,16 @@ class WorkerRepositoryImp(WorkerRepository):
         except:
             self.logger.info("Worker reload")
 
-    def success_model_load(self):
+    def set_success_model_load(self):
         if self.zk_datasource.zk.exists(self.worker_path) is not None:
             data = json.loads(self.zk_datasource.zk.get(self.worker_path)[0].decode("utf-8"))
             if "model_error" in data:
                 del data["model_error"]
+                data["model_success"] = str(datetime.now())
                 self.zk_datasource.zk.set(self.worker_path, json.dumps(data).encode('utf-8'))
 
-    def set_worker_model_error(self, error_log_id):
+    def set_error_modal_load(self):
         if self.zk_datasource.zk.exists(self.worker_path) is not None:
             data = json.loads(self.zk_datasource.zk.get(self.worker_path)[0].decode("utf-8"))
-            data["model_error"] = error_log_id
+            data["model_error"] = str(datetime.now())
             self.zk_datasource.zk.set(self.worker_path, json.dumps(data).encode('utf-8'))

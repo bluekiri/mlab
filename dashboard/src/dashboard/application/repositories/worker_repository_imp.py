@@ -5,7 +5,7 @@ from typing import List
 
 from dashboard.application.conf.config import PROJECT
 from dashboard.application.datasource.zk_datasource_imp import ZKDatasourceImp
-from dashboard.domain.entities.worker_mo import Worker
+from dashboard.domain.entities.worker import Worker
 from dashboard.domain.repositories.model_repository import ModelRepository
 from dashboard.domain.repositories.worker_repository import WorkerRepository
 
@@ -42,13 +42,17 @@ class WorkerRepositoryImp(WorkerRepository):
                         "%s/%s/up" % (self.workers_path, worker_info))
                     ts = datetime.datetime.fromtimestamp(znode_up[1].created)
 
-                worker = Worker(host_name=worker_info, host=worker_data["host"],
+                worker = Worker(host_name=worker_info,
+                                host=worker_data["host"],
                                 number_of_instances=worker_data["instances"],
                                 model=self.model_resitory.get_model_by_id(
                                     self._get_model_for_worker(worker_info)),
                                 group=self._get_group_for_worker(worker_info),
                                 ts=ts,
-                                up=is_up)
+                                up=is_up,
+                                model_loaded=any(
+                                    state in worker_data.keys() for state in ["model_error", "model_success"]),
+                                model_error="model_error" in worker_data.keys())
                 workers.append(worker)
         return workers
 
@@ -78,3 +82,15 @@ class WorkerRepositoryImp(WorkerRepository):
         model_path = "%s/%s/model" % (self.workers_path, worker_host)
         if self.zk_datasource.zk.exists(model_path) is not None:
             return self.zk_datasource.zk.get(model_path)[0].decode('utf-8')
+
+    def get_all_workers(self):
+        if self.zk_datasource.zk.exists(self.workers_path) is not None:
+            children = self.zk_datasource.zk.get_children(self.workers_path)
+            data_children = []
+            for child in children:
+                data = self.zk_datasource.zk.get(self.workers_path + "/" + child)
+                data = json.loads(data[0].decode("utf-8"))
+                extra_data = {"name": child}
+                data_children.append({**data, **extra_data})
+
+            return data_children

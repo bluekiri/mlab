@@ -5,9 +5,9 @@ from dashboard.domain.interactor.logs.get_time_line_events import GetTimeLineEve
 
 
 class GetTimeLineEventsImp(GetTimeLineEvents):
-
     def __init__(self, logs_repository: LogsRepository):
         self.logs_repository = logs_repository
 
     def get_all_time_events(self):
         return self.logs_repository.get_logs_by_topics([LogsTopics.new_model.name])
+        # log.ts = log.ts.strftime("%Y-%m-%dT%H:%M:%S.%fZ")

@@ -17,6 +17,7 @@ from dashboard.domain.entities.auth.login_model import User, Role
 from dashboard.domain.entities.logs import Logs
 from dashboard.domain.entities.ml_model import MlModel
 from dashboard.domain.interactor.logs.get_time_line_events import GetTimeLineEvents
+from dashboard.domain.interactor.logs.get_workers_load_model_status import GetWorkersLoadModelStatus
 from dashboard.domain.interactor.logs.save_model_log_event import SaveModelLogEvent
 from dashboard.domain.interactor.messages.user_messaging import UserMessaging
 from dashboard.domain.interactor.orchestation.orchestation_interator import \
@@ -35,7 +36,9 @@ class Dashboard:
                  message_repository: MessageRepository, logs_repository: LogsRepository,
                  orchestation_interactor: OrchestationInteractor,
                  users_privileges: UsersPrivileges, current_user: CurrentUser,
-                 user_messaging: UserMessaging, get_time_line_events: GetTimeLineEvents):
+                 user_messaging: UserMessaging, get_time_line_events: GetTimeLineEvents,
+                 get_workers_load_model_status: GetWorkersLoadModelStatus):
+        self.get_workers_load_model_status = get_workers_load_model_status
         self.worker_repository = worker_repository
         self.model_repository = model_repository
         self.save_model_log_event = save_model_log_event
@@ -75,9 +78,10 @@ class Dashboard:
                                   base_template='base.html',
                                   index_view=HomeView(
                                       get_line_time_events=self.get_time_line_events,
+                                      get_workers_load_model_status=self.get_workers_load_model_status,
                                       name="Dashboard", url=self.dashboard_blueprint.url_prefix,
                                       menu_icon_type='fa',
-                                      template='home.html',
+                                      template='home/index.html',
                                       menu_icon_value='fa-dashboard'),
                                   category_icon_classes={
                                       'Access': 'glyphicon glyphicon-user',

@@ -5714,11 +5714,17 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 }
 
 .pagination {
-    display: inline-block;
+    display: flex;
+    list-style: none;
     padding-left: 0;
     margin: 21px 0;
     border-radius: 0
 }
+.pagination>lu {
+    display: flex;
+    list-style: none;
+}
+
 
 .pagination>li {
     display: inline

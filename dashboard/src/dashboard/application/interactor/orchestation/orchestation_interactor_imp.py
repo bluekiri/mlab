@@ -3,7 +3,7 @@ from typing import Dict
 
 import timeago
 
-from dashboard.domain.entities.worker_mo import Worker
+from dashboard.domain.entities.worker import Worker
 from dashboard.domain.interactor.orchestation.orchestation_interator import \
     OrchestationInteractor
 from dashboard.domain.repositories.worker_repository import WorkerRepository
@@ -24,7 +24,7 @@ class OrchestationInteractorImp(OrchestationInteractor):
     def _get_workers_grouped(self):
         def _map_worker_to_dict(worker: Worker) -> Dict:
             return {
-                "name": worker.host_name, "swagger_uri": "http://%s" % worker.host,
+                "name": worker.host_name, "swagger_uri": "http://%s:9090" % worker.host,
                 "worker": worker.number_of_instances,
                 "ts": timeago.format(worker.ts, datetime.datetime.utcnow()),
                 "model_name": "Model not loaded" if worker.model is None else worker.model.name,

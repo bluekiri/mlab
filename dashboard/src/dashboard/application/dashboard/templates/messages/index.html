@@ -1,6 +1,8 @@
 {% extends admin_base_template %}
+{% block head %}
 <link rel="stylesheet" type="text/css"
-      href="{{ url_for('static',filename='message_inbox.css') }}">
+      href="{{ url_for('static',filename='css/message_inbox.css') }}">
+{% endblock %}
 {% block body %}
 <h2>Messages</h2>
 <div id="messages" style="margin-left: 20px; margin-top: 30px;" class="list-group">

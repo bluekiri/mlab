@@ -8,7 +8,7 @@ from dashboard.domain.repositories.logs_repository import LogsRepository
 
 class LogsRepositoryImp(LogsRepository):
     def get_all_logs(self) -> List[Logs]:
-        return list(Logs.objects())
+        return list(Logs.objects.order_by("-ts"))
 
     def get_logs_by_topics(self, topic: List[str]) -> List[Logs]:
         return list(Logs.objects(topic__in=topic))

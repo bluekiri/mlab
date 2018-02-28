@@ -10,7 +10,7 @@ import yaml
 from worker.application.conf.config import SERVICE_PORT
 from worker.application.datasource.zk_datasource_imp import ZKDatasourceImp
 from worker.application.interactors.send_mail_imp import SendMailImp
-from worker.application.interactors.get_current_model import GetCurrentModelImp
+from worker.application.interactors.get_model_imp import GetModelImp
 from worker.application.interactors.model_change_listener_imp import ModelChangeListenerImp
 from worker.application.register_routes import register_routes
 from worker.application.repositories.logs_repository_imp import LogsRepositoryImp
@@ -45,8 +45,8 @@ model_repository = ModelRepositoryImp(worker_repository)
 user_repository = UserRepositoryImp()
 
 send_mail = SendMailImp(user_repository)
-get_current_model = GetCurrentModelImp(logs_repository, worker_repository, model_repository, send_mail)
-model_change_listener = ModelChangeListenerImp(model_repository, worker_repository, logs_repository)
+get_model = GetModelImp(logs_repository, worker_repository, model_repository, send_mail)
+model_change_listener = ModelChangeListenerImp(model_repository, worker_repository, logs_repository, get_model)
 
 logger.info(open(ASSETS_APPLICATION_PATH + '/title.txt', 'r').read())
 logger.info("Starting loading server configuration...")
@@ -56,7 +56,7 @@ app = falcon.API()
 worker_repository.initialize_event_listener()
 model_change_listener.run()
 
-register_routes(app, get_current_model)
+register_routes(app, get_model)
 
 logger.info("Server loaded")
 

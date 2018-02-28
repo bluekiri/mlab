@@ -1,4 +1,5 @@
 {% extends admin_base_template %}
+{% import 'home/macros.html' as home_macros %}
 {% block head %}
 <script type=text/javascript
         src="{{ url_for('static',filename='js/vis.min.js') }}"></script>
@@ -6,11 +7,27 @@
         src="{{ url_for('static',filename='js/home.js') }}"></script>
 <link rel="stylesheet" type="text/css"
       href="{{ url_for('static',filename='css/vis.min.css') }}">
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static',filename='css/home.css') }}">
 {% endblock %}
 
 {% block body %}
 <h2>Model TimeLine</h2>
 <div id="visualization"></div>
+
+<div id="worker-status" style="margin-top:20px">
+    {% if worker_status.success %}
+    {{home_macros.draw_card("success_icon.ico",worker_status["success"])}}
+    {% endif %}
+    {% if worker_status.warning %}
+    {{home_macros.draw_card("warning_icon.png",worker_status["warning"])}}
+    {% endif %}
+    {% if worker_status.error %}
+    {{home_macros.draw_card("disconnected_icon.png",worker_status["error"])}}
+    {% endif %}
+</div>
+
+
 <script type="text/javascript">
   // DOM element where the Timeline will be attached
   var container = document.getElementById('visualization');
@@ -23,9 +40,6 @@
 
   // Create a Timeline
   var timeline = new vis.Timeline(container, items, options);
-
-
-
 
 </script>
 {% endblock %}

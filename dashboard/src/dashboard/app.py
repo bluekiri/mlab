@@ -9,6 +9,7 @@ from flask_security import MongoEngineUserDatastore
 from flask_security import Security
 
 from dashboard.application.conf.config import SERVICE_PORT
+from dashboard.application.interactor.logs.get_workers_load_model_status_imp import GetWorkersLoadModelStatusImp
 from dashboard.application.interactor.workers_obersable_imp import WorkersListenerEventImp
 from dashboard.application.api.api_dashboard import ApiDashboard
 from dashboard.application.dashboard.dashboard_initialize import Dashboard
@@ -71,6 +72,7 @@ logs_repository = LogsRepositoryImp()
 model_repository = ModelRepositoryImp()
 worker_repository = WorkerRepositoryImp(zk_datasource, model_repository)
 worker_listener_event = WorkersListenerEventImp(worker_repository)
+get_workers_load_model_status = GetWorkersLoadModelStatusImp(worker_repository)
 
 token_verification = TokenVerificationImp()
 orchestation_interactor = OrchestationInteractorImp(worker_repository=worker_repository)
@@ -94,7 +96,7 @@ dashboard = Dashboard(app=app, worker_repository=worker_repository,
                       logs_repository=logs_repository, current_user=current_user,
                       orchestation_interactor=orchestation_interactor,
                       get_time_line_events=get_time_line_events, user_messaging=user_messaging,
-                      users_privileges=users_privileges)
+                      users_privileges=users_privileges, get_workers_load_model_status=get_workers_load_model_status)
 
 app.register_blueprint(dashboard.get_blueprint())
 

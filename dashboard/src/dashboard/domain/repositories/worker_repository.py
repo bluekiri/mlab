@@ -1,7 +1,7 @@
 # coding: utf-8
 from typing import List
 
-from dashboard.domain.entities.worker_mo import Worker
+from dashboard.domain.entities.worker import Worker
 
 
 class WorkerRepository:
@@ -21,4 +21,7 @@ class WorkerRepository:
         raise NotImplementedError()
 
     def subscribe_worker_down_callback(self, callback):
+        raise NotImplementedError()
+
+    def get_all_workers(self):
         raise NotImplementedError()
