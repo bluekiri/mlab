@@ -15,14 +15,16 @@
 <h2>Model TimeLine</h2>
 <div id="visualization"></div>
 
-<div id="worker-status" style="margin-top:20px">
+<div id="worker-status" style="margin-top:20px; display: flex;">
     {% if worker_status.success %}
     {{home_macros.draw_card("success_icon.ico",worker_status["success"])}}
     {% endif %}
     {% if worker_status.warning %}
+    <div style="width: 20px;"></div>
     {{home_macros.draw_card("warning_icon.png",worker_status["warning"])}}
     {% endif %}
     {% if worker_status.error %}
+    <div style="width: 20px;"></div>
     {{home_macros.draw_card("disconnected_icon.png",worker_status["error"])}}
     {% endif %}
 </div>

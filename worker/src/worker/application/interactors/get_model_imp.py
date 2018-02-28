@@ -62,6 +62,5 @@ class GetModelImp(GetModel):
             return model
         except UnpickleModelException as e:
             log = self._build_error_load_model_log(self.model_repository.get_model_name_by_id(model_id), model_id)
-            self.model_repository.try_load_new_model_instance(model_id)
             self.logs_repository.save(log)
             self.worker_repository.set_error_modal_load()

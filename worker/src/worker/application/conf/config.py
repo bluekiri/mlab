@@ -12,6 +12,6 @@ MONGO_CONNECTION_URI = os.environ['MLAB_MONGO_URI']
 ZOOKEEPER = os.environ['MLAB_ZOOKEEPER_URI']
 
 # Mail
-SERVER_MAIL = os.environ["MLAB_MAIL_SERVER"]
-SERVER_FROM_USER = os.environ["NO_REPLY_USER"]
-SERVER_FROM_PASSWORD = os.environ["NO_REPLY_PASS"]
+SERVER_MAIL = os.environ.get("MLAB_MAIL_SERVER", "")
+SERVER_FROM_USER = os.environ.get("NO_REPLY_USER", "")
+SERVER_FROM_PASSWORD = os.environ.get("NO_REPLY_PASS", "")
