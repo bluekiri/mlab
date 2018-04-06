@@ -16,6 +16,7 @@ class Model(Document):
     pickle = FileField(required=True)
 
     def get_model_instance(self):
+        pkl.dill._reverse_typemap['ClassType'] = type
         if self.deserialized_model_instance is None:
             content = self.pickle.read()
             self.deserialized_model_instance = pkl.loads(content)
