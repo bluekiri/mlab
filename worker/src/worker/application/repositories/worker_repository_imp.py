@@ -48,8 +48,7 @@ class WorkerRepositoryImp(WorkerRepository):
             self.zk_datasource.zk.create(self.worker_path, data.encode('utf-8'))
 
         try:
-            self.zk_datasource.zk.create(self.worker_path + "/up",
-                                         str(datetime.utcnow().timestamp()).encode('utf-8'),
+            self.zk_datasource.zk.create(self.worker_path + "/up", str(datetime.utcnow().timestamp()).encode('utf-8'),
                                          ephemeral=True)
         except:
             self.logger.info("Worker reload")
