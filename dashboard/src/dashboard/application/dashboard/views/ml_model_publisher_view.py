@@ -1,5 +1,7 @@
 import json
 
+import pytz
+import tzlocal
 from flask import request
 from flask import url_for
 from flask_admin import BaseView
@@ -19,9 +21,11 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
     can_edit = True
 
     def __init__(self, users_privilages: UsersPrivileges,
-                 orchestation_interactor: OrchestationInteractor, name, menu_icon_type,
+                 orchestation_interactor: OrchestationInteractor, name,
+                 menu_icon_type,
                  menu_icon_value):
-        super().__init__(name=name, menu_icon_type=menu_icon_type, menu_icon_value=menu_icon_value)
+        super().__init__(name=name, menu_icon_type=menu_icon_type,
+                         menu_icon_value=menu_icon_value)
         self.users_privilages = users_privilages
         self.orchestation_interactor = orchestation_interactor
 
@@ -31,11 +35,20 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
         group_of_workers, workers_without_group = self.orchestation_interactor.get_group_workers()
         return self.render('ml_model_publisher/ml_model_publisher.html',
                            group_of_workers=group_of_workers,
-                           workers_without_group=workers_without_group)
+                           workers_without_group=workers_without_group,
+                           change_permissions=False)
 
     @expose('/models', methods=('GET',))
     def models(self):
-        return json.dumps([(str(model.pk), model.name) for model in MlModel.objects()])
+        return json.dumps(
+            [(str(model.pk), self._format_model_name(model)) for model in
+             MlModel.objects()])
+
+    def _format_model_name(self, model):
+        local_time_zone = tzlocal.get_localzone()
+        local_time = model.ts.replace(tzinfo=pytz.utc).astimezone(
+            local_time_zone)
+        return model.name + " - " + local_time.strftime('%Y-%m-%d %H:%M:%S')
 
     @login_required
     @roles_required('admin', )
