@@ -3,11 +3,16 @@ from flask import make_response
 from flask import request
 
 from dashboard.domain.interactor.mlmodel.create_ml_model import CreateMlModel
-from dashboard.domain.interactor.users.token_verification import TokenVerification
+from dashboard.domain.interactor.orchestation.orchestation_interator import \
+    OrchestationInteractor
+from dashboard.domain.interactor.users.token_verification import \
+    TokenVerification
+from dashboard.domain.repositories.worker_repository import WorkerRepository
 
 
 def register_model_methods(api, token_verification: TokenVerification,
-                           create_ml_model: CreateMlModel):
+                           create_ml_model: CreateMlModel,
+                           worker_repository: WorkerRepository):
     @api.route('/mlmodel', methods=('POST',))
     def model():
         if not _is_valid_request_model():
@@ -23,10 +28,18 @@ def register_model_methods(api, token_verification: TokenVerification,
 
         description = data['description'] if 'description' in data else ''
 
-        create_ml_model.create(description=description, pickle=pickle, score=data['score'],
-                               creator_id=token, name=data['name'])
-
+        model_id = create_ml_model.create(description=description,
+                                          pickle=pickle,
+                                          score=data['score'],
+                                          creator_id=token, name=data['name'])
+        _active_model_in_all_workers(str(model_id))
         return make_response('Ok', 200)
+
+    def _active_model_in_all_workers(model_id):
+        all_workers = worker_repository.get_all_workers()
+
+        for worker in all_workers:
+            worker_repository.set_model_in_worker(worker["name"], model_id)
 
     def _is_valid_request_model():
         return 'token' in request.args and 'file' in request.files and 'name' in request.form and 'score' in request.form
