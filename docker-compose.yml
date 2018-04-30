@@ -130,6 +130,7 @@ services:
       DATABASE_NAME: "mlab"
       MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/?readPreference=primary"
       MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
+      DASHBOARD_TITLE: "MLAB"
       LDAP_URI: "***REMOVED***"
       WORKER_INSTANCES: 4
       PORT: 5000

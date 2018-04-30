@@ -42,7 +42,7 @@ class GetModelImp(GetModel):
             model = self.model_repository.get_current_model()
             if model is not None:
                 log = self._build_success_load_model_log(model.name, model.pk)
-                self.logs_repository.save(log)
+                # self.logs_repository.save(log)
             self.worker_repository.set_success_model_load()
             return model
         except UnpickleModelException as e:

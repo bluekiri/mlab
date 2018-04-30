@@ -14,6 +14,7 @@ from dashboard.application.dashboard.views.util.view_roles_management import \
 from dashboard.domain.entities.ml_model import MlModel
 from dashboard.domain.interactor.orchestation.orchestation_interator import \
     OrchestationInteractor
+from dashboard.domain.interactor.users.current_user import CurrentUser
 from dashboard.domain.interactor.users.users_privileges import UsersPrivileges
 
 
@@ -21,11 +22,12 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
     can_edit = True
 
     def __init__(self, users_privilages: UsersPrivileges,
-                 orchestation_interactor: OrchestationInteractor, name,
-                 menu_icon_type,
-                 menu_icon_value):
+                 orchestation_interactor: OrchestationInteractor,
+                 current_user: CurrentUser, name,
+                 menu_icon_type, menu_icon_value):
         super().__init__(name=name, menu_icon_type=menu_icon_type,
                          menu_icon_value=menu_icon_value)
+        self.current_user = current_user
         self.users_privilages = users_privilages
         self.orchestation_interactor = orchestation_interactor
 
@@ -36,7 +38,7 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
         return self.render('ml_model_publisher/ml_model_publisher.html',
                            group_of_workers=group_of_workers,
                            workers_without_group=workers_without_group,
-                           change_permissions=False)
+                           has_active_model_permissions=self.current_user.has_admin_role())
 
     @expose('/models', methods=('GET',))
     def models(self):

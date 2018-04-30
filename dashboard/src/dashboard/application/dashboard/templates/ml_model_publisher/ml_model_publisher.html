@@ -1,4 +1,4 @@
-{% macro draw_panel_info(host_name,num_workers, time, model_name,swagger_uri,up) -%}
+{% macro draw_panel_info(host_name,num_workers, time, model_name,swagger_uri,up, has_edit_permissions) -%}
 <div class="ml_panel panel panel-primary">
     {% if up %}
     <div class="panel-heading">
@@ -11,6 +11,7 @@
         <div class=" panel-body" style="min-width: 200px">
             <p>Workers: {{num_workers}}</p>
             <p>Time: {{time}}</p>
+            {% if has_edit_permissions %}
             <div>
                 <p>Model loaded: {{model_name}}</p>
                 <div style="display:flex;">
@@ -26,6 +27,7 @@
                     </button>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
     {%- endmacro %}
@@ -42,7 +44,7 @@
     <h2>Workers</h2>
     <div style="display:-webkit-box;">
         {% for worker in workers_without_group%}
-        {{draw_panel_info(worker.name,worker.worker,worker.ts,worker.model_name,worker.swagger_uri,worker.running)}}
+        {{draw_panel_info(worker.name,worker.worker,worker.ts,worker.model_name,worker.swagger_uri,worker.running,has_active_model_permissions)}}
         {% endfor %}
     </div>
 
@@ -59,7 +61,7 @@
         </div>
         <div id="panels" style="display: inline-block; margin-left: 20px;">
             {% for worker in value%}
-            {{draw_panel_info(worker.name,worker.worker,worker.ts,worker.model_name,worker.swagger_uri,worker.running)}}
+            {{draw_panel_info(worker.name,worker.worker,worker.ts,worker.model_name,worker.swagger_uri,worker.running,has_active_model_permissions)}}
             {% endfor %}
         </div>
     </div>
