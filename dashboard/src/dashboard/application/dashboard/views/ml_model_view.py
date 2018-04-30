@@ -13,7 +13,7 @@ class MlModelView(ModelView, metaclass=ViewSecurityListeners):
     can_view_details = True
     can_view = True
     can_create = False
-    details_template = 'mlmodel/details.html'
+    # details_template = 'mlmodel/details.html'
 
     def __init__(self, model, model_repository: ModelRepository,
                  save_model_log_event: SaveModelLogEvent, current_user: CurrentUser,

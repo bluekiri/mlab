@@ -2,7 +2,8 @@
 import logging
 
 from worker.domain.entities.model_mo import Model
-from worker.domain.exception.unpickle_model_exception import UnpickleModelException
+from worker.domain.exception.unpickle_model_exception import \
+    UnpickleModelException
 from worker.domain.repositories.model_repository import ModelRepository
 from worker.domain.repositories.worker_repository import WorkerRepository
 
@@ -42,7 +43,7 @@ class ModelRepositoryImp(ModelRepository):
         if model is None:
             return False
         if (
-                        self.singleton_current_model is None or model.pk != self.singleton_current_model.pk) and not self.loading_model:
+                self.singleton_current_model is None or model.pk != self.singleton_current_model.pk) and not self.loading_model:
             self.logger.info("New mlmodel found (%s)" % model.name)
             model_found = Model.objects(pk=model.pk).first()
             self.loading_model = True
@@ -51,7 +52,9 @@ class ModelRepositoryImp(ModelRepository):
                 self.singleton_current_model = model_found
             except Exception as e:
                 self.logger.error("Error loading (%s)" % model.name)
-                raise UnpickleModelException(model_id, self.worker_repository.get_worker_host(), str(e))
+                raise UnpickleModelException(model_id,
+                                             self.worker_repository.get_worker_host(),
+                                             str(e))
             finally:
                 self.loading_model = False
             self.logger.info("New mlmodel loaded (%s)" % model.name)
