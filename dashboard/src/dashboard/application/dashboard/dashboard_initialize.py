@@ -4,6 +4,7 @@ from flask import render_template
 from flask_security import logout_user
 from werkzeug.utils import redirect
 
+from dashboard.application.conf.config import dashboard_home_title
 from dashboard.application.dashboard.views.api_token_view import ApiTokenView
 from dashboard.application.dashboard.views.home_view import HomeView
 from dashboard.application.dashboard.views.logs_view import LogsView
@@ -84,7 +85,7 @@ class Dashboard:
             pending_messages=self.user_messaging.get_pending_messages)
 
         admin = flask_admin.Admin(self.app,
-                                  name='MLAB',
+                                  name=dashboard_home_title,
                                   base_template='base.html',
                                   index_view=HomeView(
                                       get_line_time_events=self.get_time_line_events,
