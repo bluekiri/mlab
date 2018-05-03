@@ -36,16 +36,17 @@ from dashboard.domain.repositories.worker_repository import WorkerRepository
 
 
 class Dashboard:
-    def __init__(self, app, worker_repository: WorkerRepository,
-                 model_repository: ModelRepository,
-                 save_model_log_event: SaveModelLogEvent,
-                 message_repository: MessageRepository,
-                 logs_repository: LogsRepository,
-                 orchestation_interactor: OrchestationInteractor,
-                 users_privileges: UsersPrivileges, current_user: CurrentUser,
-                 user_messaging: UserMessaging,
-                 get_time_line_events: GetTimeLineEvents,
-                 get_workers_load_model_status: GetWorkersLoadModelStatus):
+    def __init__(
+            self, app, worker_repository: WorkerRepository,
+            model_repository: ModelRepository,
+            save_model_log_event: SaveModelLogEvent,
+            message_repository: MessageRepository,
+            logs_repository: LogsRepository,
+            orchestation_interactor: OrchestationInteractor,
+            users_privileges: UsersPrivileges, current_user: CurrentUser,
+            user_messaging: UserMessaging,
+            get_time_line_events: GetTimeLineEvents,
+            get_workers_load_model_status: GetWorkersLoadModelStatus):
         self.get_workers_load_model_status = get_workers_load_model_status
         self.worker_repository = worker_repository
         self.model_repository = model_repository
@@ -84,22 +85,22 @@ class Dashboard:
         self.app.jinja_env.globals.update(
             pending_messages=self.user_messaging.get_pending_messages)
 
-        admin = flask_admin.Admin(self.app,
-                                  name=dashboard_home_title,
-                                  base_template='base.html',
-                                  index_view=HomeView(
-                                      get_line_time_events=self.get_time_line_events,
-                                      get_workers_load_model_status=self.get_workers_load_model_status,
-                                      name="Dashboard",
-                                      url=self.dashboard_blueprint.url_prefix,
-                                      menu_icon_type='fa',
-                                      template='home/index.html',
-                                      menu_icon_value='fa-dashboard'),
-                                  category_icon_classes={
-                                      'Access': 'glyphicon glyphicon-user',
-                                      'PreProcess': 'glyphicon glyphicon-equalizer',
-
-                                  })
+        admin = flask_admin.Admin(
+            self.app,
+            name=dashboard_home_title,
+            base_template='base.html',
+            index_view=HomeView(
+                get_line_time_events=self.get_time_line_events,
+                get_workers_load_model_status=self.get_workers_load_model_status,
+                name="Dashboard",
+                url=self.dashboard_blueprint.url_prefix,
+                menu_icon_type='fa',
+                template='home/index.html',
+                menu_icon_value='fa-dashboard'),
+            category_icon_classes={
+                'Access': 'glyphicon glyphicon-user',
+                'PreProcess': 'glyphicon glyphicon-equalizer',
+            })
 
         # Add view
         admin.add_view(
@@ -108,30 +109,31 @@ class Dashboard:
                         save_model_log_event=self.save_model_log_event,
                         name='Models',
                         menu_icon_type='fa', menu_icon_value='fa-flask'))
-        admin.add_view(
-            UserAdmin(User, name='User', menu_icon_type='fa',
-                      menu_icon_value='fa-users'))
-        admin.add_view(
-            RoleAdmin(Role, name='Roles', menu_icon_type='fa',
-                      menu_icon_value='fa-address-book'))
+        admin.add_view(UserAdmin(User, name='User', menu_icon_type='fa',
+                                 menu_icon_value='fa-users'))
+        admin.add_view(RoleAdmin(Role, name='Roles', menu_icon_type='fa',
+                                 menu_icon_value='fa-address-book'))
         admin.add_view(
             ApiTokenView(Token, name='Api Token', menu_icon_type='fa',
                          menu_icon_value='fa-key'))
-        admin.add_view(MLModelPublisherView(name='Model publisher',
-                                            users_privilages=self.users_privileges,
-                                            orchestation_interactor=self.orchestation_interactor,
-                                            current_user=self.current_user,
-                                            menu_icon_type='fa',
-                                            menu_icon_value='fa-desktop'))
+        admin.add_view(MLModelPublisherView(
+            name='Model publisher',
+            users_privilages=self.users_privileges,
+            orchestation_interactor=self.orchestation_interactor,
+            current_user=self.current_user,
+            menu_icon_type='fa',
+            menu_icon_value='fa-desktop'))
         admin.add_view(
-            MessageView(name="Messages", menu_icon_type='fa',
-                        menu_icon_value='fa-inbox',
-                        endpoint="messages",
-                        message_repository=self.message_repository,
-                        user_messaging=self.user_messaging,
-                        current_user=self.current_user))
+            MessageView(
+                name="Messages", menu_icon_type='fa',
+                menu_icon_value='fa-inbox',
+                endpoint="messages",
+                message_repository=self.message_repository,
+                user_messaging=self.user_messaging,
+                current_user=self.current_user))
 
         admin.add_view(
-            LogsView(Logs, current_user=self.current_user, name="Logs",
-                     menu_icon_type='fa',
-                     menu_icon_value='fa-inbox'))
+            LogsView(
+                Logs, current_user=self.current_user, name="Logs",
+                menu_icon_type='fa',
+                menu_icon_value='fa-inbox'))
