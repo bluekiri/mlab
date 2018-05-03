@@ -40,8 +40,9 @@ def register_model_methods(api, token_verification: TokenVerification,
 
         for worker in all_workers:
             if worker_repository.is_enable_auto_model_publication(
-                    worker["name"]):
-                worker_repository.set_model_in_worker(worker["name"], model_id)
+                    worker.host_name):
+                worker_repository.set_model_in_worker(worker.host_name,
+                                                      model_id)
 
     def _is_valid_request_model():
         return 'token' in request.args and 'file' in request.files and 'name' in request.form and 'score' in request.form
