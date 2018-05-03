@@ -3,7 +3,8 @@
 
 class Worker(object):
     def __init__(self, host_name, host, model, number_of_instances, group, up, ts, model_error: bool,
-                 model_loaded: bool):
+                 model_loaded: bool,auto_model_publisher:bool):
+        self.auto_model_publisher = auto_model_publisher
         self.number_of_instances = number_of_instances
         self.model = model
         self.host = host

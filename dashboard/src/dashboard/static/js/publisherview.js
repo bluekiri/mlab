@@ -48,6 +48,31 @@ $(document).on("click", ".sendChangeModelOnWorker", function () {
           }
         });
 });
+// listener
+
+$('input:checkbox').change(function(){
+    var checked = $(this).is(':checked')
+    var host = $(this).data('id');
+
+    $.ajax({
+          type: "POST",
+          url: window.location.pathname+window.location.search+"enable_auto_publisher",
+          dataType: "json",
+          data:{
+            "enable": checked,
+            "host_name": host
+          },
+          success: function(data) {
+            window.location.href = data["go"];
+          },
+          error: function(err) {
+            console.log(err);
+          }
+        });
+});
+
+//
+
 
 $(document).on("click", ".change", function () {
      var id = $(this).data('id');

@@ -54,6 +54,17 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
 
     @login_required
     @roles_required('admin', )
+    @expose('/enable_auto_publisher', methods=('POST',))
+    def enable_auto_publisher(self):
+        host_name = request.form.get("host_name")
+        enable = request.form.get("enable")
+
+        self.orchestation_interactor.set_auto_model_publisher(host_name, enable)
+        return json.dumps({"go": url_for("mlmodelpublisherview.index")}), 200, {
+            'ContentType': 'application/json'}
+
+    @login_required
+    @roles_required('admin', )
     @expose('/change_model', methods=('POST',))
     def change_model(self):
         host_name = request.form.get("host_name")

@@ -1,4 +1,4 @@
-{% macro draw_panel_info(host_name,num_workers, time, model_name,swagger_uri,up, has_edit_permissions) -%}
+{% macro draw_panel_info(host_name,num_workers, time, model_name,swagger_uri,up, has_edit_permissions,auto_model_publisher) -%}
 <div class="ml_panel panel panel-primary">
     {% if up %}
     <div class="panel-heading">
@@ -13,17 +13,30 @@
             <p>Time: {{time}}</p>
             {% if has_edit_permissions %}
             <div>
+                <div>
+                    <label class="switch">
+                        <input type="checkbox" data-id={{host_name}}
+                               {% if auto_model_publisher %}
+                               checked
+                               {% endif %}>
+                        <span class="slider round"></span>
+                    </label>
+                    <a>Auto publishing</a>
+                </div>
                 <p>Model loaded: {{model_name}}</p>
                 <div style="display:flex;">
-                    <button type="button" class="change btn btn-info " data-id={{host_name}}
+                    <button type="button" class="change btn btn-info "
+                            data-id={{host_name}}
                             data-toggle="modal"
                             data-target="#changeWorkerModelModal"
                             style="margin:auto;display:block;">
                         Model
                     </button>
-                    <button type="button" class="group btn btn-info" data-id={{host_name}}
+                    <button type="button" class="group btn btn-info"
+                            data-id={{host_name}}
                             data-toggle="modal"
-                            data-target="#groupModal" style="margin:auto;display:block;">Group
+                            data-target="#groupModal"
+                            style="margin:auto;display:block;">Group
                     </button>
                 </div>
             </div>
@@ -44,7 +57,7 @@
     <h2>Workers</h2>
     <div style="display:-webkit-box;">
         {% for worker in workers_without_group%}
-        {{draw_panel_info(worker.name,worker.worker,worker.ts,worker.model_name,worker.swagger_uri,worker.running,has_active_model_permissions)}}
+        {{draw_panel_info(worker.name,worker.worker,worker.ts,worker.model_name,worker.swagger_uri,worker.running,has_active_model_permissions,worker.auto_model_publisher)}}
         {% endfor %}
     </div>
 
@@ -61,7 +74,7 @@
         </div>
         <div id="panels" style="display: inline-block; margin-left: 20px;">
             {% for worker in value%}
-            {{draw_panel_info(worker.name,worker.worker,worker.ts,worker.model_name,worker.swagger_uri,worker.running,has_active_model_permissions)}}
+            {{draw_panel_info(worker.name,worker.worker,worker.ts,worker.model_name,worker.swagger_uri,worker.running,has_active_model_permissions,worker.auto_model_publisher)}}
             {% endfor %}
         </div>
     </div>
@@ -74,16 +87,21 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Groups</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
                 </div>
                 <div class="modal-body">
                     <p type="text" id="workerId" value=""></p>
 
-                    <select id="groupPicker" class="selectpicker" style="margin-bottom: 10px;">
+                    <select id="groupPicker" class="selectpicker"
+                            style="margin-bottom: 10px;">
                     </select>
                     <div>
-                        <input type="text" id="groupNameInput" placeholder="Group Name">
-                        <button type="button" class="createGroup btn btn-primary"
+                        <input type="text" id="groupNameInput"
+                               placeholder="Group Name">
+                        <button type="button"
+                                class="createGroup btn btn-primary"
                                 style="margin:10px;float: right;"
                                 data-dismiss="modal">
                             Create
@@ -91,8 +109,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="sendChangeGroup btn btn-info">Load</button>
+                    <button type="button" class="btn btn-info"
+                            data-dismiss="modal">Cancel
+                    </button>
+                    <button type="button" class="sendChangeGroup btn btn-info">
+                        Load
+                    </button>
                 </div>
             </div>
 
@@ -107,7 +129,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Choose the model to load</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
                 </div>
                 <div class="modal-body">
                     <p type="text" id="hostName" value=""></p>
@@ -116,8 +140,12 @@
                     </select>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="sendChangeModelOnWorker btn btn-info">Load</button>
+                    <button type="button" class="btn btn-info"
+                            data-dismiss="modal">Cancel
+                    </button>
+                    <button type="button"
+                            class="sendChangeModelOnWorker btn btn-info">Load
+                    </button>
                 </div>
             </div>
 
@@ -125,23 +153,32 @@
     </div>
 
     <!-- Model Modal for groups-->
-    <div class="modal fade" id="changeModelGroupModal" tabindex="-1" role="dialog"
+    <div class="modal fade" id="changeModelGroupModal" tabindex="-1"
+         role="dialog"
          aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Choose the model to load in group</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Choose the model to load in
+                        group</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        &times;
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <p type="text" data-info="group" id="groupName" value=""></p>
+                    <p type="text" data-info="group" id="groupName"
+                       value=""></p>
                     <select id="groupSelectPicker" class="selectpicker">
                     </select>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="sendChangeModelByGroup btn btn-info">Load</button>
+                    <button type="button" class="btn btn-info"
+                            data-dismiss="modal">Cancel
+                    </button>
+                    <button type="button"
+                            class="sendChangeModelByGroup btn btn-info">Load
+                    </button>
                 </div>
             </div>
 

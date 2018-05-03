@@ -23,5 +23,11 @@ class WorkerRepository:
     def subscribe_worker_down_callback(self, callback):
         raise NotImplementedError()
 
-    def get_all_workers(self):
+    # def get_all_workers(self):
+    #     raise NotImplementedError()
+
+    def is_enable_auto_model_publication(self, worker_host):
+        raise NotImplementedError()
+
+    def set_auto_model_publisher(self, worker_host: str, enable: bool):
         raise NotImplementedError()

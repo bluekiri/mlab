@@ -24,12 +24,14 @@ class OrchestationInteractorImp(OrchestationInteractor):
     def _get_workers_grouped(self):
         def _map_worker_to_dict(worker: Worker) -> Dict:
             return {
-                "name": worker.host_name, "swagger_uri": "http://%s:9090" % worker.host,
+                "name": worker.host_name,
+                "swagger_uri": "http://%s:9090" % worker.host,
                 "worker": worker.number_of_instances,
                 "ts": timeago.format(worker.ts, datetime.datetime.utcnow()),
                 "model_name": "Model not loaded" if worker.model is None else worker.model.name,
                 "group": worker.group,
-                "running": worker.up
+                "running": worker.up,
+                "auto_model_publisher" :worker.auto_model_publisher
             }
 
         workers = self.worker_repository.get_available_workers()
@@ -50,7 +52,12 @@ class OrchestationInteractorImp(OrchestationInteractor):
         return groups, without_group
 
     def load_model_on_host(self, host, model_id):
-        self.worker_repository.set_model_in_worker(worker_host=host, model_id=model_id)
+        self.worker_repository.set_model_in_worker(worker_host=host,
+                                                   model_id=model_id)
+
+    def set_auto_model_publisher(self, host: str, enable: bool):
+        self.worker_repository.set_auto_model_publisher(worker_host=host,
+                                                        enable=enable)
 
     def get_groups(self):
         return self.worker_repository.get_groups()
