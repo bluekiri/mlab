@@ -27,7 +27,7 @@ def update_last_entry(user):
 
 def get_user_from_username(username):
     # Get user from mongo
-    users = list(User.objects(Q(email=username) | Q(username=str(username).split('@')[0])))
+    users = list(User.objects(Q(email=str(username)) | Q(username=str(username).split('@')[0])))
     if len(users):
         return users[0]
 
