@@ -13,6 +13,8 @@ class MlModelView(ModelView, metaclass=ViewSecurityListeners):
     can_view_details = True
     can_view = True
     can_create = False
+    column_default_sort = ('ts', True)
+
     # details_template = 'mlmodel/details.html'
 
     def __init__(self, model, model_repository: ModelRepository,
