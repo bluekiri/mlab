@@ -44,9 +44,11 @@ class CustomLoginForm(LoginForm):
 
     def _send_welcome_message(self):
         # TODO this need be abstracted in a interactor but the flask security plugin throw a error...
-        Message(user=self.get_user(), subject_data=SubjectData.welcome.name, text="",
-                topic=Topic.direct_message.name,
-                subject=SubjectData.welcome.value['text'] % self.get_user().name).save()
+        messages = Message.objects(user=self.get_user(), subject_data=SubjectData.welcome.name)
+        if len(messages) == 0:
+            Message(user=self.get_user(), subject_data=SubjectData.welcome.name, text="",
+                    topic=Topic.direct_message.name,
+                    subject=SubjectData.welcome.value['text'] % self.get_user().name).save()
 
     def get_user(self):
         return self.user

@@ -31,3 +31,15 @@
 .btn-primary:active, .btn-primary.active {
     background: #007299;
     box-shadow: none;
+
+.modal-sm {
+  display: None;
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  left: 30%;
+  transform: translateX(-50%);
+  vertical-align: middle;
+}

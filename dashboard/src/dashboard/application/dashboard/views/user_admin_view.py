@@ -1,7 +1,9 @@
 from flask_admin.contrib.mongoengine import ModelView
 from flask_security import utils
 from flask_security.core import current_user
-from wtforms import PasswordField
+from wtforms import PasswordField, SelectMultipleField
+
+from dashboard.domain.entities.message import Topic
 
 
 class UserAdmin(ModelView):
@@ -21,9 +23,12 @@ class UserAdmin(ModelView):
     def is_accessible(self):
         return current_user.has_role('admin')
 
+    def get_available_topics(self):
+        return [(topic.name, topic.value) for topic in Topic]
+
     def scaffold_form(self):
         form_class = super(UserAdmin, self).scaffold_form()
-        # form_class.topics = TagListField('Topics')
+        form_class.topics = SelectMultipleField('Topics', choices=self.get_available_topics())
         form_class.password2 = PasswordField('New Password')
 
         return form_class
