@@ -26,3 +26,5 @@ class WorkerRepository:
     def set_error_modal_load(self):
         raise NotImplementedError()
 
+    def is_current_worker_loaded_on_zoo(self):
+        raise NotImplementedError

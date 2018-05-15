@@ -11,7 +11,8 @@ from worker.application.conf.config import SERVICE_PORT
 from worker.application.datasource.zk_datasource_imp import ZKDatasourceImp
 from worker.application.interactors.send_mail_imp import SendMailImp
 from worker.application.interactors.get_model_imp import GetModelImp
-from worker.application.interactors.model_change_listener_imp import ModelChangeListenerImp
+from worker.application.interactors.model_change_listener_imp import \
+    ModelChangeListenerImp
 from worker.application.register_routes import register_routes
 from worker.application.repositories.logs_repository_imp import LogsRepositoryImp
 from worker.application.repositories.model_repository_imp import ModelRepositoryImp
@@ -41,12 +42,13 @@ zk_datasource = ZKDatasourceImp()
 
 logs_repository = LogsRepositoryImp()
 worker_repository = WorkerRepositoryImp(zk_datasource)
-model_repository = ModelRepositoryImp(worker_repository)
+model_repository = ModelRepositoryImp(worker_repository, logs_repository)
 user_repository = UserRepositoryImp()
 
 send_mail = SendMailImp(user_repository)
 get_model = GetModelImp(logs_repository, worker_repository, model_repository, send_mail)
-model_change_listener = ModelChangeListenerImp(model_repository, worker_repository, logs_repository, get_model)
+model_change_listener = ModelChangeListenerImp(model_repository, worker_repository,
+                                               logs_repository, get_model)
 
 logger.info(open(ASSETS_APPLICATION_PATH + '/title.txt', 'r').read())
 logger.info("Starting loading server configuration...")

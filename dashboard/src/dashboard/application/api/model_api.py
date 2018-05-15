@@ -20,7 +20,7 @@ def register_model_methods(api, token_verification: TokenVerification,
         token = request.args['token']
 
         if not token_verification.is_valid_token(token):
-            return "Invalid token", 401
+            return "Invalid token", 403
 
         pickle = request.files['file']
 

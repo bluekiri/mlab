@@ -1,5 +1,7 @@
 import datetime
 from typing import Dict
+import pytz
+import tzlocal
 
 import timeago
 
@@ -22,16 +24,18 @@ class OrchestationInteractorImp(OrchestationInteractor):
         self.worker_repository.set_group_in_worker(host_id, group_name)
 
     def _get_workers_grouped(self):
+
         def _map_worker_to_dict(worker: Worker) -> Dict:
             return {
                 "name": worker.host_name,
                 "swagger_uri": "http://%s:9090" % worker.host,
                 "worker": worker.number_of_instances,
                 "ts": timeago.format(worker.ts, datetime.datetime.utcnow()),
-                "model_name": "Model not loaded" if worker.model is None else worker.model.name,
+                "model_name": "Model not loaded" if worker.model is None else worker.model.name + " - " + str(
+                    worker.model.ts),
                 "group": worker.group,
                 "running": worker.up,
-                "auto_model_publisher" :worker.auto_model_publisher
+                "auto_model_publisher": worker.auto_model_publisher
             }
 
         workers = self.worker_repository.get_available_workers()

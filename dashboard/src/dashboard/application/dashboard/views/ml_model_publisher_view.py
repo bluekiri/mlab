@@ -44,13 +44,26 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
     def models(self):
         return json.dumps(
             [(str(model.pk), self._format_model_name(model)) for model in
-             MlModel.objects()])
+             MlModel.objects().order_by('-ts')])
 
     def _format_model_name(self, model):
         local_time_zone = tzlocal.get_localzone()
         local_time = model.ts.replace(tzinfo=pytz.utc).astimezone(
             local_time_zone)
         return model.name + " - " + local_time.strftime('%Y-%m-%d %H:%M:%S')
+
+    def _get_file_url(self, path):
+        """
+            Return static file url
+            :param path:
+                Static file path
+        """
+        if self.is_file_editable(path):
+            route = '.edit'
+        else:
+            route = '.download'
+
+        return self.get_url(route, path=path)
 
     @login_required
     @roles_required('admin', )
