@@ -15,3 +15,6 @@ class OrchestationInteractor:
 
     def set_group_to_worker(self, host_cluster: str, group_name: str):
         raise NotImplementedError()
+
+    def set_auto_model_publisher(self, host: str, enable: bool):
+        raise NotImplementedError()

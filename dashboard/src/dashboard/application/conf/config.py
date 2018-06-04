@@ -26,6 +26,8 @@ ZOOKEEPER = os.environ['MLAB_ZOOKEEPER_URI']
 # --------------------------------------------------------------------------------
 
 # Flask
+dashboard_home_title = os.environ["DASHBOARD_TITLE"]
+
 flask_prefix = "dashboard"
 flask_uri_prefix = "/" + flask_prefix
 

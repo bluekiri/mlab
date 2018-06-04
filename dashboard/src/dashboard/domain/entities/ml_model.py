@@ -3,7 +3,8 @@ import datetime
 from bson import ObjectId
 from mongoengine import *
 
-from dashboard.application.repositories.mongo_repository import get_mongo_connection
+from dashboard.application.repositories.mongo_repository import \
+    get_mongo_connection
 
 db = get_mongo_connection()
 
@@ -15,7 +16,7 @@ class MlModel(db.Document):
     description = db.StringField()
     extra_info = db.ListField(FileField())
     pickle = db.FileField(required=True)
-    score = db.DecimalField(required=True)
+    score = db.DecimalField(required=True, precision=5)
     classification_eval_file = db.FileField()
 
     def set_pk(self):

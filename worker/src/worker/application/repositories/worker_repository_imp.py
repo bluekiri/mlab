@@ -23,7 +23,8 @@ class WorkerRepositoryImp(WorkerRepository):
 
     def get_self_worker_model_id(self) -> str:
         if self.zk_datasource.zk.exists(self.worker_path + "/model"):
-            return self.zk_datasource.zk.get(self.worker_path + "/model")[0].decode("utf-8")
+            return self.zk_datasource.zk.get(self.worker_path + "/model")[0].decode(
+                "utf-8")
 
     def initialize_event_listener(self):
         @self.zk_datasource.zk.DataWatch(self.worker_path + "/model")
@@ -49,21 +50,27 @@ class WorkerRepositoryImp(WorkerRepository):
 
         try:
             self.zk_datasource.zk.create(self.worker_path + "/up",
-                                         str(datetime.utcnow().timestamp()).encode('utf-8'),
-                                         ephemeral=True)
+                                         str(datetime.utcnow().timestamp()).encode(
+                                             'utf-8'), ephemeral=True)
         except:
             self.logger.info("Worker reload")
 
+    def is_current_worker_loaded_on_zoo(self):
+        return self.zk_datasource.zk.exists(self.worker_path + "/up") is not None
+
     def set_success_model_load(self):
         if self.zk_datasource.zk.exists(self.worker_path) is not None:
-            data = json.loads(self.zk_datasource.zk.get(self.worker_path)[0].decode("utf-8"))
+            data = json.loads(
+                self.zk_datasource.zk.get(self.worker_path)[0].decode("utf-8"))
             if "model_error" in data:
                 del data["model_error"]
                 data["model_success"] = str(datetime.now())
-                self.zk_datasource.zk.set(self.worker_path, json.dumps(data).encode('utf-8'))
+                self.zk_datasource.zk.set(self.worker_path,
+                                          json.dumps(data).encode('utf-8'))
 
     def set_error_modal_load(self):
         if self.zk_datasource.zk.exists(self.worker_path) is not None:
-            data = json.loads(self.zk_datasource.zk.get(self.worker_path)[0].decode("utf-8"))
+            data = json.loads(
+                self.zk_datasource.zk.get(self.worker_path)[0].decode("utf-8"))
             data["model_error"] = str(datetime.now())
             self.zk_datasource.zk.set(self.worker_path, json.dumps(data).encode('utf-8'))

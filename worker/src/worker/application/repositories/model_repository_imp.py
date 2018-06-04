@@ -1,8 +1,10 @@
 # coding: utf-8
 import logging
 
+from worker.domain.entities.logs_mo import Logs, LogsTopics
 from worker.domain.entities.model_mo import Model
 from worker.domain.exception.unpickle_model_exception import UnpickleModelException
+from worker.domain.repositories.logs_repository import LogsRepository
 from worker.domain.repositories.model_repository import ModelRepository
 from worker.domain.repositories.worker_repository import WorkerRepository
 
@@ -12,9 +14,31 @@ class ModelRepositoryImp(ModelRepository):
 
     loading_model = False
 
-    def __init__(self, worker_repository: WorkerRepository):
+    def __init__(self, worker_repository: WorkerRepository,
+                 logs_repository: LogsRepository):
+        self.logs_repository = logs_repository
         self.worker_repository = worker_repository
         self.logger = logging.getLogger(__name__)
+
+    def _build_success_load_model_log(self, model_name, model_id) -> Logs:
+        log = Logs()
+        log.topic = LogsTopics.activate_model.name
+        log.text = "Model loaded successful"
+        log.data = {"model_id": str(model_id),
+                    "model_name": model_name,
+                    "host": self.worker_repository.get_worker_host(),
+                    "host_name": self.worker_repository.get_self_worker_model_id()}
+        return log
+
+    def _build_error_load_model_log(self, model_name, model_id) -> Logs:
+        log = Logs()
+        log.topic = LogsTopics.worker_error.name
+        log.text = "Error getting current model"
+        log.data = {"model_id": str(model_id),
+                    "model_name": model_name,
+                    "host": self.worker_repository.get_worker_host(),
+                    "host_name": self.worker_repository.get_self_worker_model_id()}
+        return log
 
     def get_current_model(self) -> Model:
         if self.singleton_current_model is None:
@@ -24,16 +48,33 @@ class ModelRepositoryImp(ModelRepository):
     def load_default_model(self):
         model_id = self.worker_repository.get_self_worker_model_id()
         if model_id is None:
-            self.loading_model = True
-            try:
-                self.singleton_current_model = Model.objects().first()
-                self.singleton_current_model.get_model_instance()
+            models = Model.objects()
+            if len(models) > 0:
+                model = list(models)[-1]
                 self.logger.info(
-                    "Model not found... Loading first mlmodel (%s)" % self.singleton_current_model.name)
-            except Exception as e:
-                self.logger.warning("No models found: %s" % e)
-            finally:
-                self.loading_model = False
+                    "Model not found... Loading first mlmodel (%s)" %
+                    model.name)
+                self.try_load_new_model_instance(model.pk)
+            else:
+                self.logger.warning("No models found")
+
+                #     try:
+                #         model = models[-1]
+                #         self.logger.info(
+                #             "Model not found... Loading first mlmodel (%s)" %
+                #             self.singleton_current_model.name)
+                #         model.get_model_instance()
+                #         self.singleton_current_model = model
+                #
+                #     except UnpickleModelException as e:
+                #         model = models[-1]
+                #         self.logger.error("Error loading (%s)" % model.name)
+                #         log = self._build_error_load_model_log(model.name, model.pk)
+                #         self.logs_repository.save(log)
+                #     except Exception as e:
+                #         self.logger.warning("No models found: %s" % e)
+                #     finally:
+                #         self.loading_model = False
         else:
             self.try_load_new_model_instance(model_id)
 
@@ -41,19 +82,30 @@ class ModelRepositoryImp(ModelRepository):
         model = Model.objects(pk=model_id).first()
         if model is None:
             return False
-        if (
-                        self.singleton_current_model is None or model.pk != self.singleton_current_model.pk) and not self.loading_model:
+        if (self.singleton_current_model is None or model.pk !=
+            self.singleton_current_model.pk) and not self.loading_model:
             self.logger.info("New mlmodel found (%s)" % model.name)
             model_found = Model.objects(pk=model.pk).first()
             self.loading_model = True
             try:
                 model_found.get_model_instance()
-                self.singleton_current_model = model_found
             except Exception as e:
-                self.logger.error("Error loading (%s)" % model.name)
-                raise UnpickleModelException(model_id, self.worker_repository.get_worker_host(), str(e))
+                self.logger.error("Error unpeckilizing (%s)" % model.name)
+                log = self._build_error_load_model_log(model.name, model.pk)
+                self.logs_repository.save(log)
+                self.worker_repository.set_error_modal_load()
+                raise UnpickleModelException(model_id,
+                                             self.worker_repository.get_worker_host(),
+                                             str(e))
             finally:
                 self.loading_model = False
+
+            self.singleton_current_model = model_found
+            self.worker_repository.set_success_model_load()
+
+            log = self._build_success_load_model_log(model.name, model.pk)
+            self.logs_repository.save(log)
+
             self.logger.info("New mlmodel loaded (%s)" % model.name)
             return True
         return False

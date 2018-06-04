@@ -6,3 +6,4 @@ class BenchmarkModelController(BaseModelController):
     def on_get(self, req, resp):
         model_request = {}
         resp.media = {"model_response": ''}
+

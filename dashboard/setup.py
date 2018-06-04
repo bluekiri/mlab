@@ -25,7 +25,9 @@ setup(
     author_email='oscar.garcia@bluekiri.com',
     description='Mlab dashboard orchestator',
     long_description='%s\n%s' % (
-        re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.md')),
+        re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('',
+                                                                        read(
+                                                                            'README.md')),
         re.sub(':[a-z]+:`~?(.*?)`', r'``\1``', read('CHANGELOG.rst'))
     ),
     url='',
@@ -72,5 +74,6 @@ setup(
         'timeago==1.0.7',
         'Werkzeug==0.12.2',
         'WTForms==2.1',
+        'tzlocal==1.5.1'
     ]
 )

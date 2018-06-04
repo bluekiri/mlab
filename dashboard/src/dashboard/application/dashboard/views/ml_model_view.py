@@ -1,5 +1,10 @@
+import gridfs
+from flask import request, Response
+from flask_admin import expose
 from flask_admin.contrib.mongoengine import ModelView
 from flask_security.core import current_user
+from mongoengine.connection import get_db
+from werkzeug.exceptions import abort
 
 from dashboard.application.dashboard.views.util.view_roles_management import \
     ViewSecurityListeners
@@ -13,7 +18,13 @@ class MlModelView(ModelView, metaclass=ViewSecurityListeners):
     can_view_details = True
     can_view = True
     can_create = False
-    details_template = 'mlmodel/details.html'
+    column_default_sort = ('ts', True)
+    can_download = False
+
+    # details_template = 'mlmodel/details.html'
+
+
+
 
     def __init__(self, model, model_repository: ModelRepository,
                  save_model_log_event: SaveModelLogEvent, current_user: CurrentUser,
@@ -40,3 +51,24 @@ class MlModelView(ModelView, metaclass=ViewSecurityListeners):
         model.set_pk()
         self.save_model_log_event.save_new_model_event(model.name, str(model.pk), False,
                                                        self.current_user.get_current_user().pk)
+
+    @expose('/api/file/')
+    def api_file_view(self):
+        pk = request.args.get('id')
+        coll = request.args.get('coll')
+        db = request.args.get('db', 'default')
+
+        if not pk or not coll or not db:
+            abort(404)
+
+        fs = gridfs.GridFS(get_db(db), coll)
+
+        data = fs.get(self.object_id_converter(pk))
+        if not data:
+            abort(404)
+
+        return Response(data.read(),
+                        content_type='application/octet-stream',
+                        headers={'Content-Length': data.length,
+                                 'Content-Disposition': 'attachment',
+                                 'filename': "downloaded.pdf"})

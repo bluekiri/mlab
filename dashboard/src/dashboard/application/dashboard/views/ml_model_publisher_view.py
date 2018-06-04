@@ -1,5 +1,7 @@
 import json
 
+import pytz
+import tzlocal
 from flask import request
 from flask import url_for
 from flask_admin import BaseView
@@ -12,6 +14,7 @@ from dashboard.application.dashboard.views.util.view_roles_management import \
 from dashboard.domain.entities.ml_model import MlModel
 from dashboard.domain.interactor.orchestation.orchestation_interator import \
     OrchestationInteractor
+from dashboard.domain.interactor.users.current_user import CurrentUser
 from dashboard.domain.interactor.users.users_privileges import UsersPrivileges
 
 
@@ -19,9 +22,12 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
     can_edit = True
 
     def __init__(self, users_privilages: UsersPrivileges,
-                 orchestation_interactor: OrchestationInteractor, name, menu_icon_type,
-                 menu_icon_value):
-        super().__init__(name=name, menu_icon_type=menu_icon_type, menu_icon_value=menu_icon_value)
+                 orchestation_interactor: OrchestationInteractor,
+                 current_user: CurrentUser, name,
+                 menu_icon_type, menu_icon_value):
+        super().__init__(name=name, menu_icon_type=menu_icon_type,
+                         menu_icon_value=menu_icon_value)
+        self.current_user = current_user
         self.users_privilages = users_privilages
         self.orchestation_interactor = orchestation_interactor
 
@@ -31,11 +37,44 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
         group_of_workers, workers_without_group = self.orchestation_interactor.get_group_workers()
         return self.render('ml_model_publisher/ml_model_publisher.html',
                            group_of_workers=group_of_workers,
-                           workers_without_group=workers_without_group)
+                           workers_without_group=workers_without_group,
+                           has_active_model_permissions=self.current_user.has_admin_role())
 
     @expose('/models', methods=('GET',))
     def models(self):
-        return json.dumps([(str(model.pk), model.name) for model in MlModel.objects()])
+        return json.dumps(
+            [(str(model.pk), self._format_model_name(model)) for model in
+             MlModel.objects().order_by('-ts')])
+
+    def _format_model_name(self, model):
+        local_time_zone = tzlocal.get_localzone()
+        local_time = model.ts.replace(tzinfo=pytz.utc).astimezone(
+            local_time_zone)
+        return model.name + " - " + local_time.strftime('%Y-%m-%d %H:%M:%S')
+
+    def _get_file_url(self, path):
+        """
+            Return static file url
+            :param path:
+                Static file path
+        """
+        if self.is_file_editable(path):
+            route = '.edit'
+        else:
+            route = '.download'
+
+        return self.get_url(route, path=path)
+
+    @login_required
+    @roles_required('admin', )
+    @expose('/enable_auto_publisher', methods=('POST',))
+    def enable_auto_publisher(self):
+        host_name = request.form.get("host_name")
+        enable = request.form.get("enable")
+
+        self.orchestation_interactor.set_auto_model_publisher(host_name, enable)
+        return json.dumps({"go": url_for("mlmodelpublisherview.index")}), 200, {
+            'ContentType': 'application/json'}
 
     @login_required
     @roles_required('admin', )
