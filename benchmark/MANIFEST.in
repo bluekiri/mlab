@@ -1,3 +1,0 @@
-include src/application/conf/logging.yaml
-recursive-include src/application/assets *
-prune src/tests
