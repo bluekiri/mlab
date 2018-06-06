@@ -110,37 +110,37 @@ services:
 #    networks:
 #      - nginx-proxy
 
-  mlab_dashboard:
-    build:
-      context: dashboard
-      dockerfile: Dockerfile
-      args:
-        DATABASE_NAME: "mlab"
-        MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/?readPreference=primary"
-        MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
-        LDAP_EDIT_GROUPS: "${LDAP_EDIT_GROUPS}"
-        LDAP_PASS: "${LDAP_PASS}"
-        LDAP_DN: "${LDAP_DN}"
-        LDAP_BASE: "${LDAP_BASE}"
-        LDAP_EDIT_GROUPS: "${LDAP_EDIT_GROUPS}"
-        LDAP_URI: "${LDAP_URI}"
-        PORT: 5000
-
-    container_name: mlab_dashboard
-    ports:
-      - "5000:5000"
-    networks:
-      - nginx-proxy
-    environment:
-      DATABASE_NAME: "mlab"
-      MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/?readPreference=primary"
-      MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
-      DASHBOARD_TITLE: "MLAB"
-      LDAP_URI: "${LDAP_URI}"
-      WORKER_INSTANCES: 4
-      PORT: 5000
-    depends_on:
-      - mlab_worker
+#mlab_dashboard:
+#   build:
+#      context: dashboard
+#      dockerfile: Dockerfile
+#      args:
+#        DATABASE_NAME: "mlab"
+#        MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/?readPreference=primary"
+#        MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
+#        LDAP_EDIT_GROUPS: "${LDAP_EDIT_GROUPS}"
+#        LDAP_PASS: "${LDAP_PASS}"
+#        LDAP_DN: "${LDAP_DN}"
+#        LDAP_BASE: "${LDAP_BASE}"
+#        LDAP_EDIT_GROUPS: "${LDAP_EDIT_GROUPS}"
+#        LDAP_URI: "${LDAP_URI}"
+#        PORT: 5000
+#
+#    container_name: mlab_dashboard
+#    ports:
+#      - "5000:5000"
+#    networks:
+#      - nginx-proxy
+#    environment:
+#      DATABASE_NAME: "mlab"
+#      MLAB_MONGO_URI: "mongodb://mlab_mongo:27017/?readPreference=primary"
+#      MLAB_ZOOKEEPER_URI: "mlab_zoo1:2181"
+#      DASHBOARD_TITLE: "MLAB"
+#      LDAP_URI: "${LDAP_URI}"
+#      WORKER_INSTANCES: 4
+#      PORT: 5000
+#    depends_on:
+#      - mlab_worker
 
 networks:
   nginx-proxy:
