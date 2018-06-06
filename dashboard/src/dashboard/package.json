@@ -1,0 +1,21 @@
+{
+  "name": "mlab_dashboard",
+  "version": "0.0.1",
+  "description": "Mlab dashboard orchestator module",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "mlab",
+    "dashboard",
+    "orchestator"
+  ],
+  "author": "oscar.garcia@bluekiri.com",
+  "license": "UNLICENSED",
+  "dependencies":{
+    "gulp":"3.9.1",
+    "gulp-notify":"3.2.0",
+    "bower":"1.8.4"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "mlab_dashboard",
+  "authors": [
+    "Oscar García Peinado <oscar.garcia@bluekiri.com>"
+  ],
+  "description": "mlab_dashboard",
+  "main": "app.py",
+  "keywords": [
+    "mlab"
+  ],
+  "license": "Apache 2.0",
+  "homepage": "www.bluekiri.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "startbootstrap-sb-admin-2-blackrockdigital": "3.3.7",
+    "jquery": "3.3.1",
+    "vis":"4.21.0",
+    "momentjs":"2.22.2",
+    "select2": "~4.0"
+  },
+  "resolutions": {
+    "font-awesome": "^4.7.0"
+  }
+}
