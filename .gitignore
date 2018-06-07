@@ -285,12 +285,5 @@ dashboard/src/dashboard/.env
 dashboard/src/dashboard/node_modules
 
 #Static files
-dashboard/src/dashboard/static/css/main/*
-!dashboard/src/dashboard/static/css/main/new_flatly_bootstrap.css
+dashboard/src/dashboard/static/vendor/
 
-dashboard/src/dashboard/static/fonts/*
-
-dashboard/src/dashboard/static/js/*
-!dashboard/src/dashboard/static/js/countUp.js
-!dashboard/src/dashboard/static/js/home.js
-!dashboard/src/dashboard/static/js/publisherview.js

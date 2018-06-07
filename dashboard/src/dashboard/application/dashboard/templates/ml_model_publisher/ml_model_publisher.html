@@ -47,7 +47,7 @@
     {% extends admin_base_template %}
     {% block head %}
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/publisher.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='mlab/css/publisher.css') }}">
 
     {% endblock %}
 
@@ -184,5 +184,5 @@
     </div>
 
     <script type=text/javascript
-            src="{{ url_for('static',filename='js/publisherview.js') }}"></script>
+            src="{{ url_for('static',filename='mlab/js/publisherview.js') }}"></script>
     {% endblock %}

@@ -84,23 +84,26 @@ class Dashboard:
     def _initialize_views(self):
         self.app.jinja_env.globals.update(
             pending_messages=self.user_messaging.get_pending_messages)
+        from flask_adminlte import AdminLTE
 
-        admin = flask_admin.Admin(
+        admin = AdminLTE(
             self.app,
-            name=dashboard_home_title,
-            base_template='base.html',
-            index_view=HomeView(
-                get_line_time_events=self.get_time_line_events,
-                get_workers_load_model_status=self.get_workers_load_model_status,
-                name="Dashboard",
-                url=self.dashboard_blueprint.url_prefix,
-                menu_icon_type='fa',
-                template='home/index.html',
-                menu_icon_value='fa-dashboard'),
-            category_icon_classes={
-                'Access': 'glyphicon glyphicon-user',
-                'PreProcess': 'glyphicon glyphicon-equalizer',
-            })
+            # name=dashboard_home_title,
+            # base_template='base.html',
+            # template_mode="bootstrap3",
+            # index_view=HomeView(
+            #     get_line_time_events=self.get_time_line_events,
+            #     get_workers_load_model_status=self.get_workers_load_model_status,
+            #     name="Dashboard",
+            #     url=self.dashboard_blueprint.url_prefix,
+            #     menu_icon_type='fa',
+            #     template='home/index.html',
+            #     menu_icon_value='fa-dashboard'),
+            # category_icon_classes={
+            #     'Access': 'glyphicon glyphicon-user',
+            #     'PreProcess': 'glyphicon glyphicon-equalizer',
+            # }
+        )
 
         # Add view
         admin.add_view(

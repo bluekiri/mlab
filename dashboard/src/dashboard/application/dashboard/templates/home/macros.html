@@ -1,10 +1,10 @@
 {% macro draw_card(image_file_name,workers) -%}
 <div class="card">
     <div class="container">
-        <img class="card-image" src="{{ url_for('static', filename='img/'+image_file_name) }}" alt="Avatar">
+        <img class="card-image" src="{{ url_for('static', filename='mlab/img/'+image_file_name) }}" alt="Avatar">
         <h4><b>Workers</b></h4>
         {% for worker in workers %}
-        <img class="server-image" src="{{ url_for('static', filename='img/server_icon.png') }}" alt="Avatar">
+        <img class="server-image" src="{{ url_for('static', filename='mlab/img/server_icon.png') }}" alt="Avatar">
         {% endfor %}
     </div>
 </div>

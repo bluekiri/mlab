@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css"
-          href="{{ url_for('static',filename='css/login_main.css') }}">
-    <script type=text/javascript src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
+          href="{{ url_for('static',filename='mlab/css/login_main.css') }}">
+    <script type=text/javascript src="{{ url_for('static',filename='vendor/js/jquery.min.js') }}"></script>
     <script type=text/javascript
-            src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
+            src="{{ url_for('static',filename='vendor/js/bootstrap.min.js') }}"></script>
 </head>
 <body>
 <div class="login-page form" style="position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);">
-    <img src="{{ url_for('static', filename='img/login_image.gif') }}" width="100%" alt="lab_icon"/>
+    <img src="{{ url_for('static', filename='mlab/img/login_image.gif') }}" width="100%" alt="lab_icon"/>
     <form action="{{ url_for_security('login') }}" method="POST" name="login_form">
         {{ login_user_form.hidden_tag() }}
         {{ render_field_with_errors(login_user_form.email) }}
