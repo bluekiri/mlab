@@ -13,9 +13,12 @@
   ],
   "author": "oscar.garcia@bluekiri.com",
   "license": "UNLICENSED",
-  "dependencies":{
-    "gulp":"3.9.1",
-    "gulp-notify":"3.2.0",
-    "bower":"1.8.4"
+  "dependencies": {
+    "gulp": "3.9.1",
+    "gulp-notify": "3.2.0",
+    "bower": "1.8.4"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1"
   }
 }

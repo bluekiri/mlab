@@ -2,26 +2,45 @@ var gulp = require('gulp');
 var notify = require("gulp-notify");
 
 gulp.task('copyJquery',function(){
-    gulp.src('./bower_components/jquery/dist/jquery.min.js')
+    gulp.src('./bower_components/sbadmin/vendor/jquery/jquery.min.js')
+        .pipe(gulp.dest('./static/js/'));
+    gulp.src('./bower_components/sbadmin/vendor/jquery-easing/jquery.easing.min.js')
         .pipe(gulp.dest('./static/js/'));
 });
 
 gulp.task('copyFontAwesome',function(){
-    gulp.src('./bower_components/font-awesome/fonts/*')
+    gulp.src('./bower_components/sbadmin/vendor/font-awesome/fonts/*')
         .pipe(gulp.dest('./static/fonts'));
-    gulp.src('./bower_components/font-awesome/css/font-awesome.min.css')
+    gulp.src('./bower_components/sbadmin/vendor/font-awesome/css/font-awesome.min.css')
         .pipe(gulp.dest('./static/css/main'));
 });
 
-gulp.task('sbAdmin2',function(){
-    gulp.src('./bower_components/startbootstrap-sb-admin-2-blackrockdigital/dist/css/*')
+gulp.task('sbAdmin',function(){
+    gulp.src('./bower_components/sbadmin/css/sb-admin.min.css')
         .pipe(gulp.dest('./static/css/main'));
-    gulp.src('./bower_components/startbootstrap-sb-admin-2-blackrockdigital/dist/js/*')
+    gulp.src('./bower_components/sbadmin/js/sb-admin.min.js')
+        .pipe(gulp.dest('./static/js'));
+    gulp.src('./bower_components/sbadmin/js/sb-admin-charts.min.js')
+        .pipe(gulp.dest('./static/js'));
+    gulp.src('./bower_components/sbadmin/js/sb-admin-datatables.min.js')
         .pipe(gulp.dest('./static/js'));
 });
 
 gulp.task('momentJs',function(){
     gulp.src('./bower_components/momentjs/min/moment.min.js')
+        .pipe(gulp.dest('./static/js'));
+});
+
+gulp.task('bootstrap',function(){
+    gulp.src('./bower_components/sbadmin/vendor/bootstrap/css/bootstrap.min.css')
+        .pipe(gulp.dest('./static/css/main'));
+//    gulp.src('./bower_components/sbadmin/vendor/bootstrap/css/bootstrap.min.css.map')
+//        .pipe(gulp.dest('./static/css/main'));
+    gulp.src('./bower_components/sbadmin/vendor/datatables/dataTables.bootstrap4.css')
+        .pipe(gulp.dest('./static/css/main'));
+    gulp.src('./bower_components/sbadmin/vendor/bootstrap/js/bootstrap.min.js')
+        .pipe(gulp.dest('./static/js'));
+    gulp.src('./bower_components/sbadmin/vendor/bootstrap/js/bootstrap.bundle.min.js')
         .pipe(gulp.dest('./static/js'));
 });
 
@@ -34,6 +53,7 @@ gulp.task('select2',function(){
 });
 
 
-gulp.task('default', ['copyJquery','copyFontAwesome','sbAdmin2','momentJs','select2'], function() {
+gulp.task('default', ['copyJquery','copyFontAwesome','sbAdmin','momentJs','select2','bootstrap'],
+function() {
     notify({message: 'Ready for distribution!'})
 });

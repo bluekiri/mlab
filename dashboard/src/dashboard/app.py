@@ -7,8 +7,9 @@ import yaml
 from flask import Flask
 from flask_security import MongoEngineUserDatastore
 from flask_security import Security
+from flask_security import utils
 
-from dashboard.application.conf.config import SERVICE_PORT
+from dashboard.application.conf.config import SERVICE_PORT, CREATE_ADMIN_USER
 from dashboard.application.interactor.logs.get_workers_load_model_status_imp import \
     GetWorkersLoadModelStatusImp
 from dashboard.application.interactor.workers_obersable_imp import \
@@ -127,10 +128,11 @@ api_dashboard = ApiDashboard(create_ml_model=create_ml_model,
 app.register_blueprint(api_dashboard.get_blueprint())
 
 # This snippet of code is user with password create example
-# with app.app_context():
-#     admin_role = user_datastore.find_or_create_role('admin')
-#     user_datastore.create_user(email='admin', password=utils.hash_password('admin'), name='admin',
-#                                username='admin', roles=[admin_role])
+if CREATE_ADMIN_USER and not len(user_datastore.user_model.objects()):
+    with app.app_context():
+        admin_role = user_datastore.find_or_create_role('admin')
+        user_datastore.create_user(email='admin', password=utils.hash_password('admin'),
+                                   name='admin', username='admin', roles=[admin_role])
 
 if __name__ == '__main__':
     # Start app

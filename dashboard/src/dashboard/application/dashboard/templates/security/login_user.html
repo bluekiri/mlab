@@ -1,11 +1,13 @@
+<!DOCTYPE html>
 {% from "security/_macros.html" import render_field_with_errors, render_field %}
-<!--{% include "security/_messages.html" %}-->
+<html>
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static',filename='css/login_main.css') }}">
     <script type=text/javascript src="{{ url_for('static',filename='js/jquery.min.js') }}"></script>
-    <script type=text/javascript src="{{ url_for('static',filename='js/boostrap.min.js') }}"></script>
+    <script type=text/javascript
+            src="{{ url_for('static',filename='js/bootstrap.min.js') }}"></script>
 </head>
 <body>
 <div class="login-page form" style="position: fixed;top: 50%;left: 50%;transform: translate(-50%, -50%);">
@@ -20,3 +22,4 @@
     </form>
 </div>
 </body>
+</html>

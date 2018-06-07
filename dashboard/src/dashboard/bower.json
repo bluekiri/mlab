@@ -19,7 +19,7 @@
     "tests"
   ],
   "dependencies": {
-    "startbootstrap-sb-admin-2-blackrockdigital": "3.3.7",
+    "sbadmin": "https://github.com/BlackrockDigital/startbootstrap-sb-admin.git#master",
     "jquery": "3.3.1",
     "vis":"4.21.0",
     "momentjs":"2.22.2",
