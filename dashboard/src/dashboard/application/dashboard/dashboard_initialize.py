@@ -1,10 +1,10 @@
 import flask_admin
-from flask import Blueprint, request
+from flask import Blueprint, request, json
 from flask import render_template
 from flask_security import logout_user
 from werkzeug.utils import redirect
 
-from dashboard.application.conf.config import dashboard_home_title
+from dashboard.application.conf.config import *
 from dashboard.application.dashboard.views.api_token_view import ApiTokenView
 from dashboard.application.dashboard.views.home_view import HomeView
 from dashboard.application.dashboard.views.logs_view import LogsView
@@ -71,6 +71,17 @@ class Dashboard:
         def logout_view():
             logout_user()
             return redirect(request.url_root + "dashboard/")
+
+        @self.dashboard_blueprint.route('/info', methods=('GET',))
+        def get_info():
+            data = {"zookeper": ZOOKEEPER,
+                    "mongo": MONGO_CONNECTION_URI,
+                    "mongo_database": MONGO_DATABASE,
+                    "zookeper_directory": PROJECT,
+                    "dashboard_port": SERVICE_PORT,
+                    "dashboard_title": dashboard_home_title,
+                    }
+            return json.dumps(data), 200, {'ContentType': 'application/json'}
 
         @self.app.errorhandler(404)
         def page_not_found(e):

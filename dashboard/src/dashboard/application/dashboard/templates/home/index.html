@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block body %}
-<h2>Model TimeLine</h2>
+<h2>Models Timeline</h2>
 <div id="visualization"></div>
 
 <div id="worker-status" style="margin-top:20px; display: flex;">
@@ -31,12 +31,10 @@
 
 
 <script type="text/javascript">
-  // DOM element where the Timeline will be attached
   var container = document.getElementById('visualization');
 
   // Create a DataSet (allows two way data-binding)
   var items = parseTimeLineDatasetFromLogs({{logs|tojson}});
-
   // Configuration for the Timeline
   var options = {
     width: '100%',

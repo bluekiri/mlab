@@ -274,3 +274,21 @@ table th[class*="col-"] {
 .skin-blue .main-header .logo {
     background-color: #53982E;
 }
+.skin-blue .main-header .navbar .sidebar-toggle:hover,
+.skin-blue .main-header .logo:hover {
+    background-color: #347411;
+}
+
+.admin-form {
+    max-width: 1000px;
+    margin-top: 10px;
+}
+
+.control-sidebar-bg, .control-sidebar {
+    top: 0;
+    right: -400px;
+    width: 400px;
+    -webkit-transition: right .3s ease-in-out;
+    -o-transition: right .3s ease-in-out;
+    transition: right .3s ease-in-out;
+}
