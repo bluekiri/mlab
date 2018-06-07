@@ -268,3 +268,9 @@ table th[class*="col-"] {
         border-bottom: 0
     }
 }
+.skin-blue .main-header .navbar {
+    background-color: #76B852;
+}
+.skin-blue .main-header .logo {
+    background-color: #53982E;
+}

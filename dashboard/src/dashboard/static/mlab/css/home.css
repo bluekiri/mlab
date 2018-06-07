@@ -14,16 +14,12 @@
 /* Add some padding inside the card container */
 .container {
     padding: 2px 16px;
+    width: unset;
 }
 .card-image{
-    //position: absolute;
-    //top: 50%;
-    //left: 50%;
-    //transform: translateX(-50%) translateY(-50%);
     display:block;
-    margin:auto;
-    margin-top:10px;
-    margin-bottom:10px;
+    //margin-top:10px;
+    //margin-bottom:10px;
     width: 60px;
     height: 60px;
 }
