@@ -251,10 +251,10 @@
         <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
             <!--TODO add settings tab-->
             <!--<li>-->
-                <!--<a href="#control-sidebar-settings-tab" data-toggle="tab">-->
-                    <!--<i class="fa fa-cog">-->
-                    <!--</i>-->
-                <!--</a>-->
+            <!--<a href="#control-sidebar-settings-tab" data-toggle="tab">-->
+            <!--<i class="fa fa-cog">-->
+            <!--</i>-->
+            <!--</a>-->
             <!--</li>-->
             <li class="active">
                 <a href="#control-sidebar-info-tab"
@@ -265,7 +265,9 @@
         <div class="tab-content">
             <!-- Stats tab content -->
             <div class="tab-pane active" id="control-sidebar-info-tab">
-                <h3 class="control-sidebar-heading">General Info</h3>
+                <h1 class="control-sidebar-heading">General Info</h1>
+                <div class="tab-container"></div>
+                <h3 class="setting-footer">Mlab</h3>
             </div>
             <!-- /.tab-pane -->
             <!-- Settings tab content -->
@@ -317,10 +319,6 @@
 
 
 
-
-
-
-
 </script>
 <!-- Bootstrap 3.3.6 -->
 <script src="{{url_for('static',filename='vendor/js/bootstrap.min.js')}}"></script>
@@ -352,6 +350,13 @@
 <script src="{{url_for('static',filename='vendor/js/fastclick.js')}}"></script>
 <!-- AdminLTE App -->
 <script src="{{url_for('static',filename='mlab/js/app.min.js')}}"></script>
+<!-- Base -->
+<script src="{{url_for('static',filename='mlab/js/base.js')}}"></script>
+
+<script type="text/javascript">
+  addMlabInfo()
+</script>
+
 {% if admin_view.name=="Home" %}
 <script src="{{url_for('static',filename='js/pages/dashboard.js')}}"></script>
 {% endif %}

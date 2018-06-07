@@ -286,9 +286,21 @@ table th[class*="col-"] {
 
 .control-sidebar-bg, .control-sidebar {
     top: 0;
-    right: -400px;
-    width: 400px;
+    right: -300px;
+    width: 300px;
     -webkit-transition: right .3s ease-in-out;
     -o-transition: right .3s ease-in-out;
     transition: right .3s ease-in-out;
+}
+
+.setting-header{
+    margin-top: 10px;
+}
+.setting-content{
+    margin-left: 10px;
+}
+
+.setting-footer {
+    position: fixed;
+    bottom: 0;
 }
