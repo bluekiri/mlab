@@ -55,6 +55,11 @@ gulp.task('bootstrap',function(){
         .pipe(gulp.dest('./static/vendor/css'));
     gulp.src('./bower_components/bootstrap/dist/js/bootstrap.min.js')
         .pipe(gulp.dest('./static/vendor/js'));
+
+    gulp.src('./bower_components/bootstrap-select/dist/css/bootstrap-select.min.css')
+        .pipe(gulp.dest('./static/vendor/css'));
+    gulp.src('./bower_components/bootstrap-select/dist/js/bootstrap-select.min.js')
+        .pipe(gulp.dest('./static/vendor/js'));
 });
 
 

@@ -1,28 +1,27 @@
 
 
 $(function(){
+    //Groups
+    $(document).on("click", ".group", function () {
+         var id = $(this).data('id');
+          $.ajax({
+              type: "GET",
+              url: window.location.pathname+window.location.search+"groups",
 
-//Groups
-$(document).on("click", ".group", function () {
-     var id = $(this).data('id');
-      $.ajax({
-          type: "GET",
-          url: window.location.pathname+window.location.search+"groups",
+              success: function(response) {
+                groups = JSON.parse(response);
+                $(".modal-body #workerId")[0].innerHTML= id;
+                $('#groupPicker').empty();
+                $.each(groups, function(i, p) {
+                    var pickerElement = $('<option></option>').val(p).html(p)
+                    pickerElement[0].dataset.id=p[0]
+                    $('#groupPicker').append(pickerElement);
+                });
+              },
 
-          success: function(response) {
-            groups = JSON.parse(response);
-            $(".modal-body #workerId")[0].innerHTML= id;
-            $('#groupPicker').empty();
-            $.each(groups, function(i, p) {
-                var pickerElement = $('<option></option>').val(p).html(p)
-                pickerElement[0].dataset.id=p[0]
-                $('#groupPicker').append(pickerElement);
-            });
-          },
-
-          error: function(err) {
-            console.log(err);
-          }
+              error: function(err) {
+                console.log(err);
+              }
         });
 });
 

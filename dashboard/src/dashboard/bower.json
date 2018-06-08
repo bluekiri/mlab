@@ -19,7 +19,8 @@
     "tests"
   ],
   "dependencies": {
-    "admin-lte": "2.4.0"
+    "admin-lte": "2.4.0",
+    "bootstrap-select": "1.12.4"
   },
   "resolutions": {
     "jquery": "^3.2.1"
