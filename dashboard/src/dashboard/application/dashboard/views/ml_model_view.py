@@ -23,9 +23,6 @@ class MlModelView(ModelView, metaclass=ViewSecurityListeners):
 
     # details_template = 'mlmodel/details.html'
 
-
-
-
     def __init__(self, model, model_repository: ModelRepository,
                  save_model_log_event: SaveModelLogEvent, current_user: CurrentUser,
                  name, menu_icon_type,

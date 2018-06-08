@@ -87,7 +87,9 @@ $(document).on("click", ".change", function () {
                 var pickerElement = $('<option></option>').val(p[1]).html(p[1])
                 pickerElement[0].dataset.id=p[0]
                 $('#selectpicker').append(pickerElement);
+
             });
+            $('#selectpicker').selectpicker('refresh');
           },
 
           error: function(err) {
@@ -164,6 +166,7 @@ $(document).on("click", ".changeModelGroup", function () {
                 pickerElement[0].dataset.id=p[0]
                 $('#groupSelectPicker').append(pickerElement);
             });
+            $('#groupSelectPicker').selectpicker('refresh');
           },
 
           error: function(err) {

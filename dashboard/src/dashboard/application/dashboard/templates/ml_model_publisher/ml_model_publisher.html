@@ -25,14 +25,14 @@
                 </div>
                 <p>Model loaded: {{model_name}}</p>
                 <div style="display:flex;">
-                    <button type="button" class="change btn btn-info "
+                    <button type="button" class="change btn btn-primary "
                             data-id={{host_name}}
                             data-toggle="modal"
                             data-target="#changeWorkerModelModal"
                             style="margin:auto;display:block;">
                         Model
                     </button>
-                    <button type="button" class="group btn btn-info"
+                    <button type="button" class="group btn btn-primary"
                             data-id={{host_name}}
                             data-toggle="modal"
                             data-target="#groupModal"
@@ -81,39 +81,51 @@
     </div>
     {% endfor %}
     <!-- Groups -->
-    <div class="modal fade" id="groupModal" role="dialog">
-        <div class="modal-dialog modal-sm">
+    <div class="modal fade" id="groupModal">
+        <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Groups</h4>
-                    <button type="button" class="close" data-dismiss="modal">
-                        &times;
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p type="text" id="workerId" value=""></p>
 
-                    <select id="groupPicker" class="selectpicker"
-                            style="margin-bottom: 10px;">
-                    </select>
-                    <div>
-                        <input type="text" id="groupNameInput"
-                               placeholder="Group Name">
-                        <button type="button"
-                                class="createGroup btn btn-primary"
-                                style="margin:10px;float: right;"
-                                data-dismiss="modal">
-                            Create
-                        </button>
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Groups</h4>
+                </div>
+
+                <div class="modal-body">
+
+
+                    <div style="display:grid; margin-left:15px;">
+                        <div style="margin-bottom:20px;">
+                            <h4>Hostname</h4>
+                            <strong id="workerId"></strong>
+                        </div>
+
+                        <select id="groupPicker" class="selectpicker">
+                        </select>
+                        <div style="margin-top:20px;">
+                            <input type="text" id="groupNameInput"
+                                   placeholder="Group Name">
+                            <button type="button"
+                                    class="createGroup btn btn-primary"
+                                    style="margin:10px;float: right;"
+                                    data-dismiss="modal">
+                                Create
+                            </button>
+                        </div>
                     </div>
+
+
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-info"
-                            data-dismiss="modal">Cancel
+                    <button type="button" class="btn btn-danger"
+                            data-dismiss="modal">Close
                     </button>
-                    <button type="button" class="sendChangeGroup btn btn-info">
+                    <button type="button"
+                            class="sendChangeGroup btn btn-primary">
                         Load
                     </button>
                 </div>
@@ -141,7 +153,6 @@
                             <h4>Hostname</h4>
                             <strong type="text" id="hostName" value=""></strong>
                         </div>
-
                         <select id="selectpicker" class="selectpicker">
                         </select>
                     </div>
@@ -176,17 +187,23 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p type="text" data-info="group" id="groupName"
-                       value=""></p>
-                    <select id="groupSelectPicker" class="selectpicker">
-                    </select>
+
+                    <div style="display:grid; margin-left:15px;">
+                        <div style="margin-bottom:20px;">
+                            <h4>Group</h4>
+                            <strong type="text" data-info="group" id="groupName"
+                                    value=""></strong>
+                        </div>
+                        <select id="groupSelectPicker" class="selectpicker">
+                        </select>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-info"
-                            data-dismiss="modal">Cancel
+                    <button type="button" class="btn btn-danger"
+                            data-dismiss="modal">Close
                     </button>
                     <button type="button"
-                            class="sendChangeModelByGroup btn btn-info">Load
+                            class="sendChangeModelByGroup btn btn-primary">Load
                     </button>
                 </div>
             </div>

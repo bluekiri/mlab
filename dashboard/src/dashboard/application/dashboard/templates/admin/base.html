@@ -49,6 +49,9 @@
     <!-- bootstrap wysihtml5 - text editor -->
     <link href="{{url_for('static',filename='vendor/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css')}}"
           rel="stylesheet"/>
+    <!-- Select2 -->
+    <link href="{{url_for('static',filename='vendor/css/select2.min.css')}}"
+          rel="stylesheet"/>
     <!-- Flask-admin admin styles -->
     <link href="{{ admin_static.url(filename='admin/css/bootstrap3/admin.css', v='1.1.1') }}"
           rel="stylesheet">
@@ -204,7 +207,6 @@
             <!-- /.search form -->
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                <li class="header">MAIN NAVIGATION</li>
                 {% block main_menu %}
                 {{ layout.menu() }}
                 {% endblock %}
@@ -319,6 +321,8 @@
 
 
 
+
+
 </script>
 <!-- Bootstrap 3.3.6 -->
 <script src="{{url_for('static',filename='vendor/js/bootstrap.min.js')}}"></script>
@@ -355,6 +359,8 @@
 
 <script type="text/javascript">
   addMlabInfo()
+
+
 </script>
 
 {% if admin_view.name=="Home" %}
