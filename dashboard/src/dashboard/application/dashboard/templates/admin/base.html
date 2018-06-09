@@ -1,4 +1,5 @@
 {% import 'admin/layout.html' as layout with context -%}
+{% import 'macros.html' as macros  with context -%}
 {% import 'admin/static.html' as admin_static with context %}
 <!DOCTYPE html>
 <html>
@@ -210,16 +211,16 @@
                 {% block main_menu %}
                 {{ layout.menu() }}
                 {% endblock %}
-                <li>
-                    <a href="#">
-                        <i class="fa fa-envelope"></i> <span>Mailbox</span>
-                        <span class="pull-right-container">
-              <small class="label pull-right bg-yellow">12</small>
-              <small class="label pull-right bg-green">16</small>
-              <small class="label pull-right bg-red">5</small>
-            </span>
-                    </a>
-                </li>
+                <!--<li>-->
+                    <!--<a href="#">-->
+                        <!--<i class="fa fa-envelope"></i> <span>Mailbox</span>-->
+                        <!--<span class="pull-right-container">-->
+              <!--<small class="label pull-right bg-yellow">12</small>-->
+              <!--<small class="label pull-right bg-green">16</small>-->
+              <!--<small class="label pull-right bg-red">5</small>-->
+            <!--</span>-->
+                    <!--</a>-->
+                <!--</li>-->
             </ul>
         </section>
         <!-- /.sidebar -->
