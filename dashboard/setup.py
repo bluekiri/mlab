@@ -74,6 +74,9 @@ setup(
         'timeago==1.0.7',
         'Werkzeug==0.12.2',
         'WTForms==2.1',
-        'tzlocal==1.5.1'
-    ]
+        'tzlocal==1.5.1',
+        "git+git://github.com/OscarGarciaPeinado/flask-adminlte.git@releases/1.0.0"
+    ], dependency_links=[
+        "http://github.com/OscarGarciaPeinado/flask-adminlte.git@releases/1.0.0",
+        "git+git://github.com/OscarGarciaPeinado/flask-adminlte.git@releases/1.0.0"]
 )
