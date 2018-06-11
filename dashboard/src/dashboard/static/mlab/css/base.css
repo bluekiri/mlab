@@ -304,3 +304,9 @@ table th[class*="col-"] {
     position: fixed;
     bottom: 0;
 }
+
+li.select2-selection__choice{
+    color:black !important;
+}
+
+

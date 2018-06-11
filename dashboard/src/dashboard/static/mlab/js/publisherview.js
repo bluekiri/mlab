@@ -17,6 +17,7 @@ $(function(){
                     pickerElement[0].dataset.id=p[0]
                     $('#groupPicker').append(pickerElement);
                 });
+                $('#groupPicker').selectpicker('refresh');
               },
 
               error: function(err) {
