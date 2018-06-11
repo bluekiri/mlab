@@ -1,4 +1,22 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
 import json
 import logging
 import socket
@@ -23,7 +41,8 @@ class WorkerRepositoryImp(WorkerRepository):
 
     def get_self_worker_model_id(self) -> str:
         if self.zk_datasource.zk.exists(self.worker_path + "/model"):
-            return self.zk_datasource.zk.get(self.worker_path + "/model")[0].decode(
+            return self.zk_datasource.zk.get(self.worker_path + "/model")[
+                0].decode(
                 "utf-8")
 
     def initialize_event_listener(self):
@@ -50,13 +69,15 @@ class WorkerRepositoryImp(WorkerRepository):
 
         try:
             self.zk_datasource.zk.create(self.worker_path + "/up",
-                                         str(datetime.utcnow().timestamp()).encode(
+                                         str(
+                                             datetime.utcnow().timestamp()).encode(
                                              'utf-8'), ephemeral=True)
         except:
             self.logger.info("Worker reload")
 
     def is_current_worker_loaded_on_zoo(self):
-        return self.zk_datasource.zk.exists(self.worker_path + "/up") is not None
+        return self.zk_datasource.zk.exists(
+            self.worker_path + "/up") is not None
 
     def set_success_model_load(self):
         if self.zk_datasource.zk.exists(self.worker_path) is not None:
@@ -73,4 +94,5 @@ class WorkerRepositoryImp(WorkerRepository):
             data = json.loads(
                 self.zk_datasource.zk.get(self.worker_path)[0].decode("utf-8"))
             data["model_error"] = str(datetime.now())
-            self.zk_datasource.zk.set(self.worker_path, json.dumps(data).encode('utf-8'))
+            self.zk_datasource.zk.set(self.worker_path,
+                                      json.dumps(data).encode('utf-8'))

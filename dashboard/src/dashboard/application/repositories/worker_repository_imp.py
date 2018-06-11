@@ -1,4 +1,22 @@
-# coding:utf-8
+# -*- coding: utf-8 -*-
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
 import datetime
 import json
 from typing import List
@@ -91,19 +109,6 @@ class WorkerRepositoryImp(WorkerRepository):
         model_path = "%s/%s/model" % (self.workers_path, worker_host)
         if self.zk_datasource.zk.exists(model_path) is not None:
             return self.zk_datasource.zk.get(model_path)[0].decode('utf-8')
-
-    # def get_all_workers(self):
-    #     if self.zk_datasource.zk.exists(self.workers_path) is not None:
-    #         children = self.zk_datasource.zk.get_children(self.workers_path)
-    #         data_children = []
-    #         for child in children:
-    #             data = self.zk_datasource.zk.get(
-    #                 self.workers_path + "/" + child)
-    #             data = json.loads(data[0].decode("utf-8"))
-    #             extra_data = {"name": child}
-    #             data_children.append({**data, **extra_data})
-    #
-    #         return data_children
 
     def set_auto_model_publisher(self, worker_host: str, enable: bool):
         worker_data = self.zk_datasource.zk.get(
