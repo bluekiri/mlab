@@ -20,7 +20,7 @@
 from dashboard.domain.entities.auth.login_model import User
 
 
-class SecurityRepository:
+class MongoSecurityRepository:
 
     def get_user_from_email(self, email: str) -> User:
         raise NotImplementedError()

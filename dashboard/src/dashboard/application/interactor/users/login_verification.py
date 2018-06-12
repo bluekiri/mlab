@@ -17,26 +17,32 @@
 # specific language governing permissions and limitations
 # under the License.
 
-from dashboard.application.repositories.ldap_repository import \
-    get_user_by_username_info, \
-    is_correct_pwd
+
 from dashboard.domain.entities.auth.login_model import User
+from dashboard.domain.interactor.users.login_verification import \
+    LoginVerification
+from dashboard.domain.repositories.ldap_repository import LdapRepository
+from dashboard.domain.repositories.mongo_security_repository import \
+    MongoSecurityRepository
 
 
-class LoginVerification:
-    def __init__(self, security_repository):
-        pass
+class LoginVerificationImp(LoginVerification):
+    def __init__(self, mongo_security_repository: MongoSecurityRepository,
+                 ldap_repository: LdapRepository):
+        self.ldap_repository = ldap_repository
+        self.mongo_security_repository = mongo_security_repository
 
     def is_success_pwd(self, username, pwd):
-        return is_correct_pwd(username=username, pwd=pwd)
+        return self.ldap_repository.is_correct_pwd(username=username, pwd=pwd)
 
-    def get_user_from_username(self, username):
-
-        if len(users):
-            return users
+    def get_user_from_email(self, email) -> User:
+        user = self.mongo_security_repository.get_user_from_email(email)
+        if user is not None:
+            return user
 
         # Get user from ldap
-        user_entry = get_user_by_username_info(username=username)
+        user_entry = self.ldap_repository.get_user_by_username_info(
+            username=email)
         if user_entry is not None:
             return User(name=str(user_entry.name),
                         username=str(user_entry.mail).split('@')[0],

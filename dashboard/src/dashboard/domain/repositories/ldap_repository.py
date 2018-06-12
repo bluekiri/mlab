@@ -17,11 +17,10 @@
 # specific language governing permissions and limitations
 # under the License.
 
-from dashboard.domain.entities.auth.login_model import User
-from dashboard.domain.repositories.mongo_security_repository import MongoSecurityRepository
 
+class LdapRepository:
+    def get_user_by_username_info(self, username):
+        raise NotImplementedError()
 
-class MongoSecurityRepositoryImp(MongoSecurityRepository):
-
-    def get_user_from_email(self, email: str) -> User:
-        return User.objects(email=str(email)).first()
+    def is_correct_pwd(self, username, pwd):
+        raise NotImplementedError()

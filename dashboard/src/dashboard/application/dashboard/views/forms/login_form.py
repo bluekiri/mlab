@@ -23,6 +23,11 @@ from flask_security import LoginForm, utils
 from flask_security.utils import get_message
 from wtforms import fields, validators
 
+from dashboard.application.interactor.users.login_verification import \
+    LoginVerificationImp
+from dashboard.application.repositories.ldap_repository import LdapRepositoryImp
+from dashboard.application.repositories.mongo_security_repository_imp import \
+    MongoSecurityRepositoryImp
 from dashboard.domain.entities.message import Message, SubjectData, Topic
 
 
@@ -32,12 +37,20 @@ class CustomLoginForm(LoginForm):
                                     validators=[validators.required()])
     user = None
 
+    def __init__(self, *args, **kwargs):
+        super(CustomLoginForm, self).__init__(*args, **kwargs)
+        ldap_repository = LdapRepositoryImp()
+        self.mongo_security_repository = MongoSecurityRepositoryImp()
+        self.login_verification = LoginVerificationImp(
+            self.mongo_security_repository, ldap_repository)
+
     def add_error_to_wtf_field(self, field, error_message):
         field.errors = list(field.errors)
         field.errors.append(error_message)
 
     def validate(self):
-        user = get_user_from_username(self.email.data)
+        user = self.mongo_security_repository.get_user_from_email(
+            self.email.data)
         self.user = user
         if self.user is None:
             self.add_error_to_wtf_field(self.email,
@@ -51,7 +64,8 @@ class CustomLoginForm(LoginForm):
             self.add_error_to_wtf_field(self.password,
                                         get_message('PASSWORD_NOT_SET')[0])
             return False
-        if not is_success_pwd(self.email.data, self.password.data):
+        if self.login_verification.is_success_pwd(self.email.data,
+                                                  self.password.data):
             self.add_error_to_wtf_field(self.password,
                                         get_message('INVALID_PASSWORD')[0])
             return False

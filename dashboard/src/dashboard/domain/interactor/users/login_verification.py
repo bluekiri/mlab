@@ -16,12 +16,12 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
-
 from dashboard.domain.entities.auth.login_model import User
-from dashboard.domain.repositories.mongo_security_repository import MongoSecurityRepository
 
 
-class MongoSecurityRepositoryImp(MongoSecurityRepository):
+class LoginVerification:
+    def is_success_pwd(self, username, pwd):
+        raise NotImplementedError()
 
-    def get_user_from_email(self, email: str) -> User:
-        return User.objects(email=str(email)).first()
+    def get_user_from_email(self, email) -> User:
+        raise NotImplementedError()
