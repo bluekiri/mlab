@@ -23,9 +23,6 @@ from flask_security import LoginForm, utils
 from flask_security.utils import get_message
 from wtforms import fields, validators
 
-from dashboard.application.interactor.users.login_verification import \
-    get_user_from_username, \
-    is_success_pwd
 from dashboard.domain.entities.message import Message, SubjectData, Topic
 
 

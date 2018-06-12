@@ -309,4 +309,7 @@ li.select2-selection__choice{
     color:black !important;
 }
 
+input[type=checkbox]{
+    -webkit-appearance: checkbox !important;
+}
 

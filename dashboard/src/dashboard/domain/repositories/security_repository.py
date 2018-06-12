@@ -16,3 +16,11 @@
 # KIND, either express or implied.  See the License for the
 # specific language governing permissions and limitations
 # under the License.
+
+from dashboard.domain.entities.auth.login_model import User
+
+
+class SecurityRepository:
+
+    def get_user_from_email(self, email: str) -> User:
+        raise NotImplementedError()

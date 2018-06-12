@@ -18,20 +18,10 @@
 # under the License.
 
 from dashboard.domain.entities.auth.login_model import User
+from dashboard.domain.repositories.security_repository import SecurityRepository
 
 
-class UserRepository:
-    def is_valid_username(self, username: str) -> bool:
-        raise NotImplementedError()
+class SecurityRepositoryImp(SecurityRepository):
 
-    def has_edit_permission(self, username: str) -> bool:
-        raise NotImplementedError()
-
-    def is_success_pwd(self, username: str, pwd: str) -> bool:
-        raise NotImplementedError()
-
-    def update_last_entry(self, user: User):
-        raise NotImplementedError()
-
-    def get_user_from_username(self, username: str) -> User:
-        raise NotImplementedError()
+    def get_user_from_email(self, email: str) -> User:
+        return User.objects(email=str(email)).first()

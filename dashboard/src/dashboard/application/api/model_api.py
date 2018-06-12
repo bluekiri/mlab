@@ -21,8 +21,6 @@ from flask import make_response
 from flask import request
 
 from dashboard.domain.interactor.mlmodel.create_ml_model import CreateMlModel
-from dashboard.domain.interactor.orchestation.orchestation_interator import \
-    OrchestationInteractor
 from dashboard.domain.interactor.users.token_verification import \
     TokenVerification
 from dashboard.domain.repositories.worker_repository import WorkerRepository
