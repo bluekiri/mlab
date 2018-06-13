@@ -54,9 +54,9 @@
         <li class="active{% if class_name %} {{class_name}}{% endif %}">
             {% else %}
         <li
-        {% if class_name %} class="{{class_name}}"{% endif %}>
-        {%- endif %}
-        <a href="{{ child.get_url() }}">{{ menu_icon(child) }}<span>{{ child.name }}</span></a>
+                {% if class_name %} class="{{class_name}}" {% endif %}>
+            {%- endif %}
+            <a href="{{ child.get_url() }}">{{ menu_icon(child) }}<span>{{ child.name }}</span></a>
         </li>
         {%- endfor %}
     </ul>
@@ -92,6 +92,8 @@
 {% with messages = get_flashed_messages(with_categories=True) %}
 {% if messages %}
 {% for category, m in messages %}
+
+{% if m != "Please log in to access this page." %}
 {% if category %}
 {% set mapping = {'message': 'info', 'error': 'danger'} %}
 <div class="alert alert-{{ mapping.get(category, 'warning') }} alert-dismissable">
@@ -103,6 +105,7 @@
         </button>
         {{ m }}
     </div>
+    {% endif %}
     {% endfor %}
     {% endif %}
     {% endwith %}
