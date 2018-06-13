@@ -1,3 +1,4 @@
+
 .ml_panel{
   display: inline-block;
   min-width: fit-content;
@@ -20,17 +21,20 @@
     background: #0099cc;
     color: #ffffff;
 }
-.down {
-    background-color: #ff3300;
-}
 
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
     background: #33a6cc;
 }
 
 .btn-primary:active, .btn-primary.active {
     background: #007299;
-    box-shadow: none;
+    box-shadow: None;
+}
 
 .modal-sm {
   display: None;
@@ -42,4 +46,14 @@
   left: 30%;
   transform: translateX(-50%);
   vertical-align: middle;
+}
+
+.panel-primary > .panel-heading-disconnected {
+    background-color: #ff3300;
+    border-color:#ff3300;
+}
+
+.panel-heading-disconnected > button.close{
+    color: white;
+    font-size: x-large;
 }

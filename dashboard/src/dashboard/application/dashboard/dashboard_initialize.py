@@ -168,4 +168,4 @@ class Dashboard:
             LogsView(
                 Logs, current_user=self.current_user, name="Logs",
                 menu_icon_type='fa',
-                menu_icon_value='fa-inbox'))
+                menu_icon_value='fa-archive'))

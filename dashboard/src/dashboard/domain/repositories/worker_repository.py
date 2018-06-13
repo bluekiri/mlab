@@ -49,3 +49,6 @@ class WorkerRepository:
 
     def set_auto_model_publisher(self, worker_host: str, enable: bool):
         raise NotImplementedError()
+
+    def remove_worker(self, worker_host: str):
+        raise NotImplementedError()

@@ -1,4 +1,24 @@
+$(function(){
+    $(document).on("click", ".close", function () {
+        var host = $(this).data('id');
 
+        $.ajax({
+                type: "DELETE",
+                url: window.location.pathname+window.location.search+"worker",
+                dataType: "json",
+                data:{
+                    "host_name": host
+                },
+                success: function(data) {
+                    window.location.href = data["go"];
+                },
+                error: function(err) {
+                    console.log(err);
+                }
+            }
+        );
+    });
+});
 
 $(function(){
     //Groups

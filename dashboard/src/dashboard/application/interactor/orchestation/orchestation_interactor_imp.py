@@ -30,6 +30,7 @@ from dashboard.domain.repositories.worker_repository import WorkerRepository
 
 
 class OrchestationInteractorImp(OrchestationInteractor):
+
     def __init__(self, worker_repository: WorkerRepository):
         self.worker_repository = worker_repository
 
@@ -83,3 +84,9 @@ class OrchestationInteractorImp(OrchestationInteractor):
 
     def get_groups(self):
         return self.worker_repository.get_groups()
+
+    def remove_disconnected_worker(self, worker_host: str):
+        available_workers = self.worker_repository.get_available_workers()
+        if worker_host not in [worker.host_name for worker in
+                               available_workers if worker.up]:
+            self.worker_repository.remove_worker(worker_host)

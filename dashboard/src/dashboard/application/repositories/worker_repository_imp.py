@@ -121,3 +121,9 @@ class WorkerRepositoryImp(WorkerRepository):
     def is_enable_auto_model_publication(self, worker_host):
         return any(worker.auto_model_publisher for worker in
                    self.get_available_workers())
+
+    def remove_worker(self, worker_host: str):
+        worker_path = "%s/%s" % (self.workers_path, worker_host)
+        if self.zk_datasource.zk.exists(worker_path) is not None:
+            self.zk_datasource.zk.delete(worker_path)
+

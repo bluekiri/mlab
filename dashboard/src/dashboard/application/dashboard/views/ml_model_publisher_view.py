@@ -132,3 +132,12 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
         self.orchestation_interactor.set_group_to_worker(host_name, group)
         return json.dumps({"go": url_for("mlmodelpublisherview.index")}), 200, {
             'ContentType': 'application/json'}
+
+    @login_required
+    @roles_required('admin', )
+    @expose('/worker', methods=('DELETE',))
+    def delete(self):
+        host_name = request.form.get("host_name")
+        self.orchestation_interactor.remove_disconnected_worker(host_name)
+        return json.dumps({"go": url_for("mlmodelpublisherview.index")}), 200, {
+            'ContentType': 'application/json'}

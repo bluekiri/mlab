@@ -36,3 +36,6 @@ class OrchestationInteractor:
 
     def set_auto_model_publisher(self, host: str, enable: bool):
         raise NotImplementedError()
+
+    def remove_disconnected_worker(self, worker_host: str):
+        raise NotImplementedError()

@@ -3,7 +3,10 @@
     {% if up %}
     <div class="panel-heading">
         {% else %}
-        <div class="down panel-heading" style="background-color: #ff3300">
+        <div class="panel-heading-disconnected panel-heading">
+            <button type="button" class="close" aria-label="Close"
+                    data-id={{host_name}}>
+                <span aria-hidden="true">×</span></button>
             {% endif %}
             <a target="_blank" style="color:white;" href={{swagger_uri}}>{{host_name}}</a>
         </div>
@@ -46,11 +49,8 @@
     {%- endmacro %}
     {% extends admin_base_template %}
     {% block head %}
-
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static',filename='mlab/css/publisher.css') }}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ url_for('static',filename='vendor/css/bootstrap-select.min.css') }}">
 
     {% endblock %}
 
