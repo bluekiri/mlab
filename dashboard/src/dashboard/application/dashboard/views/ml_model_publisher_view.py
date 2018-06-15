@@ -21,6 +21,7 @@ import json
 
 import pytz
 import tzlocal
+import html
 from flask import request
 from flask import url_for
 from flask_admin import BaseView
@@ -62,7 +63,8 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
     @expose('/models', methods=('GET',))
     def models(self):
         return json.dumps(
-            [(str(model.pk), self._format_model_name(model)) for model in
+            [(str(model.pk), html.escape(self._format_model_name(model))) for
+             model in
              MlModel.objects().order_by('-ts')])
 
     def _format_model_name(self, model):
@@ -120,7 +122,8 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
     @login_required
     @expose('/groups', methods=('GET',))
     def get_groups(self):
-        return json.dumps(self.orchestation_interactor.get_groups())
+        return json.dumps(
+            map(html.escape, self.orchestation_interactor.get_groups()))
 
     @login_required
     @roles_required('admin', )

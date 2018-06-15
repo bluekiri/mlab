@@ -17,6 +17,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
+import html
 
 from flask_admin import BaseView
 from flask_admin import expose
@@ -51,6 +52,8 @@ class HomeView(BaseView):
     @expose()
     def index(self):
         logs = self.get_line_time_events.get_all_time_events()
+        for log in logs:
+            log.data['model_name'] = html.escape(log.data['model_name'])
         worker_status = self.get_workers_load_model_status.run()
         return self.render(self._template, logs=logs,
                            worker_status=worker_status)

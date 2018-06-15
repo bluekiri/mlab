@@ -62,7 +62,6 @@ gulp.task('bootstrap',function(){
         .pipe(gulp.dest('./static/vendor/js'));
 });
 
-
 gulp.task('select2',function(){
     gulp.src('./bower_components/select2/dist/js/select2.min.js')
         .pipe(gulp.dest('./static/vendor/js'));
