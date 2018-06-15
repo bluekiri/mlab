@@ -23,7 +23,7 @@ from flask_security import LoginForm, utils
 from flask_security.utils import get_message
 from wtforms import fields, validators
 
-from dashboard.application.interactor.users.login_verification import \
+from dashboard.application.interactor.users.login_verification_imp import \
     LoginVerificationImp
 from dashboard.application.repositories.ldap_repository import LdapRepositoryImp
 from dashboard.application.repositories.mongo_security_repository_imp import \
@@ -39,45 +39,53 @@ class CustomLoginForm(LoginForm):
 
     def __init__(self, *args, **kwargs):
         super(CustomLoginForm, self).__init__(*args, **kwargs)
-        ldap_repository = LdapRepositoryImp()
+        self.ldap_repository = LdapRepositoryImp()
         self.mongo_security_repository = MongoSecurityRepositoryImp()
         self.login_verification = LoginVerificationImp(
-            self.mongo_security_repository, ldap_repository)
+            self.mongo_security_repository, self.ldap_repository)
 
     def add_error_to_wtf_field(self, field, error_message):
         field.errors = list(field.errors)
         field.errors.append(error_message)
 
     def validate(self):
-        user = self.mongo_security_repository.get_user_from_email(
-            self.email.data)
-        self.user = user
-        if self.user is None:
-            self.add_error_to_wtf_field(self.email,
-                                        get_message('USER_DOES_NOT_EXIST')[0])
+
+        if not self.email.data or self.email.data.strip() == '':
+            self.email.errors.append(get_message('EMAIL_NOT_PROVIDED')[0])
             return False
-        elif self.user.password is not None and utils.verify_password(
-                self.password.data,
-                self.user.password):
-            return True
+
         if not self.password.data:
             self.add_error_to_wtf_field(self.password,
                                         get_message('PASSWORD_NOT_SET')[0])
             return False
-        if self.login_verification.is_success_pwd(self.email.data,
-                                                  self.password.data):
-            self.add_error_to_wtf_field(self.password,
-                                        get_message('INVALID_PASSWORD')[0])
-            return False
-        if not self.user.is_active:
+
+        user = self.login_verification.get_user_from_email(
+            self.email.data)
+        self.user = user
+
+        if self.user is not None:
+            if not self.user.is_active:
+                self.add_error_to_wtf_field(self.email,
+                                            get_message('DISABLED_ACCOUNT')[0])
+                return False
+
+            if self.user.password is not None and utils.verify_password(
+                    self.password.data, self.user.password):
+                return True
+            elif self.user.password is None and self.login_verification.is_success_pwd(
+                    self.user.email, self.password.data):
+                return True
+            else:
+                self.add_error_to_wtf_field(self.email,
+                                            get_message('INVALID_PASSWORD')[
+                                                0])
+                return False
+
+        else:
             self.add_error_to_wtf_field(self.email,
-                                        get_message('DISABLED_ACCOUNT')[0])
+                                        get_message('USER_DOES_NOT_EXIST')[
+                                            0])
             return False
-        logging.debug("Saving or updating user %s" % user.email)
-        # TODO this method have to much responsability... the validation name means validate form...
-        user.save()
-        self._send_welcome_message()
-        return True
 
     def _send_welcome_message(self):
         # TODO this need be abstracted in a interactor but the flask security plugin throw a error...

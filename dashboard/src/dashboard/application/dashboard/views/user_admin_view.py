@@ -22,10 +22,15 @@ from flask_security import utils
 from flask_security.core import current_user
 from wtforms import PasswordField, SelectMultipleField
 
+from dashboard.application.dashboard.views.util.view_roles_management import \
+    ViewSecurityListeners
 from dashboard.domain.entities.message import Topic
 
 
-class UserAdmin(ModelView):
+class UserAdmin(ModelView, metaclass=ViewSecurityListeners):
+    can_edit = False
+    can_delete = False
+    can_create = False
     column_exclude_list = ('password',)
 
     form_excluded_columns = ('password',)
@@ -38,6 +43,11 @@ class UserAdmin(ModelView):
             'readonly': True
         },
     }
+
+    def has_admin_role(self):
+        self.can_edit = True
+        self.can_delete = True
+        self.can_create = True
 
     def is_accessible(self):
         return current_user.has_role('admin')

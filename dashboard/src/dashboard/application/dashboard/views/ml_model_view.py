@@ -21,6 +21,7 @@ import gridfs
 from flask import request, Response
 from flask_admin import expose
 from flask_admin.contrib.mongoengine import ModelView
+from flask_admin.form import rules
 from flask_security.core import current_user
 from mongoengine.connection import get_db
 from werkzeug.exceptions import abort
@@ -38,6 +39,7 @@ class MlModelView(ModelView, metaclass=ViewSecurityListeners):
     can_view_details = True
     can_view = True
     can_create = False
+    can_delete = False
     column_default_sort = ('ts', True)
     can_download = False
 
@@ -62,14 +64,15 @@ class MlModelView(ModelView, metaclass=ViewSecurityListeners):
 
     def has_admin_role(self):
         self.can_edit = True
+        self.can_delete = True
         self.can_create = True
 
     def on_model_change(self, form, model, is_created):
-        # super().on_model_change(form, mlmodel, is_created)
         model.set_pk()
         self.save_model_log_event.save_new_model_event(model.name,
                                                        str(model.pk), False,
                                                        self.current_user.get_current_user().pk)
+
 
     @expose('/api/file/')
     def api_file_view(self):

@@ -104,13 +104,18 @@ $(document).on("click", ".change", function () {
             list_of_models = JSON.parse(response);
             $(".modal-body #hostName")[0].innerHTML= id ;
             $('#selectpicker').empty();
+            var options = []
             $.each(list_of_models, function(i, p) {
-                var pickerElement = $('<option></option>').val(p[1]).html(p[1])
-                pickerElement[0].dataset.id=p[0]
+                //var pickerElement = $('<option></option>').val(p[1]).html(escape(p[1]));
+                var pickerElement = $('<option></option>');
+
+
+                pickerElement.innerHTML= p[1].toString();
+                pickerElement[0].dataset.id=p[0];
                 $('#selectpicker').append(pickerElement);
 
             });
-            $('#selectpicker').selectpicker('refresh');
+//            $('#selectpicker').selectpicker('refresh');
           },
 
           error: function(err) {
@@ -187,7 +192,7 @@ $(document).on("click", ".changeModelGroup", function () {
                 pickerElement[0].dataset.id=p[0]
                 $('#groupSelectPicker').append(pickerElement);
             });
-            $('#groupSelectPicker').selectpicker('refresh');
+//            $('#groupSelectPicker').selectpicker('refresh');
           },
 
           error: function(err) {

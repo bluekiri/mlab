@@ -2,20 +2,19 @@
 <html style="color:#545454;">
 <head>
     <link rel="stylesheet" type="text/css"
-          href="{{ url_for('static',filename='vendor/css/bootstrap.css') }}">
+          href="{{ url_for('static',filename='vendor/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css"
-          href="{{ url_for('static',filename='mlab/css/custom.css') }}">
+          href="{{ url_for('static',filename='mlab/css/404.css') }}">
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static',filename='mlab/css/animate.css') }}">
-    <script type=text/javascript
-            src="{{ url_for('static',filename='vendor/js/bootstrap.min.js') }}"></script>
-    <script type=text/javascript
-            src="{{ url_for('static',filename='mlab/js/countUp.js') }}"></script>
-    <script type="text/javascript" src="vendor/js/jquery.min.js"></script>
-    <script type=text/javascript
-            src="{{ url_for('static',filename='mlab/js/wow.js') }}"></script>
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static',filename='vendor/css/font-awesome.min.css') }}">
+    <script type=text/javascript
+            src="{{ url_for('static',filename='mlab/js/countUp.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static',filename='vendor/js/jquery.min.js') }}"></script>
+    <script type=text/javascript
+            src="{{ url_for('static',filename='mlab/js/wow.js') }}"></script>
 </head>
 <body>
 <section>
@@ -71,6 +70,7 @@
             }
 
 
+
 </script>
 
 <!--Initiating the Wow Script-->
@@ -83,6 +83,7 @@
             }
         );
             wow.init();
+
 
 
 </script>

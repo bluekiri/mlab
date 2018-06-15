@@ -44,6 +44,7 @@ class LoginVerificationImp(LoginVerification):
         user_entry = self.ldap_repository.get_user_by_username_info(
             username=email)
         if user_entry is not None:
+
             return User(name=str(user_entry.name),
                         username=str(user_entry.mail).split('@')[0],
                         email=str(user_entry.mail))

@@ -26,7 +26,9 @@
                     </label>
                     <a>Auto publishing</a>
                 </div>
+                {% endif %}
                 <p>Model loaded: {{model_name}}</p>
+                {% if has_edit_permissions %}
                 <div style="display:flex;">
                     <button type="button" class="change btn btn-primary "
                             data-id={{host_name}}
@@ -215,6 +217,5 @@
     {% block tail %}
     <script type=text/javascript
             src="{{ url_for('static',filename='mlab/js/publisherview.js') }}"></script>
-    <script type=text/javascript
-            src="{{ url_for('static',filename='vendor/js/bootstrap-select.min.js') }}"></script>
+
     {% endblock %}
