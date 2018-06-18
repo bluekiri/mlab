@@ -4,7 +4,6 @@
 Mlab is a framework tool designed for managing machine learning models in a production environment. This framework enables the developers to upload new machine learning models through a api-rest or in a manually way using the mlab dashboard. This lets the developers create full pipelines of training and release machine learning model . When a model is released in mlab architecture, we are able to active or deactive the model in a specific host in this way mlab allows us to create A/B test for the models. Once a model is released in a host, this can be consumed by the business applications through a web service.
 Full documentation about web service is deployed by swagger as static documentation.
 
-Also you can run a docker-compose to release the architecture.
 ![alt text](var/asserts/Mlab-UseCasePipeline.png)
 
 ## Table of content
