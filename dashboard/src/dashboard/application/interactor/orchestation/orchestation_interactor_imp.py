@@ -46,7 +46,7 @@ class OrchestationInteractorImp(OrchestationInteractor):
 
         def _map_worker_to_dict(worker: Worker) -> Dict:
             return {
-                "name": worker.host_name,
+                "hostname": worker.host_name,
                 "swagger_uri": "http://%s:9090" % worker.host,
                 "worker": worker.number_of_instances,
                 "ts": timeago.format(worker.ts, datetime.datetime.utcnow()),

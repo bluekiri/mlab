@@ -1,221 +1,222 @@
-{% macro draw_panel_info(host_name,num_workers, time, model_name,swagger_uri,up, has_edit_permissions,auto_model_publisher) -%}
+{% macro draw_panel_info(host_name,status,num_workers, time, model_name,swagger_uri,up, has_edit_permissions,auto_model_publisher) -%}
 <div class="ml_panel panel panel-primary">
-    {% if up %}
-    <div class="panel-heading">
-        {% else %}
-        <div class="panel-heading-disconnected panel-heading">
-            <button type="button" class="close" aria-label="Close"
-                    data-id={{host_name}}>
-                <span aria-hidden="true">×</span></button>
-            {% endif %}
-            <a target="_blank" style="color:white;" href={{swagger_uri}}>{{host_name}}</a>
-        </div>
+    <div class="panel-heading-{{status}} panel-heading">
+        {% if status == 'error' %}
+        <button type="button" class="close" aria-label="Close"
+                data-id={{host_name}}>
+            <span aria-hidden="true">×</span></button>
+        {% endif %}
+        <a target="_blank" style="color:white;" href={{swagger_uri}}>
+            {{host_name}}
+            <span aria-hidden="true"><i class="fa-status fa fa-exclamation-triangle"></i></span>
+        </a>
+    </div>
 
-        <div class=" panel-body" style="min-width: 200px">
-            <p>Workers: {{num_workers}}</p>
-            <p>Time: {{time}}</p>
-            {% if has_edit_permissions %}
+    <div class=" panel-body" style="min-width: 200px">
+        <p>Workers: {{num_workers}}</p>
+        <p>Time: {{time}}</p>
+        {% if has_edit_permissions %}
+        <div>
             <div>
-                <div>
-                    <label class="switch">
-                        <input type="checkbox" data-id={{host_name}}
-                               {% if auto_model_publisher %}
-                               checked
-                               {% endif %}>
-                        <span class="slider round"></span>
-                    </label>
-                    <a>Auto publishing</a>
-                </div>
-                {% endif %}
-                <p>Model loaded: {{model_name}}</p>
-                {% if has_edit_permissions %}
-                <div style="display:flex;">
-                    <button type="button" class="change btn btn-primary "
-                            data-id={{host_name}}
-                            data-toggle="modal"
-                            data-target="#changeWorkerModelModal"
-                            style="margin:auto;display:block;">
-                        Model
-                    </button>
-                    <button type="button" class="group btn btn-primary"
-                            data-id={{host_name}}
-                            data-toggle="modal"
-                            data-target="#groupModal"
-                            style="margin:auto;display:block;">Group
-                    </button>
-                </div>
+                <label class="switch">
+                    <input type="checkbox" data-id={{host_name}}
+                           {% if auto_model_publisher %}
+                           checked
+                           {% endif %}>
+                    <span class="slider round"></span>
+                </label>
+                <a>Auto publishing</a>
             </div>
             {% endif %}
+            <p>Model loaded: {{model_name}}</p>
+            {% if has_edit_permissions %}
+            <div style="display:flex;">
+                <button type="button" class="change btn btn-primary "
+                        data-id={{host_name}}
+                        data-toggle="modal"
+                        data-target="#changeWorkerModelModal"
+                        style="margin:auto;display:block;">
+                    Model
+                </button>
+                <button type="button" class="group btn btn-primary"
+                        data-id={{host_name}}
+                        data-toggle="modal"
+                        data-target="#groupModal"
+                        style="margin:auto;display:block;">Group
+                </button>
+            </div>
         </div>
+        {% endif %}
     </div>
-    {%- endmacro %}
-    {% extends admin_base_template %}
-    {% block head %}
-    <link rel="stylesheet" type="text/css"
-          href="{{ url_for('static',filename='mlab/css/publisher.css') }}">
+</div>
+{%- endmacro %}
+{% extends admin_base_template %}
+{% block head %}
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for('static',filename='mlab/css/publisher.css') }}">
 
-    {% endblock %}
+{% endblock %}
 
-    {% block body %}
-    <h2>Workers</h2>
-    <div style="display:-webkit-box;">
-        {% for worker in workers_without_group%}
-        {{draw_panel_info(worker.name,worker.worker,worker.ts,worker.model_name,worker.swagger_uri,worker.running,has_active_model_permissions,worker.auto_model_publisher)}}
+{% block body %}
+<h2>Workers</h2>
+<div style="display:-webkit-box;">
+    {% for worker in workers_without_group%}
+    {{draw_panel_info(worker.hostname,worker.status,worker.worker,worker.ts,worker.model_name,worker.swagger_uri,worker.running,has_active_model_permissions,worker.auto_model_publisher)}}
+    {% endfor %}
+</div>
+
+{% for key,value in group_of_workers.items()%}
+<div id="{{key}}" class="groupContainer"
+     style="margin-top: 15px; display: grid;">
+    <div style=>
+        <h2 style="margin-left: 15px;">Group: {{key}}</h2>
+        <button type="button" class="changeModelGroup btn btn-primary"
+                style="margin-left: 30px;"
+                data-toggle="modal" data-target="#changeModelGroupModal">
+            Change model
+        </button>
+    </div>
+    <div id="panels" style="display: inline-block; margin-left: 20px;">
+        {% for worker in value%}
+        {{draw_panel_info(worker.hostname,worker.status,worker.worker,worker.ts,worker.model_name,worker.swagger_uri,worker.running,has_active_model_permissions,worker.auto_model_publisher)}}
         {% endfor %}
     </div>
+</div>
+{% endfor %}
+<!-- Groups -->
+<div class="modal fade" id="groupModal">
+    <div class="modal-dialog">
 
-    {% for key,value in group_of_workers.items()%}
-    <div id="{{key}}" class="groupContainer"
-         style="margin-top: 15px; display: grid;">
-        <div style=>
-            <h2 style="margin-left: 15px;">Group: {{key}}</h2>
-            <button type="button" class="changeModelGroup btn btn-primary"
-                    style="margin-left: 30px;"
-                    data-toggle="modal" data-target="#changeModelGroupModal">
-                Change model
-            </button>
-        </div>
-        <div id="panels" style="display: inline-block; margin-left: 20px;">
-            {% for worker in value%}
-            {{draw_panel_info(worker.name,worker.worker,worker.ts,worker.model_name,worker.swagger_uri,worker.running,has_active_model_permissions,worker.auto_model_publisher)}}
-            {% endfor %}
-        </div>
-    </div>
-    {% endfor %}
-    <!-- Groups -->
-    <div class="modal fade" id="groupModal">
-        <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
+        <!-- Modal content-->
+        <div class="modal-content">
 
 
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"
-                            aria-label="Close">
-                        <span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Groups</h4>
-                </div>
-
-                <div class="modal-body">
-
-
-                    <div style="display:grid; margin-left:15px;">
-                        <div style="margin-bottom:20px;">
-                            <h4>Hostname</h4>
-                            <strong id="workerId"></strong>
-                        </div>
-
-                        <select id="groupPicker" class="selectpicker">
-                        </select>
-                        <div style="margin-top:20px;">
-                            <input type="text" id="groupNameInput"
-                                   placeholder="Group Name">
-                            <button type="button"
-                                    class="createGroup btn btn-primary"
-                                    style="margin:10px;float: right;"
-                                    data-dismiss="modal">
-                                Create
-                            </button>
-                        </div>
-                    </div>
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger"
-                            data-dismiss="modal">Close
-                    </button>
-                    <button type="button"
-                            class="sendChangeGroup btn btn-primary">
-                        Load
-                    </button>
-                </div>
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Groups</h4>
             </div>
 
-        </div>
-    </div>
+            <div class="modal-body">
 
-    <!-- Model Modal -->
-    <div class="modal fade" id="changeWorkerModelModal"
-         style="display:none;">
-        <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"
-                            aria-label="Close">
-                        <span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Choose the model to load</h4>
-                </div>
-                <div class="modal-body">
-                    <div style="display:grid; margin-left:15px;">
-                        <div style="margin-bottom:20px;">
-                            <h4>Hostname</h4>
-                            <strong type="text" id="hostName" value=""></strong>
-                        </div>
-                        <select id="selectpicker" class="selectpicker">
-                        </select>
+                <div style="display:grid; margin-left:15px;">
+                    <div style="margin-bottom:20px;">
+                        <h4>Hostname</h4>
+                        <strong id="workerId"></strong>
+                    </div>
+
+                    <select id="groupPicker" class="selectpicker">
+                    </select>
+                    <div style="margin-top:20px;">
+                        <input type="text" id="groupNameInput"
+                               placeholder="Group Name">
+                        <button type="button"
+                                class="createGroup btn btn-primary"
+                                style="margin:10px;float: right;"
+                                data-dismiss="modal">
+                            Create
+                        </button>
                     </div>
                 </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger"
-                            data-dismiss="modal">Close
-                    </button>
-                    <button type="button"
-                            class="sendChangeModelOnWorker btn btn-primary"
-                    >Load
-                    </button>
-                </div>
+
             </div>
-
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger"
+                        data-dismiss="modal">Close
+                </button>
+                <button type="button"
+                        class="sendChangeGroup btn btn-primary">
+                    Load
+                </button>
+            </div>
         </div>
+
     </div>
+</div>
 
-    <!-- Model Modal for groups-->
-    <div class="modal fade" id="changeModelGroupModal" tabindex="-1"
-         role="dialog"
-         aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Choose the model to load in
-                        group</h4>
-                    <button type="button" class="close" data-dismiss="modal">
-                        &times;
-                    </button>
-                </div>
-                <div class="modal-body">
+<!-- Model Modal -->
+<div class="modal fade" id="changeWorkerModelModal"
+     style="display:none;">
+    <div class="modal-dialog">
 
-                    <div style="display:grid; margin-left:15px;">
-                        <div style="margin-bottom:20px;">
-                            <h4>Group</h4>
-                            <strong type="text" data-info="group" id="groupName"
-                                    value=""></strong>
-                        </div>
-                        <select id="groupSelectPicker" class="selectpicker">
-                        </select>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Choose the model to load</h4>
+            </div>
+            <div class="modal-body">
+                <div style="display:grid; margin-left:15px;">
+                    <div style="margin-bottom:20px;">
+                        <h4>Hostname</h4>
+                        <strong type="text" id="hostName" value=""></strong>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger"
-                            data-dismiss="modal">Close
-                    </button>
-                    <button type="button"
-                            class="sendChangeModelByGroup btn btn-primary">Load
-                    </button>
+                    <select id="selectpicker" class="selectpicker">
+                    </select>
                 </div>
             </div>
 
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger"
+                        data-dismiss="modal">Close
+                </button>
+                <button type="button"
+                        class="sendChangeModelOnWorker btn btn-primary"
+                >Load
+                </button>
+            </div>
         </div>
+
     </div>
+</div>
 
-    {% endblock %}
-    {% block tail %}
-    <script type=text/javascript
-            src="{{ url_for('static',filename='mlab/js/publisherview.js') }}"></script>
+<!-- Model Modal for groups-->
+<div class="modal fade" id="changeModelGroupModal" tabindex="-1"
+     role="dialog"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Choose the model to load in
+                    group</h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    &times;
+                </button>
+            </div>
+            <div class="modal-body">
 
-    {% endblock %}
+                <div style="display:grid; margin-left:15px;">
+                    <div style="margin-bottom:20px;">
+                        <h4>Group</h4>
+                        <strong type="text" data-info="group" id="groupName"
+                                value=""></strong>
+                    </div>
+                    <select id="groupSelectPicker" class="selectpicker">
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger"
+                        data-dismiss="modal">Close
+                </button>
+                <button type="button"
+                        class="sendChangeModelByGroup btn btn-primary">Load
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+{% block tail %}
+<script type=text/javascript
+        src="{{ url_for('static',filename='mlab/js/publisherview.js') }}"></script>
+
+{% endblock %}

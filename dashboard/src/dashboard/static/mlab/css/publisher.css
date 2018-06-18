@@ -48,12 +48,35 @@
   vertical-align: middle;
 }
 
-.panel-primary > .panel-heading-disconnected {
-    background-color: #ff3300;
-    border-color:#ff3300;
+.panel-primary > .panel-heading-error {
+    background-color: #E04647;
+    border-color:#E04647;
 }
 
-.panel-heading-disconnected > button.close{
+.panel-primary > .panel-heading-warning {
+    background-color: #FFA236;
+    border-color:#FFA236;
+}
+
+.panel-primary > .panel-heading-success {
+    background-color: #BB673;
+    border-color:#2BB673;
+}
+
+.fa-status {
+    margin-top:4px;
+    float:right;
+}
+
+.panel-heading-disconnected > button.close {
     color: white;
     font-size: x-large;
+}
+
+.panel-heading-success .fa-status.fa-exclamation-triangle {
+    display:none;
+}
+
+.panel-heading-error .fa-status.fa-exclamation-triangle {
+    display:none;
 }

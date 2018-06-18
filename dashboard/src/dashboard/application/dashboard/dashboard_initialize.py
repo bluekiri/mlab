@@ -152,6 +152,7 @@ class Dashboard:
             name='Model publisher',
             users_privilages=self.users_privileges,
             orchestation_interactor=self.orchestation_interactor,
+            get_workers_load_model_status=self.get_workers_load_model_status,
             current_user=self.current_user,
             menu_icon_type='fa',
             menu_icon_value='fa-desktop'))

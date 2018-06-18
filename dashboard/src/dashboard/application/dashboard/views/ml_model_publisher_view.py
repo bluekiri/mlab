@@ -18,6 +18,7 @@
 # under the License.
 
 import json
+import html
 
 import pytz
 import tzlocal
@@ -32,6 +33,8 @@ from flask_security.decorators import roles_required
 from dashboard.application.dashboard.views.util.view_roles_management import \
     ViewSecurityListeners
 from dashboard.domain.entities.ml_model import MlModel
+from dashboard.domain.interactor.logs.get_workers_load_model_status import \
+    GetWorkersLoadModelStatus
 from dashboard.domain.interactor.orchestation.orchestation_interator import \
     OrchestationInteractor
 from dashboard.domain.interactor.users.current_user import CurrentUser
@@ -43,10 +46,12 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
 
     def __init__(self, users_privilages: UsersPrivileges,
                  orchestation_interactor: OrchestationInteractor,
+                 get_workers_load_model_status: GetWorkersLoadModelStatus,
                  current_user: CurrentUser, name,
                  menu_icon_type, menu_icon_value):
         super().__init__(name=name, menu_icon_type=menu_icon_type,
                          menu_icon_value=menu_icon_value)
+        self.get_workers_load_model_status = get_workers_load_model_status
         self.current_user = current_user
         self.users_privilages = users_privilages
         self.orchestation_interactor = orchestation_interactor
@@ -55,10 +60,30 @@ class MLModelPublisherView(BaseView, metaclass=ViewSecurityListeners):
     @expose()
     def index(self):
         group_of_workers, workers_without_group = self.orchestation_interactor.get_group_workers()
+
+        worker_status = self.get_workers_load_model_status.run()
+        worker_status_flatten = {
+            status: [worker.host_name for worker in workers]
+            for status, workers in worker_status.items()}
+
+        def get_worker_status_from_hostname(hostname: str):
+            for key, value in worker_status_flatten.items():
+                if hostname in value:
+                    return key
+            return 'success'
+
+        for group, workers in group_of_workers.items():
+            for worker in workers:
+                worker["status"] = get_worker_status_from_hostname(
+                    worker["hostname"])
+        for worker_without_group in workers_without_group:
+            worker_without_group["status"] = get_worker_status_from_hostname(
+                worker_without_group["hostname"])
         return self.render('ml_model_publisher/ml_model_publisher.html',
                            group_of_workers=group_of_workers,
                            workers_without_group=workers_without_group,
-                           has_active_model_permissions=self.current_user.has_admin_role())
+                           has_active_model_permissions=self.current_user.has_admin_role(),
+                           )
 
     @expose('/models', methods=('GET',))
     def models(self):
