@@ -9,6 +9,9 @@ Full documentation about web service is deployed by swagger as static documentat
 ## Table of content
 [TOC]
 
+## Documentation
+TODO
+
 ## Getting started
 Is pretty simple, mlab have 2 main components, the workers and the orchestator/dashboard. One worker instance is as simple as webservice, who main goal is load machine learning models in memory and keep the sincronization with the orchestator. The orchestrator is in charge of controlling the workers machine learning algorithm loaded trough the dashboard or their REST-API.
 ## Architecture
@@ -62,3 +65,23 @@ To run the server on a Docker container, please execute the following from the r
 # run docker-compose
 docker-compose up --build
 ```
+## Status
+This project is in the earliest phase of its development. Use it under your own responsibility.
+
+# License 
+
+    Mlab framework
+    Copyright (C) 2018 Bluekiri BigData Team <bigdata@bluekiri.com>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
