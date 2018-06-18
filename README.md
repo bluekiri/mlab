@@ -1,100 +1,65 @@
 # MLAB framework
-
+![alt text](var/asserts/Mlab-Logo.png)
 ## Overview
-Mlab is a framework who help us to manage machine learning projects in a production environment.
-Full documentation about web service is deployed by swagger.
+Mlab is a framework tool designed for managing machine learning models in a production environment. This framework enables the developers to upload new machine learning models through a api-rest or in a manually way using the mlab dashboard. This lets the developers create full pipelines of training and release machine learning model . When a model is released in mlab architecture, we are able to active or deactive the model in a specific host in this way mlab allows us to create A/B test for the models. Once a model is released in a host, this can be consumed by the business applications through a web service.
+Full documentation about web service is deployed by swagger as static documentation.
 
-Also you can run a docker container to release the application.
-
-Testing is integrated with Tox framework.
+Also you can run a docker-compose to release the architecture.
+![alt text](var/asserts/Mlab-UseCasePipeline.png)
 
 ## Table of content
 [TOC]
 
-## Architecture seen from afar
-![alt text](var/asserts/MLlab-UI-architecture.png)
-
+## Getting started
+Is pretty simple, mlab have 2 main components, the workers and the orchestator/dashboard. One worker instance is as simple as webservice, who main goal is load machine learning models in memory and keep the sincronization with the orchestator. The orchestrator is in charge of controlling the workers machine learning algorithm loaded trough the dashboard or their REST-API.
+## Architecture
+![alt text](var/asserts/Mlab-Architecture.png)
 
 ## Requirements
-Python 3.5
-
-
-## How it works
-Is pretty simple, this project run a number of workers for a specific host, and also a dashboard as orchestator.  
-Ok, but what is a worker? One worker instance is as simple as webservice, who main goal is load machine learning models in memory in a transparent manner for their consumers.
-
-The orchestrator is in charge of controlling the workers machine learning algorithm loaded trough the dashboard.  
- 
-
+```
+sudo apt-get install -y python3-pip virtualenvwrapper  python3
+```
 ## Dashboard Orchestrator
 
-### Requirements
+### Install
 ```
-sudo apt-get install -y gfortran python3-pip virtualenvwrapper supervisor libatlas-dev libatlas3gf-base python3-scipy python3-numpy
-```
-### Initial configuration
-```
-TODO
+mkvirtualenv --python=/usr/bin/python mlab_dashboard_env
+cd dashboard
+#As mlab_dashboard_env virtual environment activated in the terminal session.
+pip install .
 ```
 ### Usage
-```
-TODO
-```
-To run the server, please execute the following from the root directory.  
-If you like run a unique server instance (for example for local development), run it:
-```
-python3 -m dashboard_server
-```
-else if you want to deploy run it (Login as sudo user):
 
+To run the server, please execute the following using mlab_dashboard_env.  
 ```
-TODO run as a service
-```
-and open your browser to here:
-
-```
-http://localhost:5000/hbp_dashboard
+gunicorn -w 2 -b 0.0.0.0:5000 dashboard.app:app
 ```
 
-### Running with Docker
+Now we can open the dashboard, in the uri: http://localhost:5000/dashboard
+
+## Worker
+
+### Install
+```
+mkvirtualenv --python=/usr/bin/python mlab_worker_env
+cd worker
+#As mlab_worker_env virtual environment activated in the terminal session.
+pip install .
+```
+### Usage
+
+To run the server, please execute the following using mlab_dashboard_env.  
+```
+gunicorn -b 0.0.0.0:9090 -w 4 --config=python:worker.application.conf.gunicorn_conf worker.app:app
+```
+
+Now we can open the dashboard, in the uri: http://localhost:5000/dashboard
+
+## Running with Docker
 
 To run the server on a Docker container, please execute the following from the root directory:
 
 ```bash
-# building the image
-docker build -t hbp_dashboard dashboard_server
-
-# starting up a container
-docker run -p 5000:5000 hbp_dashboard
-```
-
-### Testing
-To launch the integration tests, use tox:
-```
-sudo pip install tox
-tox
-```
-
-
-## Workers
-This example uses the [Connexion] library on top of Flask.
-### Initial configuration
-```
-TODO
-```
-
-### Usage
-
-```
-sudo su - hbp_api_server
-```
-To run the server, please execute the following from the root directory:
-All as you need to code to run the workers is on api_server folder.
-```
-TODO run as a service...
-```
-and open your browser to here:
-
-```
-http://localhost:9090/v1/ui/
+# run docker-compose
+docker-compose up --build
 ```
