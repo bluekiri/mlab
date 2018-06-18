@@ -6,10 +6,28 @@
                 data-id={{host_name}}>
             <span aria-hidden="true">×</span></button>
         {% endif %}
-        <a target="_blank" style="color:white;" href={{swagger_uri}}>
+        <a target="_blank" style="color:white;">
             {{host_name}}
-            <span aria-hidden="true"><i class="fa-status fa fa-exclamation-triangle"></i></span>
+            <span aria-hidden="true">
+                <i
+                        class="fa-status fa fa-exclamation-triangle fa-lg">
+
+                </i>
+            </span>
+            <span aria-hidden="true">
+                <i
+                        class="fa-status fa fa-exclamation-circle fa-lg">
+
+                </i>
+            </span>
+            <span aria-hidden="true">
+                <i
+                        class="fa-status fa fa-check fa-lg">
+
+                </i>
+            </span>
         </a>
+
     </div>
 
     <div class=" panel-body" style="min-width: 200px">
@@ -59,7 +77,7 @@
 
 {% block body %}
 <h2>Workers</h2>
-<div style="display:-webkit-box;">
+<div style="display:block;">
     {% for worker in workers_without_group%}
     {{draw_panel_info(worker.hostname,worker.status,worker.worker,worker.ts,worker.model_name,worker.swagger_uri,worker.running,has_active_model_permissions,worker.auto_model_publisher)}}
     {% endfor %}
