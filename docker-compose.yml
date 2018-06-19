@@ -43,8 +43,6 @@ services:
   mlab_mongo:
     image: mongo
     container_name: mlab_mongo
-    volumes:
-      - /data/mlab/db/mongo
     networks:
       - nginx-proxy
     ports:
