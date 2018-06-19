@@ -125,6 +125,7 @@ services:
         LDAP_EDIT_GROUPS: "${LDAP_EDIT_GROUPS}"
         LDAP_URI: "${LDAP_URI}"
         PORT: 5000
+        WORKER_PORT: 9090
 
     container_name: mlab_dashboard
     ports:

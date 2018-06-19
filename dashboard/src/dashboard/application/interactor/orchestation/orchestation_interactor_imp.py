@@ -32,6 +32,7 @@ from typing import Dict
 
 import timeago
 
+from dashboard.application.conf.config import WORKER_PORT
 from dashboard.domain.entities.worker import Worker
 from dashboard.domain.interactor.orchestation.orchestation_interator import \
     OrchestationInteractor
@@ -56,7 +57,7 @@ class OrchestationInteractorImp(OrchestationInteractor):
         def _map_worker_to_dict(worker: Worker) -> Dict:
             return {
                 "hostname": worker.host_name,
-                "swagger_uri": "http://%s:9090" % worker.host,
+                "swagger_uri": "http://%s:%s" % (worker.host, str(WORKER_PORT)),
                 "worker": worker.number_of_instances,
                 "ts": timeago.format(worker.ts, datetime.datetime.utcnow()),
                 "model_name": "Model not loaded" if worker.model is None else worker.model.name + " - " + str(

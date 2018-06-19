@@ -33,7 +33,8 @@ PROJECT_SUFFIX = "-mlab"
 
 PROJECT = "Demo" + PROJECT_SUFFIX
 
-SERVICE_PORT = os.environ["PORT"]
+SERVICE_PORT = os.environ.get("PORT", 5000)
+WORKER_PORT = os.environ.get("WORKER_PORT", 9090)
 
 # LDAP
 LDAP_SERVER_URI = os.environ.get("LDAP_URI", "")

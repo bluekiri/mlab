@@ -82,7 +82,6 @@ class MlModelView(ModelView, metaclass=ViewSecurityListeners):
                                                        str(model.pk), False,
                                                        self.current_user.get_current_user().pk)
 
-
     @expose('/api/file/')
     def api_file_view(self):
         pk = request.args.get('id')
