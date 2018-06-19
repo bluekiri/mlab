@@ -284,3 +284,5 @@ dashboard/src/dashboard/.env
 
 dashboard/src/dashboard/node_modules
 
+#Static files
+dashboard/src/dashboard/static/vendor/
