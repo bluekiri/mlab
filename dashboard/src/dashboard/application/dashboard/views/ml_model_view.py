@@ -102,4 +102,4 @@ class MlModelView(ModelView, metaclass=ViewSecurityListeners):
                         content_type='application/octet-stream',
                         headers={'Content-Length': data.length,
                                  'Content-Disposition': 'attachment',
-                                 'filename': "downloaded.pdf"})
+                                 'filename': "model.p"})
