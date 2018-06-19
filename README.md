@@ -1,4 +1,4 @@
-ç# MLAB framework
+# MLAB framework
 ![alt text](var/asserts/Mlab-Logo.png)
 ## Overview
 Mlab is a framework tool designed for managing machine learning models in a production environment. This framework enables the developers to upload new machine learning models through a api-rest or in a manually way using the mlab dashboard. This lets the developers create full pipelines of training and release machine learning model . When a model is released in mlab architecture, we are able to active or deactive the model in a specific host in this way mlab allows us to create A/B test for the models. Once a model is released in a host, this can be consumed by the business applications through a web service.
@@ -7,7 +7,19 @@ Full documentation about web service is deployed by swagger as static documentat
 ![alt text](var/asserts/Mlab-UseCasePipeline.png)
 
 ## Table of content
-[TOC]
+1. [Documentation](#documentation)
+2. [Getting started](#getting-started)
+3. [Architecture](#Architecture)
+4. [Requirements](#requirements)
+5. [Dashboard Orchestrator](#dashboard-orchestrator)
+    1. [Install](#install)
+    2. [Usage](#usage)
+6. [Worker](#worker)
+    1. [Install](#install)
+    2. [Usage](#usage)
+7. [Running with Docker](#running-with-docker)
+8. [Status](#status)
+9. [License](#license)
 
 ## Documentation
 TODO
@@ -77,7 +89,7 @@ The worker swagger documentation is running on port 9090.
 ## Status
 This project is in the earliest phase of its development. Use it under your own responsibility.
 
-# License 
+## License 
 
     Mlab framework
     Copyright (C) 2018 Bluekiri BigData Team <bigdata@bluekiri.com>
