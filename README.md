@@ -19,14 +19,20 @@ Is pretty simple, mlab have 2 main components, the workers and the orchestator/d
 
 ## Requirements
 ```
-sudo apt-get install -y python3-pip virtualenvwrapper  python3
+sudo apt-get update
+sudo apt-get install -y python3-pip virtualenvwrapper python3 nodejs npm 
+sudo ln -s /usr/bin/nodejs /usr/bin/node
 ```
 ## Dashboard Orchestrator
 
 ### Install
 ```
 mkvirtualenv --python=/usr/bin/python mlab_dashboard_env
-cd dashboard
+cd dashboard/src/dashboard 
+npm install 
+./node_modules/bower/bin/bower install 
+./node_modules/gulp/bin/gulp.js 
+cd ${PROJECT_ROOT_DIRECTORY}/dashboard
 #As mlab_dashboard_env virtual environment activated in the terminal session.
 pip install .
 ```
