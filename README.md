@@ -1,7 +1,7 @@
 # MLAB framework
 ![alt text](var/asserts/Mlab-Logo.png)
 ## Overview
-Mlab is a framework tool designed for managing machine learning models in a production environment. This framework enables the developers to upload new machine learning models through a api-rest or in a manually way using the mlab dashboard. This lets the developers create full pipelines of training and release machine learning model . When a model is released in mlab architecture, we are able to active or deactive the model in a specific host in this way mlab allows us to create A/B test for the models. Once a model is released in a host, this can be consumed by the business applications through a web service.
+Mlab is a framework designed to manage machine learning models in a production environment. More specifically, Mlab enables developers to upload new machine learning models, either manually through the Mlab dashboard or using an api-rest, to a framework where developers can create full pipelines of training and release machine learning models. When a model is released to the Mlab architecture, models can be actived or deactived in a specific host; hence, Mlab allows developers to create A/B test for the models. Once a model is released in a host, this can be consumed by business applications through a web service.
 Full documentation about web service is deployed by swagger as static documentation.
 
 ![alt text](var/asserts/Mlab-UseCasePipeline.png)
@@ -25,7 +25,7 @@ Full documentation about web service is deployed by swagger as static documentat
 TODO
 
 ## Getting started
-Is pretty simple, mlab have 2 main components, the workers and the orchestator/dashboard. One worker instance is as simple as webservice, who main goal is load machine learning models in memory and keep the sincronization with the orchestator. The orchestrator is in charge of controlling the workers machine learning algorithm loaded trough the dashboard or their REST-API.
+Getting started with Mlab is quite simple. It has two main components: workers and an orchestator/dashboard. One worker instance is a webservice, whose main goal is load machine learning models in memory and keep the sincronization with the orchestator. On the other hand, the orchestrator is in charge of controlling the workers where the machine learning algorithm is loaded (remember that models can be loaded through the dashboard or REST-API).
 ## Architecture
 ![alt text](var/asserts/Mlab-Architecture.png)
 
@@ -55,7 +55,7 @@ To run the server, please execute the following using mlab_dashboard_env.
 gunicorn -w 2 -b 0.0.0.0:5000 dashboard.app:app
 ```
 
-Now we can open the dashboard, in the uri: http://localhost:5000/dashboard
+Now, we can open the dashboard, in the uri: http://localhost:5000/dashboard
 
 ## Worker
 
@@ -73,11 +73,11 @@ To run the server, please execute the following using mlab_dashboard_env.
 gunicorn -b 0.0.0.0:9090 -w 4 --config=python:worker.application.conf.gunicorn_conf worker.app:app
 ```
 
-Now we can open the dashboard, in the uri: http://localhost:5000/dashboard
+Now, we can open the dashboard, in the uri: http://localhost:5000/dashboard
 
 ## Running with Docker
 
-To run the server on a Docker container, please execute the following from the root directory:
+To run the server on a Docker container. Please, execute the following from the root directory:
 
 ```bash
 # run docker-compose
