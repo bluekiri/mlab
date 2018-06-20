@@ -106,3 +106,14 @@ This project is in the earliest phase of its development. Use it under your own 
 
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    
+## Contributors
+Thanks goes to these wonderful people:
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| [<img src="https://avatars1.githubusercontent.com/u/1277789?s=460&v=4" width="100px;"/><br /><sub><b>Cristófol Torrens</b></sub>](https://github.com/piffall)<br />[🤔](#ideas-planning "Ideas & Planning")  [🐛](#bugs-reports "Bugs reports") | [<img src="https://avatars2.githubusercontent.com/u/243109?s=460&v=4" width="100px;"/><br /><sub><b>David Martín</b></sub>](https://github.com/sukiweb)<br />[🤔](#ideas-planning "Ideas & Planning")  [🐛](#bugs-reports "Bugs reports") | [<img src="https://media.licdn.com/dms/image/C5603AQFHPKR4FwKI8A/profile-displayphoto-shrink_800_800/0?e=1534982400&v=beta&t=D_AVrncaOb6_rFHeJplIm-Oojwayjv7VottY9AzkNDo" width="100px;"/><br /><sub><b>Daniel bestard</b></sub>](https://www.linkedin.com/in/daniel-bestard-delgado-10984452/)<br />[🌍]("Documentation") [🤔](#ideas-planning "Ideas & Planning") | [<img src="https://media.licdn.com/dms/image/C5103AQGYz1mzugWKWw/profile-displayphoto-shrink_800_800/0?e=1534982400&v=beta&t=4l9Nc-C7-qM3xnjpHQgMUEa2inPPpWVz8uVSQcBM5fc" width="100px;"/><br /><sub><b>Joan Martín Miralles</b></sub>](https://www.linkedin.com/in/juanjosemartinmiralles/)<br /> [💻 ](#code "Code") |
+| :---: | :---: | :---: | :---: | 
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+ 
